@@ -1,0 +1,25 @@
+New log file opened at Tue Apr 19 17:03:55 PDT 2016 by 13912@Xingyus-MacBook-Pro.local
+Taking next connection to: 58670
+New client attempting to connect on port: 58671-58670
+  Address = /172.29.92.156:58670
+This client on port 58671 has uuid 8675d8fa-99d7-41d7-97d2-cd27b5de2808 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-8675d8fa-99d7-41d7-97d2-cd27b5de2808
+Taking next connection to: 58670
+New client attempting to connect on port: 58673-58670
+  Address = /172.29.92.156:58670
+Handshake exception on socket: 58673
+sbt.impl.ipc.HandshakeException: Unable to perform handshake
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:46)
+	at sbt.impl.ipc.MultiClientServer.<init>(IPC.scala:150)
+	at sbt.server.SbtServerSocketHandler$$anon$1.run(SbtServerSocketHandler.scala:43)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readInt(DataInputStream.java:392)
+	at sbt.impl.ipc.Peer.receive(IPC.scala:95)
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:49)
+	... 2 more
+Taking next connection to: 58670
+New client attempting to connect on port: 58674-58670
+  Address = /172.29.92.156:58670
+This client on port 58674 has uuid a46b5aff-4f33-46cc-bf60-8112f8a00ee4 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-8675d8fa-99d7-41d7-97d2-cd27b5de2808, play-fork-run-a46b5aff-4f33-46cc-bf60-8112f8a00ee4
+Taking next connection to: 58670
