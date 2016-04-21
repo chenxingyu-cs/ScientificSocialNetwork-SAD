@@ -10,7 +10,7 @@ GET     /count                      controllers.CountController.count
 GET     /message                    controllers.AsyncController.message
 
 # An example controller showing how to write asynchronous code
-GET     /publication                controllers.PublicationController.showAllPublications
+GET     /publication                controllers.PublicationController.getAllPublications
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

@@ -25,7 +25,7 @@ public class PublicationController extends Controller {
         return ok(home.render());
     }
     
-    public Result showAllPublications() {
+    public Result getAllPublications() {
     	List<Publication> publications = new ArrayList<>();
     	List<Author> authors = new ArrayList<>();
     	Publication publication = new Publication("Paper1", "1-2", 2014, "2014-04-25", "", "ICWS", authors);
