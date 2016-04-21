@@ -57,6 +57,12 @@ public class PublicationController extends Controller {
 		
     	return ok(allPublications.render(publications));
     }
+    
+	public Result publicationPublish() {
+		List<Author> authorsList = new ArrayList<Author>();
+		
+		return ok(publicationPublish.render(authorsList));
+	}
 
     
     public static Publication deserializeJsonToPublication(JsonNode json) {
