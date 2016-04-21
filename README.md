@@ -20,7 +20,7 @@ HOW TO CONFIGURE:
 
 2. The username and password are all "root"
 
-3. I will later upload a database dump file which contain the data extracted from dblp.xml
+3. I have uploaded a database dump file which contain the data extracted from dblp.xml
 
 
 HOW TO RUN:
@@ -33,6 +33,9 @@ HOW TO RUN:
 
 4. Then the backend code will generate the table automaticly
 
+5. Database-related configuration is in the bottom of conf/application.conf in Backend folder 
+
+
 
 
 HOW TO CODE:
@@ -44,6 +47,7 @@ HOW TO CODE:
 3. For frontend: The biggest difference is how to communicate with backend, you can check my code in "getAllPublications" to know how to get it.
 
 4. For both backend and frontend, remember to delete useless part( Ebean-related parts )
+
 
 
 Last, sorry for the delay and inconvenience, if you hava any problems, contact me on Slack, Email or Wechat~
