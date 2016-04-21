@@ -1,5 +1,10 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import models.Author;
+import models.Publication;
 import play.mvc.*;
 
 import views.html.*;
@@ -21,7 +26,13 @@ public class PublicationController extends Controller {
     }
     
     public Result showAllPublications() {
-    	return ok(home.render());
+    	List<Publication> publications = new ArrayList<>();
+    	List<Author> authors = new ArrayList<>();
+    	Publication publication = new Publication("Paper1", "1-2", 2014, "2014-04-25", "", "ICWS", authors);
+    	Publication publication2 = new Publication("Paper2", "3-4", 2015, "2014-04-25", "", "ICWS", authors);
+    	publications.add(publication);
+    	publications.add(publication2);
+    	return ok(allPublications.render(publications));
     }
 
 }
