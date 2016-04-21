@@ -19,13 +19,16 @@ import play.mvc.Result;
  */
 public class PublicationController extends Controller{
 	public Result getAllPublications(String format) {
+		// Use the Finder.find in model to get the data. Not only all() but
+		// also a lot of other functions to use, check http://ebean-orm.github.io/
+		// to see details
 		List<Publication> publications = Publication.find.all();
-		System.out.println("publications: " + publications.size());
 		
 		if (publications == null) {
 			System.out.println("No publication found");
 		}
 
+		// Use the json in Play library this time
 		String result = new String();
 		if (format.equals("json")) {
 			JsonNode jn = Json.toJson(publications);

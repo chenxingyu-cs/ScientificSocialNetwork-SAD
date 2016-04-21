@@ -39,6 +39,10 @@ public class PublicationController extends Controller {
     public Result getAllPublications() {
     	List<Publication> publications = new ArrayList<>();
     	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_ALL_PUBLICATIONS;
+    	
+    	// This is where to handle the communication
+    	// I don't really familier with CompletionStage so I did't extract it
+    	// If you have any better ideas you can use yours
     	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
     	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
     	JsonNode publicationNode = jsonFuture.join();
