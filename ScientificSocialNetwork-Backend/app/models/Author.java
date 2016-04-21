@@ -31,6 +31,16 @@ public class Author extends Model{
 	
 	public static Finder<Long, Author> find = new Finder<Long, Author>(Author.class);
 
+	public Author() {
+		super();
+	}
+
+	public Author(String name, List<Publication> publications) {
+		super();
+		this.name = name;
+		this.publications = publications;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -54,8 +64,6 @@ public class Author extends Model{
 	public void setPublications(List<Publication> publications) {
 		this.publications = publications;
 	}
-	
-	
 
 
 }

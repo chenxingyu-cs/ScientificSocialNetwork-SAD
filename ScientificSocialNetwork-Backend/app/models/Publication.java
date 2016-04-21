@@ -35,7 +35,33 @@ public class Publication extends Model{
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="publications")
 	List<Author> authors;
 	
+	
 	public static Finder<Long, Publication> find = new Finder<Long, Publication>(Publication.class);
+
+
+	public Publication() {
+		super();
+	}
+
+	public Publication(String title, String pages, int year, String date, String url, String conferenceName,
+			List<Author> authors) {
+		super();
+		this.title = title;
+		this.pages = pages;
+		this.year = year;
+		this.date = date;
+		this.url = url;
+		this.conferenceName = conferenceName;
+		this.authors = authors;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;
@@ -44,7 +70,45 @@ public class Publication extends Model{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	
 
+	public String getPages() {
+		return pages;
+	}
+
+	public void setPages(String pages) {
+		this.pages = pages;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getConferenceName() {
+		return conferenceName;
+	}
+
+	public void setConferenceName(String conferenceName) {
+		this.conferenceName = conferenceName;
+	}
+	
 }
