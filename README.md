@@ -4,9 +4,13 @@ Both frontend and backend
 
 
 HOW TO IMPORT:
+
 1. git clone the project
+
 2. If you want to use IDE, use "activator ui" and import both backend and frontend, generate the ide code.
+
 3. Use "git status" to check the status of github, if you modified the "build.sbt", please "git checkout build.sbt", if there are other differences, please contact me with Slack or Email
+
 4. Import the code into the IDE
 
 HOW TO CONFIGURE:
