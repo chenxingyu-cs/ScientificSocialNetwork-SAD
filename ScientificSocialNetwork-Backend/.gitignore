@@ -7,3 +7,6 @@ target
 /.settings
 /RUNNING_PID
 /.sbtserver
+/bin/
+/.cache-main
+/.cache-tests
