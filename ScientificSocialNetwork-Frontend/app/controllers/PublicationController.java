@@ -5,15 +5,26 @@ import java.util.List;
 
 import models.Author;
 import models.Publication;
+
+
+import javax.inject.Inject;
 import play.mvc.*;
+import play.libs.ws.*;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import views.html.*;
+import utils.Constants;
 
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
 public class PublicationController extends Controller {
+	
+	@Inject WSClient ws;
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -27,12 +38,30 @@ public class PublicationController extends Controller {
     
     public Result getAllPublications() {
     	List<Publication> publications = new ArrayList<>();
-    	List<Author> authors = new ArrayList<>();
-    	Publication publication = new Publication("Paper1", "1-2", 2014, "2014-04-25", "", "ICWS", authors);
-    	Publication publication2 = new Publication("Paper2", "3-4", 2015, "2014-04-25", "", "ICWS", authors);
-    	publications.add(publication);
-    	publications.add(publication2);
+    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_ALL_PUBLICATIONS;
+    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+    	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+    	JsonNode publicationNode = jsonFuture.join();
+    	
+
+		// parse the json string into object
+		for (int i = 0; i < publicationNode.size(); i++) {
+			JsonNode json = publicationNode.path(i);
+			Publication onePublication = deserializeJsonToPublication(json);
+			publications.add(onePublication);
+		}
+		
     	return ok(allPublications.render(publications));
     }
 
+    
+    public static Publication deserializeJsonToPublication(JsonNode json) {
+		Publication onePublication = new Publication();
+		onePublication.setId(json.path("id").asLong());
+		onePublication.setTitle(json.path("title").asText());
+		onePublication.setYear(json.path("year").asInt());
+		onePublication.setDate(json.path("date").asText());
+		onePublication.setConferenceName(json.path("conferenceName").asText());
+		return onePublication;
+	}
 }
