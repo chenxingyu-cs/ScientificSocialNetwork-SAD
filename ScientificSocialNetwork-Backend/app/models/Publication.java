@@ -4,10 +4,15 @@
  */
 package models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.Model.Finder;
 
 import play.data.validation.Constraints;
 
@@ -18,7 +23,6 @@ import play.data.validation.Constraints;
 @Entity
 public class Publication extends Model{
 	@Id
-    @Constraints.Min(10)
     private Long id;
 	
 	private String title;
@@ -26,7 +30,21 @@ public class Publication extends Model{
 	private int year;
 	private String date;
 	private String url;
+	private String conferenceName;
+	
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="publications")
+	List<Author> authors;
 	
 	public static Finder<Long, Publication> find = new Finder<Long, Publication>(Publication.class);
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	
 
 }

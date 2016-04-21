@@ -23,7 +23,6 @@ import play.data.validation.Constraints;
 @Entity
 public class User extends Model{
 	@Id
-    @Constraints.Min(10)
     private Long id;
 	
 	@Constraints.Required

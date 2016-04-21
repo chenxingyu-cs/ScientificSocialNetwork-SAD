@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.ArrayList;
+
+import models.Author;
+import models.Publication;
 import play.mvc.*;
 
 import views.html.*;
@@ -17,6 +21,17 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
+    	Author author = new Author();
+    	author.setName("Xingyu");
+    	Publication publication = new Publication();
+    	publication.setTitle("Paper 1");
+    	Publication publication2 = new Publication();
+    	publication2.setTitle("Paper 2");
+    	ArrayList<Publication> publications = new ArrayList<>();
+    	publications.add(publication);
+    	publications.add(publication2);
+    	author.setPublications(publications);
+    	author.save();
         return ok(index.render("Your new application is ready."));
     }
 
