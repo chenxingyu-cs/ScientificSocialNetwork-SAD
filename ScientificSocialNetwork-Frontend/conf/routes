@@ -11,6 +11,8 @@ GET     /message                    controllers.AsyncController.message
 
 # An example controller showing how to write asynchronous code
 GET     /publication                controllers.PublicationController.getAllPublications
+GET     /publicationPublish    controllers.PublicationController.publicationPublish
+GET     /publicationPublishSubmit    controllers.PublicationController.publicationPublishSubmit
 
 # An example to show publication panel
 GET     /publication/publicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
