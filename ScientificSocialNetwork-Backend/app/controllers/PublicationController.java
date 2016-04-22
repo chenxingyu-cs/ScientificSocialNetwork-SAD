@@ -33,4 +33,18 @@ public class PublicationController extends Controller{
 		}
 		return ok(result);	
 	}
+
+	public Result getPublicationPanel(long id) {
+		Publication publication = Publication.find.byId(id);
+		System.out.println("publications: " + publication.toString());
+		if (publication == null) {
+			System.out.println("No publication found");
+		}
+
+		String result = new String();
+		JsonNode jn = Json.toJson(publication);
+		result = jn.toString();
+		System.out.println(result);
+		return ok(result);
+	}
 }

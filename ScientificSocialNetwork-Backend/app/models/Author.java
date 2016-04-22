@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.Model.Finder;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * @author xingyuchen
@@ -27,6 +28,7 @@ public class Author extends Model{
 	private String name;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
+	@JsonBackReference
 	List<Publication> publications;
 	
 	public static Finder<Long, Author> find = new Finder<Long, Author>(Author.class);

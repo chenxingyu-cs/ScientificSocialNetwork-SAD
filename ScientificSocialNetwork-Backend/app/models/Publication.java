@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.Model.Finder;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import play.data.validation.Constraints;
 
 /**
@@ -31,8 +32,11 @@ public class Publication extends Model{
 	private String date;
 	private String url;
 	private String conferenceName;
-	
+
+
+
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="publications")
+	@JsonManagedReference
 	List<Author> authors;
 	
 	
@@ -109,6 +113,14 @@ public class Publication extends Model{
 
 	public void setConferenceName(String conferenceName) {
 		this.conferenceName = conferenceName;
+	}
+
+	public List<Author> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
 	}
 	
 }

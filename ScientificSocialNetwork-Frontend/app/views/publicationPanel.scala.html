@@ -1,0 +1,52 @@
+@(publication: Publication)
+@import helper._
+
+@main("All Climate Services") {
+
+    <h1>Publication Metadata</h1>
+	<table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
+		<tbody>
+
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-3">Paper Title</th>
+				<td><span class="@publication.getTitle editable" data-name='paperTitle'>
+				@publication.getTitle()</span></td>
+			</tr>
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-3">Authors</th>
+				<td><span class="@publication.getId() editable" data-name='authors'>
+				@publication.getAuthors</span></td>
+			</tr>
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-2">Conference Name</th>
+				<td><span class="@publication.getTitle() editable" data-name='publicationChannel'>
+						@publication.getConferenceName() </span></td>
+			</tr>
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-1">Pages</th>
+				<td><span class="@publication.getTitle() editable" data-name='year'>
+						@publication.getPages() </span></td>
+			</tr>
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-1">Date</th>
+				<td><span class="@publication.getTitle() editable" data-name='year'>
+				@publication.getDate() </span></td>
+			</tr>
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-1">Year</th>
+				<td><span class="@publication.getTitle() editable" data-name='year'>
+				@publication.getYear() </span></td>
+			</tr>
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-1">Url</th>
+				<td><span class="@publication.getTitle() editable" data-name='year'>
+				@publication.getUrl() </span></td>
+			</tr>
+
+
+		</tbody>
+	</table>
+
+
+    
+}

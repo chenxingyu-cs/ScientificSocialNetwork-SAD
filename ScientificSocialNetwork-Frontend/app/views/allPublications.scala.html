@@ -14,21 +14,21 @@
 		</thead>
 		<tbody>
 			@for(publication <- publications) {
-			<tr>
-		
-				<td><span class="@publication.getTitle() editable" data-name='paperTitle'>
-                <a href = "/publication/publicationPanel/@publication.getId()">@publication.getTitle()</a> </span></td>
-                        
-                <td><span class="@publication.getTitle() editable" data-name='authors'>
-                        @publication.getDate() </span></td>
-                         
-                <td><span class="@publication.getTitle() editable" data-name='conferenceName'>
-                        @publication.getConferenceName() </span></td>
-        
-                <td><span class="@publication.getTitle() editable" data-name='year'>
-                        @publication.getYear() </span></td>
-			</tr>
-	}
+				<tr>
+
+					<td><span class="@publication.getTitle() editable" data-name='paperTitle'>
+					<a href = "/publication/publicationPanel/@publication.getId()">@publication.getTitle()</a> </span></td>
+
+					<td><span class="@publication.getTitle() editable" data-name='authors'>
+							@publication.getAuthors() </span></td>
+
+					<td><span class="@publication.getTitle() editable" data-name='conferenceName'>
+							@publication.getConferenceName() </span></td>
+
+					<td><span class="@publication.getTitle() editable" data-name='year'>
+							@publication.getYear() </span></td>
+				</tr>
+			}
 	</tbody>
     </table>
 

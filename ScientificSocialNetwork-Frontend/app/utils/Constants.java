@@ -23,5 +23,7 @@ public class Constants {
 	public static final String ADD_ALL_PARAMETERS = "/parameter/addParameter";
 	
 	public static final String GET_ALL_PUBLICATIONS = "/publication/getAllPublications/json";
+	public static final String GET_PUBLICATION_PANEL = "/publication/getPublicationPanel/";
+
 
 }

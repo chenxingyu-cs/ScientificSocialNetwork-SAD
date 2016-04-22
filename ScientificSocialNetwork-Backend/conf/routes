@@ -13,3 +13,4 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
+GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
