@@ -46,8 +46,6 @@ public class PublicationController extends Controller {
     	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
     	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
     	JsonNode publicationNode = jsonFuture.join();
-    	
-
 		// parse the json string into object
 		for (int i = 0; i < publicationNode.size(); i++) {
 			JsonNode json = publicationNode.path(i);
@@ -57,7 +55,34 @@ public class PublicationController extends Controller {
 		
     	return ok(allPublications.render(publications));
     }
+    
+	public Result publicationPublish() {
+		List<Author> authorsList = new ArrayList<Author>();
+		
+		return ok(publicationPublish.render(authorsList));
+	}
+	
+	public Result publicationPublishSubmit() {
+		List<Author> authorsList = new ArrayList<Author>();
+		
+		return ok(publicationPublish.render(authorsList));
+	}
+	
+	
 
+	public Result getPublicationPanel(long id) {
+		//Publication publication = new Publication();
+		String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_PUBLICATION_PANEL + id;
+
+		CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+		CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+		JsonNode publicationNode = jsonFuture.join();
+
+		JsonNode json = publicationNode;
+		Publication onePublication = deserializeJsonToPublication(json);
+
+		return ok(publicationPanel.render(onePublication));
+	}
     
     public static Publication deserializeJsonToPublication(JsonNode json) {
 		Publication onePublication = new Publication();
@@ -66,6 +91,19 @@ public class PublicationController extends Controller {
 		onePublication.setYear(json.path("year").asInt());
 		onePublication.setDate(json.path("date").asText());
 		onePublication.setConferenceName(json.path("conferenceName").asText());
+		JsonNode authorNode = json.path("authors");
+		System.out.println(authorNode.toString());
+		List<Author> authorList = new ArrayList<>();
+		for(int i = 0 ; i < authorNode.size() ; i ++) {
+			JsonNode json_tmp = authorNode.path(i);
+			System.out.println(json_tmp.toString());
+			Author oneAuthor = new Author();
+			oneAuthor.setName(json_tmp.path("name").asText());
+			authorList.add(oneAuthor);
+		}
+		onePublication.setAuthors(authorList);
+		onePublication.setPages(json.path("pages").asText());
+		onePublication.setUrl(json.path("url").asText());
 		return onePublication;
 	}
 }
