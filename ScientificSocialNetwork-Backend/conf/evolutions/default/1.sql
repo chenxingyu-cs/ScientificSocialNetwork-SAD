@@ -15,6 +15,16 @@ create table author_publication (
   constraint pk_author_publication primary key (author_id,publication_id)
 );
 
+create table forum_post (
+  post_id                       bigint auto_increment not null,
+  time_stamp                    varchar(255),
+  user_id                       bigint,
+  post_title                    varchar(255),
+  post_content                  varchar(255),
+  link                          varchar(255),
+  constraint pk_forum_post primary key (post_id)
+);
+
 create table publication (
   id                            bigint auto_increment not null,
   title                         varchar(255),
@@ -54,6 +64,8 @@ drop index ix_author_publication_publication on author_publication;
 drop table if exists author;
 
 drop table if exists author_publication;
+
+drop table if exists forum_post;
 
 drop table if exists publication;
 
