@@ -26,6 +26,7 @@ public class Constants {
 	
 	public static final String GET_ALL_PUBLICATIONS = "/publication/getAllPublications/json";
 	public static final String GET_PUBLICATION_PANEL = "/publication/getPublicationPanel/";
+	public static final String GET_MOST_POPULAR_PUBLICATIONS = "/publication/getMostPopularPublications/json";
 
 
 }

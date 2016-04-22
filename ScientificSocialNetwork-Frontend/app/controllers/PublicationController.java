@@ -46,6 +46,7 @@ public class PublicationController extends Controller {
     	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
     	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
     	JsonNode publicationNode = jsonFuture.join();
+    	
 		// parse the json string into object
 		for (int i = 0; i < publicationNode.size(); i++) {
 			JsonNode json = publicationNode.path(i);
@@ -82,6 +83,26 @@ public class PublicationController extends Controller {
 		Publication onePublication = deserializeJsonToPublication(json);
 
 		return ok(publicationPanel.render(onePublication));
+	}
+	
+	public Result getMostPopularPublications() {
+		List<Publication> publications = new ArrayList<>();
+		
+		String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_MOST_POPULAR_PUBLICATIONS;
+		
+		CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+		CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+		JsonNode response = jsonFuture.join();
+		
+		// parse the json string into object
+		for (int i = 0; i < response.size(); i++) {
+			JsonNode json = response.path(i);
+			Publication onePublication = deserializeJsonToPublication(json);
+			publications.add(onePublication);
+		}
+			
+		return ok(mostPopularPublications.render(publications));
+		
 	}
     
     public static Publication deserializeJsonToPublication(JsonNode json) {
