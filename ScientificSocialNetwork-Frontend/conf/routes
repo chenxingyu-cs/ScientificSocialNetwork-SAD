@@ -19,3 +19,8 @@ GET     /publication/publicationPanel/:id          controllers.PublicationContro
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#Test Post
+GET		/forum/create				controllers.TestController.getPostPage()
+POST	/forum/createConfirm		controllers.TestController.createPost()
+GET		/forum/createCancel			controllers.TestController.cancelPost()

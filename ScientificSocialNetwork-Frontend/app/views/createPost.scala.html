@@ -1,0 +1,39 @@
+@(postForm: Form[ForumPost])
+
+@import helper._
+
+
+@main("Create Post") {
+        
+    @helper.form(action = routes.TestController.createPost(), 'class->"col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3") {
+        
+        <fieldset>
+            @inputText(
+                postForm("postTitle"), 
+                '_label -> "Title",                 
+                '_error -> postForm.globalError,
+                'class -> "form-control"                            
+            )
+            @inputText(
+                postForm("link"), 
+                '_label -> "Paper Link",                 
+                '_error -> postForm.globalError,
+                'class -> "form-control"                            
+            )
+
+            @textarea(
+                postForm("postContent"), 
+                '_label -> "Content", 
+                'cols -> 65, 
+                'rows -> 7,
+                'class -> "form-control"                                                                        
+            )
+           
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Submit">
+            <a href="" class="btn">Cancel</a>
+        </div>   
+    }
+}
