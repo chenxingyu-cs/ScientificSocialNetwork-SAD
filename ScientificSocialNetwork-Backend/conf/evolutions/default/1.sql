@@ -23,6 +23,7 @@ create table publication (
   date                          varchar(255),
   url                           varchar(255),
   conference_name               varchar(255),
+  count                         int default 0,
   constraint pk_publication primary key (id)
 );
 

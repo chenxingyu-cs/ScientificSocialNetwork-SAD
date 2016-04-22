@@ -7,6 +7,7 @@ package models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -32,6 +33,9 @@ public class Publication extends Model{
 	private String date;
 	private String url;
 	private String conferenceName;
+	
+	@Column(columnDefinition = "int default 0")
+	public int count = 0;
 
 
 
@@ -121,6 +125,14 @@ public class Publication extends Model{
 
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 }
