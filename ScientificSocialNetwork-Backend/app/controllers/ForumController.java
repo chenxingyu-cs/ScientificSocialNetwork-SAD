@@ -3,25 +3,20 @@ package controllers;
 import models.DetailedForumPost;
 import models.ForumPost;
 import models.ForumPostComment;
+import models.ForumPostRating;
 import models.User;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.gson.Gson;
 
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-/*
- Alfred Huang
- Apr 13
- */
 @Named
 @Singleton
 public class ForumController extends Controller {
@@ -43,7 +38,7 @@ public class ForumController extends Controller {
         paperLink, -1L);
     forumPost.save();
 
-    return created(new Gson().toJson(forumPost.getPostId()));
+    return created(Json.toJson(forumPost.getPostId()).toString());
   }
 
   public Result addNewComment() {
@@ -62,49 +57,51 @@ public class ForumController extends Controller {
     User user = User.find.where().eq("firstName", userName).findUnique();
     User replyToUser = User.find.where().eq("firstName", replyTo).findUnique();
 
-    ForumPostComment comment = new ForumPostComment(post, user, content, replyToUser);
+    ForumPostComment comment = new ForumPostComment(post, user, content,
+        replyToUser);
     comment.save();
 
-    return created(new Gson().toJson(comment.getCid()));
+    return created(Json.toJson(comment.getCid()).toString());
   }
-  
+
   public Result getOnePost(Long id) {
     ForumPost post = ForumPost.find.byId(id);
-    List<ForumPostComment> result = ForumPostComment.find.where()
+    List<ForumPostComment> comments = ForumPostComment.find.where()
         .eq("post_id", id).findList();
-    List<ForumPostComment> comments = new ArrayList<ForumPostComment>();
-    for (int i = 0; i < result.size(); ++i) {
-      comments.add(result.get(i));
-    }
     DetailedForumPost detailedPost = new DetailedForumPost(post, comments);
 
-    return ok(new Gson().toJson(detailedPost));
+    return ok(Json.toJson(detailedPost).toString());
   }
-  
-  //
-  // public Result getPosts(Integer start, Integer limit) {
-  // List<ForumPost> posts = forumRepository.getPostsInRange(start, limit);
-  // return ok(new Gson().toJson(posts));
-  // }
-  //
 
-  //
-  // public Result vote(Long pid, Long uid, Integer updown) {
-  // ForumPost post = forumRepository.findOne(pid);
-  // User user = userRepository.findOne(uid);
-  // ForumPostRating rating = new ForumPostRating(user, updown, post);
-  // ForumPostRating response = forumPostRatingRepository.save(rating);
-  // return created(new Gson().toJson(response.getRid()));
-  // }
-  //
-  // public Result getUpvoteCount(Long pid) {
-  // Integer count = forumPostRatingRepository.getUpvoteCount(pid);
-  //
-  // return ok(new Gson().toJson(count));
-  // }
-  //
-  // public Result getDownvoteCount(Long pid) {
-  // Integer count = forumPostRatingRepository.getDownvoteCount(pid);
-  // return ok(new Gson().toJson(count));
-  // }
+  public Result getPosts(Integer start, Integer limit) {
+    List<ForumPost> posts = ForumPost.find.setMaxRows(limit).findList();
+    return ok(Json.toJson(posts).toString());
+  }
+
+  public Result vote() {
+    JsonNode voteNode = request().body().asJson();
+    if (voteNode == null) {
+      return badRequest("vote not saved, expecting json data.");
+    }
+
+    Long pid = voteNode.findPath("pid").asLong();
+    Long uid = voteNode.findPath("uid").asLong();
+    Integer updown = voteNode.findPath("updown").asInt();
+
+    ForumPost post = ForumPost.find.byId(pid);
+    User user = User.find.byId(uid);
+    ForumPostRating rating = new ForumPostRating(user, updown, post);
+    rating.save();
+    return created(Json.toJson(rating.getRid()).toString());
+  }
+
+  public Result getUpvoteCount(Long pid) {
+    Integer count = ForumPostRating.find.where().eq("updown", 1).findList().size();
+    return ok(Json.toJson(count).toString());
+  }
+
+  public Result getDownvoteCount(Long pid) {
+    Integer count = ForumPostRating.find.where().eq("updown", -1).findList().size();
+    return ok(Json.toJson(count).toString());
+  }
 }

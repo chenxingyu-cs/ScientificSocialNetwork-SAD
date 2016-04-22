@@ -36,6 +36,14 @@ create table forum_post_comment (
   constraint pk_forum_post_comment primary key (cid)
 );
 
+create table forum_post_rating (
+  rid                           bigint auto_increment not null,
+  post_id                       bigint,
+  user_id                       bigint,
+  updown                        integer,
+  constraint pk_forum_post_rating primary key (rid)
+);
+
 create table publication (
   id                            bigint auto_increment not null,
   title                         varchar(255),
@@ -74,6 +82,12 @@ create index ix_forum_post_comment_user_id on forum_post_comment (user_id);
 alter table forum_post_comment add constraint fk_forum_post_comment_reply_to_user_id foreign key (reply_to_user_id) references user (id) on delete restrict on update restrict;
 create index ix_forum_post_comment_reply_to_user_id on forum_post_comment (reply_to_user_id);
 
+alter table forum_post_rating add constraint fk_forum_post_rating_post_id foreign key (post_id) references forum_post (post_id) on delete restrict on update restrict;
+create index ix_forum_post_rating_post_id on forum_post_rating (post_id);
+
+alter table forum_post_rating add constraint fk_forum_post_rating_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_forum_post_rating_user_id on forum_post_rating (user_id);
+
 
 # --- !Downs
 
@@ -95,6 +109,12 @@ drop index ix_forum_post_comment_user_id on forum_post_comment;
 alter table forum_post_comment drop foreign key fk_forum_post_comment_reply_to_user_id;
 drop index ix_forum_post_comment_reply_to_user_id on forum_post_comment;
 
+alter table forum_post_rating drop foreign key fk_forum_post_rating_post_id;
+drop index ix_forum_post_rating_post_id on forum_post_rating;
+
+alter table forum_post_rating drop foreign key fk_forum_post_rating_user_id;
+drop index ix_forum_post_rating_user_id on forum_post_rating;
+
 drop table if exists author;
 
 drop table if exists author_publication;
@@ -102,6 +122,8 @@ drop table if exists author_publication;
 drop table if exists forum_post;
 
 drop table if exists forum_post_comment;
+
+drop table if exists forum_post_rating;
 
 drop table if exists publication;
 
