@@ -1,10 +1,9 @@
 /**
- * @author xingyuchen
+ * @author Divya
  * Created on Apr 21, 2016
  */
 package controllers;
 
-//import com.avaje.ebean.Model;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
@@ -135,7 +134,7 @@ public class UserController extends Controller{
 	}
 	
 	public Result getUserByEmail(){
-		/*JsonNode json = request().body().asJson();
+		JsonNode json = request().body().asJson();
 		if (json == null) {		
  			System.out.println("Cannot check email, expecting Json data");		
  			return badRequest("Cannot check email, expecting Json data");
@@ -143,20 +142,20 @@ public class UserController extends Controller{
  		String email = json.path("email").asText();		
   		String result = new String();
   		try {
-  			User user = userRepository.findByEmail(email);
-  			System.out.println(user);
-  			result = new Gson().toJson(user);
+		 List<User> users= User.find.setMaxRows(1).where().ilike("email",email).findList();
+         User user = users.get(0);  		
+         System.out.println(user);
+         JsonNode jsonNode = Json.toJson(user);
+		 result = jsonNode.toString();
 		} catch (Exception e) {
 			return badRequest("User not found");
-		}*/
-		String result = new String();
-
+		}
 		
 		return ok(result);	
   	}
 
 	public Result isEmailExisted(){
-	/*	JsonNode json = request().body().asJson();
+		JsonNode json = request().body().asJson();
 		if (json == null) {		
  			System.out.println("Cannot check email, expecting Json data");		
  			return badRequest("Cannot check email, expecting Json data");
@@ -164,17 +163,15 @@ public class UserController extends Controller{
  		String email = json.path("email").asText();		
 
 	    try {
-			if (userRepository.findByEmail(email) != null) {
+			if ((User.find.where().ilike("email",email).findList()) != null) {
 				System.out.println("Email exists: " + email);
 				return badRequest("Username used already ");
-				//return Common.badRequestWrapper("Email has been used");
 			}
 				
 		} catch (Exception e) {
 		 	System.out.println("Something wrong inside isEmailExisted function");
 		}
-		return okResponse("Email does not exist");*/
-	    String result = new String();
+	    String result = new String("Email does not exist");
 		
 		return ok(result);	
 
