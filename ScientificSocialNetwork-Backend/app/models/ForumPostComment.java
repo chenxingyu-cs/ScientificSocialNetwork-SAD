@@ -40,7 +40,7 @@ public class ForumPostComment extends Model {
   }
 
   public ForumPostComment(ForumPost belongToPost, User user,
-      String commentText, User replyToUser) {
+      String content, User replyToUser) {
     super();
     setPost(belongToPost);
     setUser(user);

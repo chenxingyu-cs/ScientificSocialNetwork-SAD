@@ -17,10 +17,13 @@ GET     /publication/getAllPublications/json          controllers.PublicationCon
 
 
 # Forum
-POST          /forum/addNewPost     	@controllers.ForumController.addNewPost()
-POST          /forum/addNewComment     	@controllers.ForumController.addNewComment()
-GET           /forum/getOnePost     	@controllers.ForumController.getOnePost(id: Long)
-GET  		  /forum/getPosts 			@controllers.ForumController.getPosts(start: Integer=0, limit: Integer=10)
-GET           /forum/getUpvoteCount     @controllers.ForumController.getUpvoteCount(pid: Long)
-GET           /forum/getDownvoteCount   @controllers.ForumController.getDownvoteCount(pid: Long)
-PUT           /forum/votePost           @controllers.ForumController.vote()
+POST          /forum/addNewPost     			@controllers.ForumController.addNewPost()
+POST          /forum/addNewComment     			@controllers.ForumController.addNewComment()
+GET           /forum/getOnePost     			@controllers.ForumController.getOnePost(id: Long)
+GET  		  /forum/getPosts 					@controllers.ForumController.getPosts(start: Integer=0, limit: Integer=10)
+PUT           /forum/votePost           		@controllers.ForumController.votePost()
+GET           /forum/getPostUpvoteCount     	@controllers.ForumController.getPostUpvoteCount(pid: Long)
+GET           /forum/getPostDownvoteCount   	@controllers.ForumController.getPostDownvoteCount(pid: Long)
+PUT           /forum/voteComment           		@controllers.ForumController.voteComment()
+GET           /forum/getCommentUpvoteCount		@controllers.ForumController.getCommentUpvoteCount(cid: Long)
+GET           /forum/getCommentDownvoteCount	@controllers.ForumController.getCommentDownvoteCount(cid: Long)

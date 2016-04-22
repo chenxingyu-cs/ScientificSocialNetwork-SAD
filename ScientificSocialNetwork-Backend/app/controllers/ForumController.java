@@ -3,6 +3,7 @@ package controllers;
 import models.DetailedForumPost;
 import models.ForumPost;
 import models.ForumPostComment;
+import models.ForumPostCommentRating;
 import models.ForumPostRating;
 import models.User;
 
@@ -78,7 +79,7 @@ public class ForumController extends Controller {
     return ok(Json.toJson(posts).toString());
   }
 
-  public Result vote() {
+  public Result votePost() {
     JsonNode voteNode = request().body().asJson();
     if (voteNode == null) {
       return badRequest("vote not saved, expecting json data.");
@@ -95,13 +96,45 @@ public class ForumController extends Controller {
     return created(Json.toJson(rating.getRid()).toString());
   }
 
-  public Result getUpvoteCount(Long pid) {
-    Integer count = ForumPostRating.find.where().eq("updown", 1).findList().size();
+  public Result getPostUpvoteCount(Long pid) {
+    Integer count = ForumPostRating.find.where().eq("updown", 1).findList()
+        .size();
     return ok(Json.toJson(count).toString());
   }
 
-  public Result getDownvoteCount(Long pid) {
-    Integer count = ForumPostRating.find.where().eq("updown", -1).findList().size();
+  public Result getPostDownvoteCount(Long pid) {
+    Integer count = ForumPostRating.find.where().eq("updown", -1).findList()
+        .size();
+    return ok(Json.toJson(count).toString());
+  }
+
+  public Result voteComment() {
+    JsonNode voteNode = request().body().asJson();
+    if (voteNode == null) {
+      return badRequest("vote not saved, expecting json data.");
+    }
+
+    Long cid = voteNode.findPath("cid").asLong();
+    Long uid = voteNode.findPath("uid").asLong();
+    Integer updown = voteNode.findPath("updown").asInt();
+
+    ForumPostComment comment = ForumPostComment.find.byId(cid);
+    User user = User.find.byId(uid);
+    ForumPostCommentRating rating = new ForumPostCommentRating(user, updown,
+        comment);
+    rating.save();
+    return created(Json.toJson(rating.getRid()).toString());
+  }
+
+  public Result getCommentUpvoteCount(Long cid) {
+    Integer count = ForumPostCommentRating.find.where().eq("updown", 1)
+        .findList().size();
+    return ok(Json.toJson(count).toString());
+  }
+
+  public Result getCommentDownvoteCount(Long cid) {
+    Integer count = ForumPostCommentRating.find.where().eq("updown", -1)
+        .findList().size();
     return ok(Json.toJson(count).toString());
   }
 }
