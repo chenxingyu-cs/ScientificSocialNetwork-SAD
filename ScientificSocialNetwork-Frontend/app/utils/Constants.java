@@ -16,7 +16,7 @@ public class Constants {
 	public static final String LOCAL_HOST_PORT = ":9068";
 	public static final String CMU_BACKEND_PORT = ":9069";
 	// forum
-	public static final String ADD_NEW_POST = " /forum/createPost";
+	public static final String ADD_NEW_POST = "/forum/createPost";
 
 	// API Call format
 	public static final String FORMAT = "json";

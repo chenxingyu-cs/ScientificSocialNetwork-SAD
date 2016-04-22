@@ -12,8 +12,7 @@ import models.ForumPost;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
-import play.libs.ws.WSClient;
-import play.libs.ws.WSResponse;
+import play.libs.ws.*;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
@@ -28,7 +27,7 @@ public class TestController extends Controller{
 	@Inject WSClient ws;
 	@Inject FormFactory formFactory;
 	// the global form
-	Form<ForumPost> postForm ;
+	static Form<ForumPost> postForm ;
 	
 	public Result getPostPage(){
 		// init global form
@@ -43,7 +42,6 @@ public class TestController extends Controller{
 	public Result createPost() {
 		//get form data
 		Form<ForumPost> filledForm = postForm.bindFromRequest();
-		
 		ObjectNode jsonData = Json.newObject();
 		try {
 			jsonData.put("title", filledForm.get().getPostTitle());
@@ -53,11 +51,14 @@ public class TestController extends Controller{
 			jsonData.put("userId", "defalutID");
 			System.out.println(jsonData);
 			// POST Climate Service JSON data
-	    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_ALL_PUBLICATIONS;
-
-	    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
-	    	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
-	    	JsonNode publicationNode = jsonFuture.join();
+	    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;
+	    	System.out.println(url);
+//	    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+	    	
+	    	CompletionStage<WSResponse> jsonPromise = ws.url(url).post((JsonNode)jsonData);
+	    	CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
+	    	JsonNode publicationNode = jsonFuture.join().asJson();
+	    	System.out.println(publicationNode);
 			return ok(createPost.render(filledForm));
 		}
 		catch (IllegalStateException e) {

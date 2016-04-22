@@ -14,3 +14,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
 GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
+
+#forum
+POST           /forum/createPost     @controllers.ForumController.createPost
