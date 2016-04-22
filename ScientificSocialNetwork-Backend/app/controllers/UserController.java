@@ -112,75 +112,30 @@ public class UserController extends Controller{
 		return hexString.toString();
 	}
 
-	public Result setProfile(long id) {
-	/*	JsonNode json = request().body().asJson();
-		if (json == null) {
-			System.out.println("User not saved, expecting Json data");
-			return Common.badRequestWrapper("User not saved, expecting Json data");
-		}
-
-		// Parse JSON file
-		String email = json.path("email").asText();
-		String phoneNumber = json.path("phoneNumber").asText();
-		try {
-			User updateUser = userRepository.findOne(id);
-
-			updateUser.setEmail(email);
-			updateUser.setPhoneNumber(phoneNumber);
-
-			User savedUser = userRepository.save(updateUser);
-			System.out.println("User updated: " + savedUser.getEmail());
-			return created("User updated: " + savedUser.getEmail());
-		} catch (PersistenceException pe) {
-			pe.printStackTrace();
-			System.out.println("User not updated: " + email);
-			return Common.badRequestWrapper("User not updated: " + email);
-		}*/
-	    String result = new String();
-		
-		return ok(result);	
-	}
-
 	public Result getProfile(Long id, String format) {
-	/*	if (id == null) {
+		if (id == null) {
 			System.out.println("User id is null or empty!");
-			return Common.badRequestWrapper("User id is null or empty!");
+			return badRequest("User is not valid");
 		}
 
-		User user = userRepository.findOne(id);
+		User user = User.find.byId(id);
 
 		if (user == null) {
 			System.out.println("User not found with with id: " + id);
 			return notFound("User not found with with id: " + id);
 		}
+		
 		String result = new String();
 		if (format.equals("json")) {
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("id", user.getId());
-			jsonObject.addProperty("userName", user.getUserName());
-			jsonObject.addProperty("email", user.getEmail());
-			jsonObject.addProperty("avatar", user.getAvatar());
-			jsonObject.addProperty("firstName", user.getFirstName());
-			jsonObject.addProperty("lastName", user.getLastName());
-			jsonObject.addProperty("affiliation", user.getAffiliation());
-			jsonObject.addProperty("title", user.getTitle());
-			jsonObject.addProperty("mailingAddress", user.getMailingAddress());
-			jsonObject.addProperty("phoneNumber", user.getPhoneNumber());
-			jsonObject.addProperty("faxNumber", user.getFaxNumber());
-			jsonObject.addProperty("researchFields", user.getResearchFields());
-			jsonObject.addProperty("highestDegree", user.getHighestDegree());
-			jsonObject.addProperty("subcribers",user.getFollowers().size());
-
-			result = new Gson().toJson(jsonObject);
+			JsonNode jsonNode = Json.toJson(user);
+			result = jsonNode.toString();
 		}
 
-		return ok(result);*/
-	    String result = new String();
-		
-		return ok(result);	
+		return ok(result);
 	}
+	
 	public Result getUserByEmail(){
-	/*	JsonNode json = request().body().asJson();
+		/*JsonNode json = request().body().asJson();
 		if (json == null) {		
  			System.out.println("Cannot check email, expecting Json data");		
  			return badRequest("Cannot check email, expecting Json data");
@@ -193,9 +148,9 @@ public class UserController extends Controller{
   			result = new Gson().toJson(user);
 		} catch (Exception e) {
 			return badRequest("User not found");
-		}
-		return ok(result);*/
-	    String result = new String();
+		}*/
+		String result = new String();
+
 		
 		return ok(result);	
   	}

@@ -29,3 +29,4 @@ POST         /users/add                                controllers.UserControlle
 POST         /users/isUserValid                        controllers.UserController.userLogin
 POST         /users/isEmailExisted                     controllers.UserController.isEmailExisted
 POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
+GET          /users/getprofile/:id/json                controllers.UserController.getProfile(id: Long, format: String="json")
