@@ -1,0 +1,54 @@
+@(detail: ForumPostDetail, forumCommentForm: play.data.Form[ForumComment])
+@import helper._
+
+@main("Detailed Forum Post Page") {
+
+<div class="container">
+  <div class="row content">
+    <div class="col-md-12">
+      <h2>@detail.post.getTitle()</h2>
+      <h5><span class="label label-success">tag</span></h5>
+      <br>
+      <h5><span class="glyphicon glyphicon-time"> @detail.post.getTimestamp()</span></h5>
+      <p>@detail.post.getContent()</p>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+  
+  
+  @for(comment <- detail.comments) {
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>@comment.getUserName()  <small>@comment.getTimestamp()</small></h4>
+        </div>
+        <div class="panel-body">
+          <p>@comment.getContent()</p>
+          <div class="stats">
+            <a href="#" class="btn btn-sm stat-item">
+              <i class="glyphicon glyphicon-thumbs-up icon"></i> 12
+            </a>
+            <a href="#" class="btn btn-sm stat-item">
+              <i class="glyphicon glyphicon-thumbs-down icon"></i> 2
+            </a>
+          </div>
+        </div>
+    </div>
+  </div>
+  }
+      
+      
+      <hr>
+      <form role="form">
+        <div class="form-group">
+          <textarea class="form-control" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+}

@@ -71,12 +71,12 @@ public class ForumController extends Controller {
         .eq("post_id", id).findList();
     DetailedForumPost detailedPost = new DetailedForumPost(post, comments);
 
-    return ok(Json.toJson(detailedPost).toString());
+    return ok(Json.toJson(detailedPost));
   }
 
   public Result getPosts(Integer start, Integer limit) {
     List<ForumPost> posts = ForumPost.find.setMaxRows(limit).findList();
-    return ok(Json.toJson(posts).toString());
+    return ok(Json.toJson(posts));
   }
 
   public Result votePost() {

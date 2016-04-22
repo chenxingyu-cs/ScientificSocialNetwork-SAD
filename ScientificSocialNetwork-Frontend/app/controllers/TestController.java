@@ -46,9 +46,9 @@ public class TestController extends Controller{
 		
 		ObjectNode jsonData = Json.newObject();
 		try {
-			jsonData.put("title", filledForm.get().getPostTitle());
-			jsonData.put("content", filledForm.get().getPostContent());
-			jsonData.put("timestamp", filledForm.get().getTimeStamp());
+			jsonData.put("title", filledForm.get().getTitle());
+			jsonData.put("content", filledForm.get().getContent());
+			jsonData.put("timestamp", filledForm.get().getTimestamp());
 			jsonData.put("link", filledForm.get().getLink());
 			jsonData.put("userId", "defalutID");
 			System.out.println(jsonData);
