@@ -13,3 +13,10 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
+
+
+
+# Forum
+POST          /forum/addNewPost     	@controllers.ForumController.addNewPost()
+POST          /forum/addNewComment     	@controllers.ForumController.addNewComment()
+GET           /forum/getOnePost     	@controllers.ForumController.getOnePost(id: Long)

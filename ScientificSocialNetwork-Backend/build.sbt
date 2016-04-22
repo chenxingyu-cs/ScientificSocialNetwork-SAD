@@ -16,7 +16,8 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.38"
 
 libraryDependencies ++= Seq(
   javaJpa,
-  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final" // replace by your jpa implementation
+  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final", // replace by your jpa implementation
+  "com.google.code.gson" % "gson" % "2.3.1"
 )
 
 
