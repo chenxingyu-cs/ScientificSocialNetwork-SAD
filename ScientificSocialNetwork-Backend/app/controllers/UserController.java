@@ -4,7 +4,9 @@
  */
 package controllers;
 
+//import com.avaje.ebean.Model;
 import java.util.List;
+
 import javax.persistence.PersistenceException;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -42,7 +44,7 @@ public class UserController extends Controller{
 		String researchFields = json.path("researchFields").asText(); 
         
 		try {
-			if ((User.find.where().ilike("email",email))!= null) {
+			if ((User.find.where().ilike("email",email).findList())!= null) {
 				System.out.println("Email has been used: " + email);
 			    return badRequest("Email has been used");
 
@@ -60,27 +62,32 @@ public class UserController extends Controller{
 	}
 
 	public Result userLogin() {
-	/*	JsonNode json = request().body().asJson();
+		JsonNode json = request().body().asJson();
 		if (json == null) {
 			System.out.println("Cannot check user, expecting Json data");
-			return Common.badRequestWrapper("Cannot check user, expecting Json data");
-		}
+			return badRequest("Cannot check user, expecting Json data");
+			}
+			
 		String email = json.path("email").asText();
 		String password = json.path("password").asText();
-		User user = userRepository.findByEmail(email);
+		
+	     
+		 List<Publication> publications = Publication.find.all();
+		 List<User> users= User.find.setMaxRows(1).where().ilike("email",email).findList();
+
+        User user = users.get(0);
+        String result = new String();
+        
 		if (user.getPassword().equals(MD5Hashing(password))) {
 			System.out.println("User is valid");
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("id", user.getId());
-			jsonObject.addProperty("userName", user.getUserName());
-			return ok(new Gson().toJson(jsonObject));
+			JsonNode jsonNode = Json.toJson(users);
+			result = jsonNode.toString();
+			return ok(result);	
 		} else {
 			System.out.println("User is not valid");
-			return Common.badRequestWrapper("User is not valid");
-		}*/
-	    String result = new String();
-		
-		return ok(result);	
+			return badRequest("User is not valid");
+
+		}
 	}
 
 	private static String MD5Hashing(String password) {
