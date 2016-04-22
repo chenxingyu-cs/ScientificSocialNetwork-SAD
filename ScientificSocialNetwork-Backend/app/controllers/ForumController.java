@@ -137,4 +137,17 @@ public class ForumController extends Controller {
         .findList().size();
     return ok(Json.toJson(count).toString());
   }
+
+  public Result createPost () {
+    JsonNode json = request().body().asJson();
+//    System.out.println("=============");
+    System.out.println(json);
+    ForumPost post = new ForumPost();
+    post.setPaperLink(json.get("link").asText());
+    post.setPostTitle(json.get("title").asText());
+    post.setPostContent(json.get("content").asText());
+    post.save();
+        return created(post.getPostId()+"");
+//    return created(new Gson().toJson(post.getPostId()));
+  }
 }

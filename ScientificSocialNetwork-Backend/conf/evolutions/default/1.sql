@@ -148,7 +148,3 @@ drop table if exists forum_post_comment_rating;
 
 drop table if exists forum_post_rating;
 
-drop table if exists publication;
-
-drop table if exists user;
-
