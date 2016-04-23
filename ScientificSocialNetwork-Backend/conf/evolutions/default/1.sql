@@ -43,6 +43,9 @@ create table user (
   password                      varchar(255),
   first_name                    varchar(255),
   last_name                     varchar(255),
+  mailing_address               varchar(255),
+  phone_number                  varchar(255),
+  research_fields               varchar(255),
   constraint pk_user primary key (id)
 );
 

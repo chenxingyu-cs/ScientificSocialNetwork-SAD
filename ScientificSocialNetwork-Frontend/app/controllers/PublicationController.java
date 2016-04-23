@@ -69,8 +69,6 @@ public class PublicationController extends Controller {
 		return ok(publicationPublish.render(authorsList));
 	}
 	
-	
-
 	public Result getPublicationPanel(long id) {
 		//Publication publication = new Publication();
 		String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_PUBLICATION_PANEL + id;

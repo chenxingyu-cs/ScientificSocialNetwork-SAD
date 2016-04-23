@@ -1,5 +1,5 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
+# This file defines all UserController routes (Higher priority routes first)
 # ~~~~
 
 # An example controller showing a sample home page
@@ -28,11 +28,11 @@ POST	/forum/createConfirm		controllers.TestController.createPost
 GET		/forum/createCancel			controllers.TestController.cancelPost
 
 # Home page
-GET     /                           controllers.Application.home
-GET     /login                      controllers.Application.login
-GET     /logout                     controllers.Application.logout
-GET     /authenticate               controllers.Application.authenticate
-GET     /signup                     controllers.Application.signup
-GET     /createNewUser              controllers.Application.createNewUser
-GET     /createSuccess              controllers.Application.createSuccess
-POST    /isEmailExisted             controllers.Application.isEmailExisted
+GET     /                           controllers.UserController.home
+GET     /login                      controllers.UserController.login
+GET     /logout                     controllers.UserController.logout
+GET     /authenticate               controllers.UserController.authenticate
+GET     /signup                     controllers.UserController.signup
+GET     /createNewUser              controllers.UserController.createNewUser
+GET     /createSuccess              controllers.UserController.createSuccess
+POST    /isEmailExisted             controllers.UserController.isEmailExisted
