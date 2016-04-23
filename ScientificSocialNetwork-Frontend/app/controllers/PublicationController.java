@@ -92,11 +92,11 @@ public class PublicationController extends Controller {
 		onePublication.setDate(json.path("date").asText());
 		onePublication.setConferenceName(json.path("conferenceName").asText());
 		JsonNode authorNode = json.path("authors");
-		System.out.println(authorNode.toString());
+		//System.out.println(authorNode.toString());
 		List<Author> authorList = new ArrayList<>();
 		for(int i = 0 ; i < authorNode.size() ; i ++) {
 			JsonNode json_tmp = authorNode.path(i);
-			System.out.println(json_tmp.toString());
+			//System.out.println(json_tmp.toString());
 			Author oneAuthor = new Author();
 			oneAuthor.setName(json_tmp.path("name").asText());
 			authorList.add(oneAuthor);

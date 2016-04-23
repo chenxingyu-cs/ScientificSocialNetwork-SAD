@@ -39,7 +39,6 @@ public class PublicationController extends Controller{
 
 	public Result getPublicationPanel(long id) {
 		Publication publication = Publication.find.byId(id);
-		System.out.println("publications: " + publication.toString());
 		if (publication == null) {
 			System.out.println("No publication found");
 		}
