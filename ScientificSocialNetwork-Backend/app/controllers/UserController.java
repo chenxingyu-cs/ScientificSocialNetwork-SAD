@@ -44,7 +44,7 @@ public class UserController extends Controller{
 		String researchFields = json.path("researchFields").asText(); 
         
 		try {
-			if ((User.find.where().ilike("email",email).findList()).size() == 1) {
+			if ((User.find.where().eq("email",email).findList()).size() != 0) {
 				System.out.println("Email has been used: " + email);
 			    return Common.badRequestWrapper("Email has been used");
 
@@ -73,7 +73,7 @@ public class UserController extends Controller{
 		
 	     
 		List<Publication> publications = Publication.find.all();
-		List<User> users= User.find.setMaxRows(1).where().ilike("email",email).findList();
+		List<User> users= User.find.setMaxRows(1).where().eq("email",email).findList();
 		
 		if (users.size() == 0) {
 			return Common.badRequestWrapper("User is not valid");
@@ -147,7 +147,7 @@ public class UserController extends Controller{
  		String email = json.path("email").asText();		
   		String result = new String();
   		try {
-		 List<User> users= User.find.setMaxRows(1).where().ilike("email",email).findList();
+		 List<User> users= User.find.setMaxRows(1).where().eq("email",email).findList();
          User user = users.get(0);  		
          System.out.println(user);
          JsonNode jsonNode = Json.toJson(user);
@@ -168,7 +168,7 @@ public class UserController extends Controller{
  		String email = json.path("email").asText();		
 
 	    try {
-			if ((User.find.where().ilike("email",email).findList()) != null) {
+			if ((User.find.where().eq("email",email).findList()).size() != 0) {
 				System.out.println("Email exists: " + email);
 				return Common.badRequestWrapper("Username used already ");
 			}
