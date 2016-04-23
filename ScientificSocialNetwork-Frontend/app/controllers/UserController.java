@@ -25,16 +25,17 @@ import views.html.*;
 public class UserController extends Controller {
     
     @Inject WSClient ws;
+    @Inject FormFactory formFactory;
     
-    final Form<User> userForm = Form
-            .form(User.class);
+    static Form<User> userForm ;
 
     public Result home() {
         return ok(home.render());
     }
 
     public Result login() {
-        return ok(login.render(userForm));
+    	userForm = formFactory.form(User.class);
+    	return ok(login.render(userForm));
     }
     
     public Result logout() {
