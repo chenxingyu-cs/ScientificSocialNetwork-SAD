@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,12 +48,16 @@ public class User extends Model{
 		super();
 	}
 
-	public User(String email, String password, String firstName, String lastName) {
+	public User(String email, String password, String firstName, String lastName, String mailingAddress,
+			String phoneNumber, String researchFields) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.mailingAddress = mailingAddress;
+		this.phoneNumber = phoneNumber;
+		this.researchFields = researchFields;
 	}
 
 	public Long getId() {
@@ -96,29 +101,28 @@ public class User extends Model{
 	}
 	
 	public String getMailingAddress() {
-		return mailingAddress;
-	}
-
-	public void setMailingAddress(String mailingAddress) {
-		this.mailingAddress = mailingAddress;
-	}
-	
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getResearchFieldss() {
-		return researchFields;
-	}
-
-	public void setResearchFields(String researchFields) {
-		this.researchFields = researchFields;
-	}
-	
+        return mailingAddress;
+    }
+    
+    public void setMailingAddress(String mailingAddress) {
+        this.mailingAddress = mailingAddress;
+    }
+    
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    public String getResearchFields() {
+        return researchFields;
+    }
+    
+    public void setResearchFields(String researchFields) {
+        this.researchFields = researchFields;
+    }
 	
 	public Set<User> getFollowers() {
 		return this.followers;

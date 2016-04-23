@@ -20,3 +20,13 @@ GET     /publication/getMostPopularPublications/json  controllers.PublicationCon
 
 #forum
 POST           /forum/createPost     @controllers.ForumController.createPost
+
+
+#Users
+
+#GET         /users/:id                                controllers.UserController.getUser(id: Long, format: String="json")
+POST         /users/add                                controllers.UserController.userRegister
+POST         /users/isUserValid                        controllers.UserController.userLogin
+POST         /users/isEmailExisted                     controllers.UserController.isEmailExisted
+POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
+GET          /users/getprofile/:id/json                controllers.UserController.getProfile(id: Long, format: String="json")
