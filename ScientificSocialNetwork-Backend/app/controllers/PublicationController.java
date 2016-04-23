@@ -31,8 +31,8 @@ public class PublicationController extends Controller{
 		// Use the json in Play library this time
 		String result = new String();
 		if (format.equals("json")) {
-			JsonNode jn = Json.toJson(publications);
-			result = jn.toString();
+			JsonNode jsonNode = Json.toJson(publications);
+			result = jsonNode.toString();
 		}
 		return ok(result);	
 	}
@@ -42,11 +42,30 @@ public class PublicationController extends Controller{
 		if (publication == null) {
 			System.out.println("No publication found");
 		}
-
+		
+		publication.setCount(publication.getCount() + 1);
+		publication.save();
+		
 		String result = new String();
-		JsonNode jn = Json.toJson(publication);
-		result = jn.toString();
+		JsonNode jsonNode = Json.toJson(publication);
+		result = jsonNode.toString();
 		System.out.println(result);
 		return ok(result);
+	}
+	
+	public Result getMostPopularPublications(String format) {
+		List<Publication> publications = Publication.find.orderBy("count asc").setMaxRows(100).findList();
+		
+		if (publications == null) {
+			System.out.println("No publication found");
+		}
+		
+		// Use the json in Play library this time
+		String result = new String();
+		if (format.equals("json")) {
+			JsonNode jsonNode = Json.toJson(publications);
+			result = jsonNode.toString();
+		}
+		return ok(result);	
 	}
 }

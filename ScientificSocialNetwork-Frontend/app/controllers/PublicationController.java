@@ -46,6 +46,7 @@ public class PublicationController extends Controller {
     	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
     	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
     	JsonNode publicationNode = jsonFuture.join();
+    	
 		// parse the json string into object
 		for (int i = 0; i < publicationNode.size(); i++) {
 			JsonNode json = publicationNode.path(i);
@@ -83,6 +84,26 @@ public class PublicationController extends Controller {
 
 		return ok(publicationPanel.render(onePublication));
 	}
+	
+	public Result getMostPopularPublications() {
+		List<Publication> publications = new ArrayList<>();
+		
+		String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_MOST_POPULAR_PUBLICATIONS;
+		
+		CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+		CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+		JsonNode response = jsonFuture.join();
+		
+		// parse the json string into object
+		for (int i = 0; i < response.size(); i++) {
+			JsonNode json = response.path(i);
+			Publication onePublication = deserializeJsonToPublication(json);
+			publications.add(onePublication);
+		}
+			
+		return ok(mostPopularPublications.render(publications));
+		
+	}
     
     public static Publication deserializeJsonToPublication(JsonNode json) {
 		Publication onePublication = new Publication();
@@ -92,11 +113,9 @@ public class PublicationController extends Controller {
 		onePublication.setDate(json.path("date").asText());
 		onePublication.setConferenceName(json.path("conferenceName").asText());
 		JsonNode authorNode = json.path("authors");
-		//System.out.println(authorNode.toString());
 		List<Author> authorList = new ArrayList<>();
 		for(int i = 0 ; i < authorNode.size() ; i ++) {
 			JsonNode json_tmp = authorNode.path(i);
-			//System.out.println(json_tmp.toString());
 			Author oneAuthor = new Author();
 			oneAuthor.setName(json_tmp.path("name").asText());
 			authorList.add(oneAuthor);

@@ -14,8 +14,15 @@ GET     /publication                controllers.PublicationController.getAllPubl
 GET     /publicationPublish    controllers.PublicationController.publicationPublish
 GET     /publicationPublishSubmit    controllers.PublicationController.publicationPublishSubmit
 
+
 # An example to show publication panel
 GET     /publication/publicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
+GET     /publication/getMostPopularPublications         controllers.PublicationController.getMostPopularPublications
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#Test Post
+GET		/forum/create				controllers.TestController.getPostPage()
+POST	/forum/createConfirm		controllers.TestController.createPost()
+GET		/forum/createCancel			controllers.TestController.cancelPost()

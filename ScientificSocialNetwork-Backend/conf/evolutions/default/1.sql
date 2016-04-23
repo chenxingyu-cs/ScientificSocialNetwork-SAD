@@ -15,6 +15,16 @@ create table author_publication (
   constraint pk_author_publication primary key (author_id,publication_id)
 );
 
+create table forum_post (
+  post_id                       bigint auto_increment not null,
+  time_stamp                    varchar(255),
+  user_id                       bigint,
+  post_title                    varchar(255),
+  post_content                  varchar(255),
+  link                          varchar(255),
+  constraint pk_forum_post primary key (post_id)
+);
+
 create table publication (
   id                            bigint auto_increment not null,
   title                         varchar(255),
@@ -23,6 +33,7 @@ create table publication (
   date                          varchar(255),
   url                           varchar(255),
   conference_name               varchar(255),
+  count                         int default 0,
   constraint pk_publication primary key (id)
 );
 
@@ -32,6 +43,9 @@ create table user (
   password                      varchar(255),
   first_name                    varchar(255),
   last_name                     varchar(255),
+  mailing_address               varchar(255),
+  phone_number                  varchar(255),
+  research_fields               varchar(255),
   constraint pk_user primary key (id)
 );
 
@@ -53,6 +67,8 @@ drop index ix_author_publication_publication on author_publication;
 drop table if exists author;
 
 drop table if exists author_publication;
+
+drop table if exists forum_post;
 
 drop table if exists publication;
 
