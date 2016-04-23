@@ -4,7 +4,9 @@
  */
 package controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.PersistenceException;
 
@@ -16,6 +18,7 @@ import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.MessageDigest;
@@ -75,7 +78,10 @@ public class UserController extends Controller{
 		List<User> users= User.find.setMaxRows(1).where().ilike("email",email).findList();
 		
 		if (users.size() == 0) {
-			return badRequest("User is not valid");
+			Map<String, String> map = new HashMap<>();
+			map.put("error", "User is not valid");
+			String error = Json.toJson(map).toString();
+			return Results.ok(error);
 		}
 
         User user = users.get(0);

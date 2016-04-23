@@ -59,6 +59,7 @@ public class UserController extends Controller {
             jsonData.put("email", email);
             jsonData.put("password", password);
             System.out.println(jsonData);
+            
             // POST Climate Service JSON data
             String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.IS_USER_VALID;
             CompletionStage<JsonNode> jsonPromise = ws.url(url).post(jsonData).thenApply(WSResponse::asJson);
