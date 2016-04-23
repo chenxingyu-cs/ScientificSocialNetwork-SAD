@@ -74,7 +74,7 @@ public class UserController extends Controller {
             flash("success", "Login successfully.");
             session().clear();
             session("id", response.get("id").toString());
-            session("username", response.get("userName").textValue());
+            session("username", response.get("firstName").textValue());
             session("email", loginForm.data().get("email"));
             return redirect(routes.UserController.home());
         }
