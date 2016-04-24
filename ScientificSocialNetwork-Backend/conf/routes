@@ -20,7 +20,7 @@ GET     /publication/getMostPopularPublications/json  controllers.PublicationCon
 
 #forum
 POST           /forum/createPost     @controllers.ForumController.createPost
-
+GET 		   /forum/getPosts		 @controllers.ForumController.getPosts(startId: Integer, amount: Integer)
 
 #Users
 
