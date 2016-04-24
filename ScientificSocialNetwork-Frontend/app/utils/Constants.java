@@ -17,7 +17,7 @@ public class Constants {
 	public static final String CMU_BACKEND_PORT = ":9069";
 	// forum
 	public static final String ADD_NEW_POST = "/forum/createPost";
-
+	public static final String GET_ALL_POSTS = "/forum/getPostsWithVoteCounts"; // TODO: Connect with backend
 
 
 	// add all parameter

@@ -1,9 +1,12 @@
 package controllers;
 
+import models.PostTitle;
 import utils.Constants;
 import views.html.detailedForumPost;
+import views.html.allPosts;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -122,4 +125,62 @@ public class ForumController extends Controller {
 
     return forumComment;
   }
+
+
+    /**
+     * Alfred: I'll be in charge of the following methods
+     * @return
+     */
+    public Result getPosts () {
+        return ok(allPosts.render(getPagesHelper(), getPostTitlesHelper(1)));
+    }
+
+    /**
+     * Use 1 page at the beginning
+     * @return
+     */
+    public List<Integer> getPagesHelper() {
+        // int count = getTotalPagesHelper();
+        // List<Integer> numbers = new ArrayList<> ();
+        // for (int i = 1; i <= count; i ++ ) {
+        //     numbers.add(i);
+        // }
+        // return numbers;
+        return new ArrayList<>(Arrays.asList(1));
+    }
+
+
+    public List<PostTitle> getPostTitlesHelper (int page) {
+        List<PostTitle> postTitles = new ArrayList <> ();
+        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_ALL_POSTS;
+        CompletionStage<JsonNode> jsonPromise =
+                ws.url(url)
+                        .setQueryParameter("startId", "0")
+                        .setQueryParameter("limit", "200")
+                        .get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode response = jsonFuture.join();
+
+        for (int i = 0; i < response.size(); i++) {
+            JsonNode json = response.path(i);
+            try {
+                PostTitle oneTitle = deserializeJsonToPostTitle(json);
+                postTitles.add(oneTitle);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return postTitles;
+    }
+
+    public static PostTitle deserializeJsonToPostTitle(JsonNode json) {
+        PostTitle postTitle = new PostTitle();
+        postTitle.setPostTitle(json.path("postTitle").asText());
+        postTitle.setPostId(json.path("postId").asLong());
+        postTitle.setUpvote(json.path("upvote").asInt());
+        postTitle.setDownvote(json.path("downvote").asInt());
+        postTitle.setPostType(json.path("postType").asText());
+        return postTitle;
+    }
 }

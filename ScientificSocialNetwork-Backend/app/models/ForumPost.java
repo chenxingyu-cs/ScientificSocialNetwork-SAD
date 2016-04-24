@@ -41,7 +41,7 @@ public class ForumPost extends Model {
 
   private String paperLink;
 
-  private long bestCommentId;
+  private Long bestCommentId;
 
   public String getPaperLink() {
     return paperLink;
@@ -56,7 +56,7 @@ public class ForumPost extends Model {
   }
 
   public ForumPost(User user, String postTitle,
-      String postContent, String paperLink, long bestCommentId) {
+      String postContent, String paperLink, Long bestCommentId) {
     super();
     setUser(user);
     setPostTitle(postTitle);

@@ -1,12 +1,8 @@
 package controllers;
 
-import models.DetailedForumPost;
-import models.ForumPost;
-import models.ForumPostComment;
-import models.ForumPostCommentRating;
-import models.ForumPostRating;
-import models.User;
+import models.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
@@ -34,6 +30,12 @@ public class ForumController extends Controller {
     String postContent = postNode.findPath("content").asText();
     String paperLink = postNode.findPath("link").asText();
     User user = User.find.byId(1L);
+
+    if (user != null) {
+      System.out.println("User: " + user.getId());
+    } else {
+      System.out.println("User not found.");
+    }
 
     ForumPost forumPost = new ForumPost(user, postTitle, postContent,
         paperLink, -1L);
@@ -136,6 +138,45 @@ public class ForumController extends Controller {
     Integer count = ForumPostCommentRating.find.where().eq("updown", -1)
         .findList().size();
     return ok(Json.toJson(count).toString());
+  }
+
+  /**
+   * Alfred: To display only title and current rating of posts.
+   * @return
+     */
+  public Result getPostsWithVoteCounts () {
+    // Get all posts
+    System.out.println("getPostsWithVoteCounts");
+    List<ForumPost> posts = ForumPost.find.all();
+    System.out.println("Number of posts found: " + posts.size());
+    List<PostTitle> titles = new ArrayList<>();
+    for (ForumPost post : posts) {
+      /**
+       * There may be better way then this...
+       */
+      Integer upvoteCount = ForumPostRating
+              .find
+              .where()
+              .eq("post_id", post.getPostId())
+              .eq("updown", 1)
+              .findList().size();
+
+      Integer downvoteCount = ForumPostRating
+              .find
+              .where()
+              .eq("post_id", post.getPostId())
+              .eq("updown", -1)
+              .findList().size();
+
+      PostTitle title = new PostTitle ();
+      title.setPostId(post.getPostId());
+      title.setPostTitle(post.getPostTitle());
+      title.setUpvote(upvoteCount);
+      title.setDownvote(downvoteCount);
+      title.setPostType("post"); // TODO: Consider question types
+      titles.add(title);
+    }
+    return ok(Json.toJson(titles).toString());
   }
 
   public Result createPost () {

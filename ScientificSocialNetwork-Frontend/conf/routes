@@ -23,6 +23,7 @@ GET     /publication/getMostPopularPublications         controllers.PublicationC
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 #Test Post
+GET     /forum/allPosts             controllers.ForumController.getPosts
 GET		/forum/create				controllers.TestController.getPostPage()
 POST	/forum/createConfirm		controllers.TestController.createPost()
 GET		/forum/createCancel			controllers.TestController.cancelPost()
