@@ -29,7 +29,7 @@ GET		/forum/createCancel			controllers.TestController.cancelPost
 
 #Test All Posts page
 GET		/forum  	                controllers.ForumController.getPosts
-GET		/forum/page                 controllers.ForumController.getPostsAtPage(page: Integer)
+#GET		/forum/page                 controllers.ForumController.getPostsAtPage(page: Integer)
 
 
 # Home page

@@ -23,3 +23,8 @@ libraryDependencies ++= Seq(
 fork in run := false
 
 
+
+
+//fork in run := true
+
+//fork in run := true
