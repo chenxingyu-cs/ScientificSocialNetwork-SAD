@@ -4,7 +4,11 @@
  */
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -54,6 +58,33 @@ public class PublicationController extends Controller{
 		return ok(result);
 	}
 	
+	public Result searchPublicationByKeywords(String keywordsStr) {
+        ArrayList<String> keywords = new ArrayList<String>(Arrays.asList(keywordsStr.split("\\P{Alpha}+")));
+        keywords.remove("");
+		System.out.println(keywords.toString());
+		
+		Set<Publication> publicationSet = new HashSet<>();
+		
+		for (String keyword : keywords) {
+			List<Publication> publications = Publication.find.where().contains("title", keyword).findList();
+			publicationSet.addAll(publications);
+		}
+		
+		
+		if (publicationSet.size() == 0) {
+			System.out.println("No publication found");
+		}
+		
+		List<Publication> resultPublication = new ArrayList<>();
+		resultPublication.addAll(publicationSet);
+
+		// Use the json in Play library this time
+		String result = new String();
+			JsonNode jsonNode = Json.toJson(resultPublication);
+			result = jsonNode.toString();
+		return ok(result);	
+	}
+	
 	public Result getMostPopularPublications(String format) {
 		List<Publication> publications = Publication.find.orderBy("count asc").setMaxRows(100).findList();
 		
@@ -69,4 +100,6 @@ public class PublicationController extends Controller{
 		}
 		return ok(result);	
 	}
+	
+	
 }

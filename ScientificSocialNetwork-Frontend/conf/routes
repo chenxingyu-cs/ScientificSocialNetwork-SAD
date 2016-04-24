@@ -19,7 +19,7 @@ GET     /publicationPublishSubmit    controllers.PublicationController.publicati
 GET     /publication/publicationPanel/:id               controllers.PublicationController.getPublicationPanel(id: Long)
 GET     /publication/getMostPopularPublications         controllers.PublicationController.getMostPopularPublications
 GET     /publication/publicationSearch                  controllers.PublicationController.publicationSearch()
-GET     /publication/publicationSearchSubmit            controllers.PublicationController.publicationSearchSubmit()
+GET     /publication/publicationSearchByKeywords            controllers.PublicationController.publicationSearchByKeywords()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

@@ -1,6 +1,8 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import models.Author;
@@ -11,11 +13,13 @@ import javax.inject.Inject;
 import play.mvc.*;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.libs.ws.*;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import views.html.*;
 import utils.Constants;
@@ -114,9 +118,29 @@ public class PublicationController extends Controller {
 		return ok(publicationSearch.render(publicationForm));
 	}
 	
-	public Result publicationSearchSubmit() {
+	public Result publicationSearchByKeywords() {
 		List<Publication> publications = new ArrayList<>();
+		
+		Form<Publication> filledForm = publicationForm.bindFromRequest();
+        ObjectNode jsonData = Json.newObject();
+        String keywordsStr = filledForm.get().getTitle();
+        keywordsStr = keywordsStr.replace(" ", "+");
+        
+        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.SEARCH_PUBLICATION_BY_KEYWORDS + keywordsStr;
+        
+        CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+		CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+		JsonNode response = jsonFuture.join();
+		
+		// parse the json string into object
+		for (int i = 0; i < response.size(); i++) {
+			JsonNode json = response.path(i);
+			Publication onePublication = deserializeJsonToPublication(json);
+			publications.add(onePublication);
+		}
+			
 		return ok(mostPopularPublications.render(publications));
+		
 	}
     
     public static Publication deserializeJsonToPublication(JsonNode json) {

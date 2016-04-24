@@ -12,10 +12,11 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
-GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
+GET     /publication/getAllPublications/json                   controllers.PublicationController.getAllPublications(format: String="json")     
+GET     /publication/getPublicationPanel/:id                   controllers.PublicationController.getPublicationPanel(id: Long)
 
-GET     /publication/getMostPopularPublications/json  controllers.PublicationController.getMostPopularPublications(format: String="json") 
+GET     /publication/getMostPopularPublications/json           controllers.PublicationController.getMostPopularPublications(format: String="json") 
+GET     /publication/searchPublicationByKeywords/:keywordsStr     controllers.PublicationController.searchPublicationByKeywords(keywordsStr: String)
 
 
 #forum
