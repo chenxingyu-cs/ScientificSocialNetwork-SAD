@@ -145,22 +145,8 @@ public class ForumController extends Controller {
        return ok(Json.toJson(getPostTitlesHelper(1)).toString());
     }
 
-    /**
-     * Use 1 page at the beginning
-     * @return
-     */
-    public List<Integer> getPagesHelper() {
-        // int count = getTotalPagesHelper();
-        // List<Integer> numbers = new ArrayList<> ();
-        // for (int i = 1; i <= count; i ++ ) {
-        //     numbers.add(i);
-        // }
-        // return numbers;
-        return new ArrayList<>(Arrays.asList(1));
-    }
 
-
-    public List<PostTitle> getPostTitlesHelper (int page) {
+    public List<PostTitle> getPostTitlesHelper () {
         List<PostTitle> postTitles = new ArrayList <> ();
         String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_ALL_POSTS;
         CompletionStage<JsonNode> jsonPromise =
