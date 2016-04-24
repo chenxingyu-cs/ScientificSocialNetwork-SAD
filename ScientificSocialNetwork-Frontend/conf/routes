@@ -24,6 +24,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 #Test Post
 GET     /forum/allPosts             controllers.ForumController.getPosts
+GET     /forum/allPostsInJson       controllers.ForumController.getPostsJson
 GET		/forum/create				controllers.TestController.getPostPage()
 POST	/forum/createConfirm		controllers.TestController.createPost()
 GET		/forum/createCancel			controllers.TestController.cancelPost()

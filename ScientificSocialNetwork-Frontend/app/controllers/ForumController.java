@@ -1,6 +1,7 @@
 package controllers;
 
 import models.PostTitle;
+import play.libs.Json;
 import utils.Constants;
 import views.html.detailedForumPost;
 import views.html.allPosts;
@@ -132,7 +133,16 @@ public class ForumController extends Controller {
      * @return
      */
     public Result getPosts () {
-        return ok(allPosts.render(getPagesHelper(), getPostTitlesHelper(1)));
+        return ok(allPosts.render());
+    }
+
+    /**
+     * Returns just plain json data to the client side.
+     * @return
+     */
+    public Result getPostsJson () {
+        response().setHeader("Content-Type", "application/json;charset=UTF-8");
+       return ok(Json.toJson(getPostTitlesHelper(1)).toString());
     }
 
     /**

@@ -9,7 +9,7 @@
         
         <fieldset>
             @inputText(
-                postForm("postTitle"), 
+                postForm("title"),
                 '_label -> "Title",                 
                 '_error -> postForm.globalError,
                 'class -> "form-control"                            
@@ -22,7 +22,7 @@
             )
 
             @textarea(
-                postForm("postContent"), 
+                postForm("content"),
                 '_label -> "Content", 
                 'cols -> 65, 
                 'rows -> 7,

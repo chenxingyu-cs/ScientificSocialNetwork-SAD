@@ -1,13 +1,12 @@
-@(numbers: List[Integer], posts: List[PostTitle])
+@()
 @import helper._
 @main("Forum"){
 
     <h2>Discussion Forum</h2>
     <div class="forum_container row container">
         <div class="col-md-8">
-            <ul class="pagination">
-            @for(i <- numbers) {
-                <li><a href="#">@i</a></li> }
+            <ul id="forum_table_pages" class="pagination">
+                <!-- refresh Pager -->
             </ul>
             <div>
                 <table class="table post_item">
@@ -18,22 +17,8 @@
                             <th>Title</th>
                         </tr>
                     </thead>
-                    <tbody>
-
-                    @for(post <- posts) {
-
-                        <tr>
-                            <td class="votes">
-                                <div>@post.getUpvote()</div>
-                            </td>
-                            <td class="votes">
-                                <div>@post.getDownvote()</div>
-                            </td>
-                            <td class=" post_title"><a href="/forum/post/@post.getPostId()">@post.getPostTitle()</a></td>
-                        </tr>
-
-                    }
-
+                    <tbody id="forum_table_body">
+                        <!-- AJAX refresh Region -->
                     </tbody>
                 </table>
 
@@ -76,6 +61,12 @@
     </style>
 
     <script type="text/javascript">
+
+        var titles = [];
+        $(document).ready(function() {
+            getTitles();
+        });
+
             function onCreatePost() {
                 console.log("onCreatePost");
                 window.location = '@routes.TestController.getPostPage()';
@@ -84,6 +75,68 @@
             function onCreateQuestion() {
                 console.log("onCreateQuestion");
                 window.location = '@routes.TestController.getPostPage()';
+            }
+
+            function getTitles () {
+                $.get("@routes.ForumController.getPostsJson()",
+                function(result) {
+                    titles = result;
+                    renderPager();
+                    renderPostList(1); // Default to the 1st page
+                });
+            }
+
+            function renderPager () {
+                var numPages = titles.length / 10 + 1;
+                for (var i = 1; i <= numPages; i ++) {
+                    $("#forum_table_pages").append(
+                    "<li><span onclick=\"renderPostList("+ i +")\">" + i + "</span></li>");
+                }
+            }
+
+
+            /**
+             * Displays the posts on page page.
+             * Now set default page size to be 10.
+             * returns: void
+             */
+            function renderPostList(page) {
+                page = page - 1; // Remove 1 offset
+                $("#forum_table_body").empty();
+                var first = page * 10;
+                var last = first + 10;
+                if (first >= titles.length) return;
+                if (last > titles.length) last = titles.length;
+                var display = titles.slice(first, last);
+                for (var i in display) {
+                    $("#forum_table_body").append(renderEach(display[i]));
+                }
+            }
+
+            /**
+             * Returns the post string given the post object
+             * param post
+             * returns: html
+             */
+            function renderEach(post) {
+                /* {"postId":2,"upvote":0,"downvote":0,"postTitle":"test2","postType":"post"}, */
+                console.log(post);
+                var postId = post.postId;
+                var upvote = post.upvote;
+                var downvote = post.downvote;
+                var postTitle = post.postTitle;
+                var postType = post.postType;
+                var string =
+                        "<tr>                                                                                               " +
+                        "    <td class=\"votes\">                                                                             " +
+                        "        <div>"+ upvote +"</div>                                                               		" +
+                        "    </td>                                                                                          " +
+                        "    <td class=\"votes\">                                                                             " +
+                        "        <div>"+ downvote +"</div>                                                             		" +
+                        "    </td>                                                                                          " +
+                        "    <td class=\"post_title\"><a href=/forum/post/" + postId + ">" + postTitle +"</a></td>  			" +
+                        "</tr>                                                                                              ";
+                return string;
             }
     </script>
 }
