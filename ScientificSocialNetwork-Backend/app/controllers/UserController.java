@@ -16,6 +16,7 @@ import models.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.Common;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.MessageDigest;
@@ -30,7 +31,7 @@ public class UserController extends Controller{
 		JsonNode json = request().body().asJson();
 		if (json == null) {
 			System.out.println("User not created, expecting Json data");
-			return badRequest("User not created, expecting Json data");
+			return Common.badRequestWrapper("User not created, expecting Json data");
 		}
 		// Parse JSON file		
 		String userName = json.path("userName").asText();      
@@ -43,9 +44,9 @@ public class UserController extends Controller{
 		String researchFields = json.path("researchFields").asText(); 
         
 		try {
-			if ((User.find.where().ilike("email",email).findList())!= null) {
+			if ((User.find.where().eq("email",email).findList()).size() != 0) {
 				System.out.println("Email has been used: " + email);
-			    return badRequest("Email has been used");
+			    return Common.badRequestWrapper("Email has been used");
 
 			}
 			User user = new User(email, MD5Hashing(password), firstName, lastName, mailingAddress,phoneNumber, researchFields);
@@ -55,7 +56,7 @@ public class UserController extends Controller{
 		} catch (PersistenceException pe) {
 			pe.printStackTrace();
 			System.out.println("User not saved: " + userName);
-			return badRequest("User not saved: " + userName);
+			return Common.badRequestWrapper("User not saved: " + userName);
 
 		}
 	}
@@ -64,27 +65,31 @@ public class UserController extends Controller{
 		JsonNode json = request().body().asJson();
 		if (json == null) {
 			System.out.println("Cannot check user, expecting Json data");
-			return badRequest("Cannot check user, expecting Json data");
+			return Common.badRequestWrapper("Cannot check user, expecting Json data");
 			}
 			
 		String email = json.path("email").asText();
 		String password = json.path("password").asText();
 		
 	     
-		 List<Publication> publications = Publication.find.all();
-		 List<User> users= User.find.setMaxRows(1).where().ilike("email",email).findList();
+		List<Publication> publications = Publication.find.all();
+		List<User> users= User.find.setMaxRows(1).where().eq("email",email).findList();
+		
+		if (users.size() == 0) {
+			return Common.badRequestWrapper("User is not valid");
+		}
 
         User user = users.get(0);
         String result = new String();
         
 		if (user.getPassword().equals(MD5Hashing(password))) {
 			System.out.println("User is valid");
-			JsonNode jsonNode = Json.toJson(users);
+			JsonNode jsonNode = Json.toJson(user);
 			result = jsonNode.toString();
 			return ok(result);	
 		} else {
 			System.out.println("User is not valid");
-			return badRequest("User is not valid");
+			return Common.badRequestWrapper("User is not valid");
 
 		}
 	}
@@ -114,7 +119,7 @@ public class UserController extends Controller{
 	public Result getProfile(Long id, String format) {
 		if (id == null) {
 			System.out.println("User id is null or empty!");
-			return badRequest("User is not valid");
+			return Common.badRequestWrapper("User is not valid");
 		}
 
 		User user = User.find.byId(id);
@@ -137,18 +142,18 @@ public class UserController extends Controller{
 		JsonNode json = request().body().asJson();
 		if (json == null) {		
  			System.out.println("Cannot check email, expecting Json data");		
- 			return badRequest("Cannot check email, expecting Json data");
+ 			return Common.badRequestWrapper("Cannot check email, expecting Json data");
  		}
  		String email = json.path("email").asText();		
   		String result = new String();
   		try {
-		 List<User> users= User.find.setMaxRows(1).where().ilike("email",email).findList();
+		 List<User> users= User.find.setMaxRows(1).where().eq("email",email).findList();
          User user = users.get(0);  		
          System.out.println(user);
          JsonNode jsonNode = Json.toJson(user);
 		 result = jsonNode.toString();
 		} catch (Exception e) {
-			return badRequest("User not found");
+			return Common.badRequestWrapper("User not found");
 		}
 		
 		return ok(result);	
@@ -158,14 +163,14 @@ public class UserController extends Controller{
 		JsonNode json = request().body().asJson();
 		if (json == null) {		
  			System.out.println("Cannot check email, expecting Json data");		
- 			return badRequest("Cannot check email, expecting Json data");
+ 			return Common.badRequestWrapper("Cannot check email, expecting Json data");
  		}
  		String email = json.path("email").asText();		
 
 	    try {
-			if ((User.find.where().ilike("email",email).findList()) != null) {
+			if ((User.find.where().eq("email",email).findList()).size() != 0) {
 				System.out.println("Email exists: " + email);
-				return badRequest("Username used already ");
+				return Common.badRequestWrapper("Username used already ");
 			}
 				
 		} catch (Exception e) {
@@ -173,7 +178,7 @@ public class UserController extends Controller{
 		}
 	    String result = new String("Email does not exist");
 		
-		return ok(result);	
+		return ok(json.toString());	
 
   	}
 }

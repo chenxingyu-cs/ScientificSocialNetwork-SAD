@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,12 +36,11 @@ public class User extends Model{
 	private String firstName;
 	private String lastName;
 	private String mailingAddress;
-    private String phoneNumber;
-    private String researchFields;
-    private Set<User> subcribers;
-    private Set<User> friendRequestSender;
-    private Set<User> friends;
-
+	private String phoneNumber;
+	private String researchFields;
+//	protected Set<User> followers;
+//    protected Set<User> friendRequestSender;
+//	protected Set<User> friends;
 
 	public static Finder<Long, User> find = new Finder<Long, User>(User.class);
 
@@ -116,37 +116,35 @@ public class User extends Model{
         this.phoneNumber = phoneNumber;
     }
     
-    public String getResearchFieldss() {
+    public String getResearchFields() {
         return researchFields;
     }
     
     public void setResearchFields(String researchFields) {
         this.researchFields = researchFields;
     }
-    
-    public Set<User> getSubcribers(){
-        return this.subcribers;
-    }
-    
-    public void setSubcribers(Set<User> subcribers) {
-        this.subcribers = subcribers;
-    }
-    
-    public void setFriendRequestSender(Set<User> friendRequestSender) {
-        this.friendRequestSender = friendRequestSender;
-    }
-    
-    public Set<User> getFriendRequestSender() {
-        return this.friendRequestSender;
-    }
-    
-    public void setFriends(Set<User> friends) {
-        this.friends = friends;
-    }
-    
-    public Set<User> getFriends() {
-        return this.friends;
-    }	
 	
-
+//	public Set<User> getFollowers() {
+//		return this.followers;
+//	}
+//
+//	public void setFollowers(Set<User> followers) {
+//		this.followers = followers;
+//	}
+//
+//	public void setFriendRequestSender(Set<User> friendRequestSender) {
+//		this.friendRequestSender = friendRequestSender;
+//	}
+//
+//	public Set<User> getFriendRequestSender() {
+//		return this.friendRequestSender;
+//	}
+//
+//	public void setFriends(Set<User> friends) {
+//		this.friends = friends;
+//	}
+//
+//	public Set<User> getFriends() {
+//		return this.friends;
+//	}
 }

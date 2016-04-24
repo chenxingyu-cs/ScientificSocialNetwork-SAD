@@ -9,6 +9,8 @@ import models.Publication;
 
 import javax.inject.Inject;
 import play.mvc.*;
+import play.data.Form;
+import play.data.FormFactory;
 import play.libs.ws.*;
 
 import java.util.concurrent.CompletableFuture;
@@ -25,6 +27,10 @@ import utils.Constants;
 public class PublicationController extends Controller {
 	
 	@Inject WSClient ws;
+	@Inject FormFactory formFactory;
+	
+	// the global form
+	static Form<Publication> publicationForm ;
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -69,8 +75,6 @@ public class PublicationController extends Controller {
 		return ok(publicationPublish.render(authorsList));
 	}
 	
-	
-
 	public Result getPublicationPanel(long id) {
 		//Publication publication = new Publication();
 		String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_PUBLICATION_PANEL + id;
@@ -104,6 +108,16 @@ public class PublicationController extends Controller {
 		return ok(mostPopularPublications.render(publications));
 		
 	}
+	
+	public Result publicationSearch() {
+		publicationForm = formFactory.form(Publication.class);
+		return ok(publicationSearch.render(publicationForm));
+	}
+	
+	public Result publicationSearchSubmit() {
+		List<Publication> publications = new ArrayList<>();
+		return ok(mostPopularPublications.render(publications));
+	}
     
     public static Publication deserializeJsonToPublication(JsonNode json) {
 		Publication onePublication = new Publication();
@@ -113,11 +127,9 @@ public class PublicationController extends Controller {
 		onePublication.setDate(json.path("date").asText());
 		onePublication.setConferenceName(json.path("conferenceName").asText());
 		JsonNode authorNode = json.path("authors");
-		System.out.println(authorNode.toString());
 		List<Author> authorList = new ArrayList<>();
 		for(int i = 0 ; i < authorNode.size() ; i ++) {
 			JsonNode json_tmp = authorNode.path(i);
-			System.out.println(json_tmp.toString());
 			Author oneAuthor = new Author();
 			oneAuthor.setName(json_tmp.path("name").asText());
 			authorList.add(oneAuthor);
