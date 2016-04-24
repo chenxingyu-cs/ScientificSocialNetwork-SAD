@@ -178,7 +178,7 @@ public class UserController extends Controller{
 		}
 	    String result = new String("Email does not exist");
 		
-		return ok(result);	
+		return ok(json.toString());	
 
   	}
 }

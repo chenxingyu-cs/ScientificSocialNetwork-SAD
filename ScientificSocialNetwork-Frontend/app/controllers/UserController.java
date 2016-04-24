@@ -142,20 +142,17 @@ public class UserController extends Controller {
         try {
             jsonData.put("email", email);
 
+            System.out.println(jsonData);
             String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.IS_EMAIL_EXISTED;
             CompletionStage<JsonNode> jsonPromise = ws.url(url).post(jsonData).thenApply(WSResponse::asJson);
             CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
             response = jsonFuture.join();
 
             UserController.flashMsg(response);
-        }catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {
             e.printStackTrace();
-            // UserController.flashMsg(RESTfulCalls
-            //         .createResponse(ResponseType.CONVERSIONERROR));
         } catch (Exception e) {
             e.printStackTrace();
-            // UserController.flashMsg(RESTfulCalls
-            //         .createResponse(ResponseType.UNKNOWN));
         }
         return ok(response);
     }
