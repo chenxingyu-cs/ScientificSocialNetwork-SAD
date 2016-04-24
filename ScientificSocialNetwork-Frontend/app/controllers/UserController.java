@@ -123,12 +123,8 @@ public class UserController extends Controller {
             
         }catch (IllegalStateException e) {
             e.printStackTrace();
-            // UserController.flashMsg(RESTfulCalls
-            //         .createResponse(ResponseType.CONVERSIONERROR));
         } catch (Exception e) {
             e.printStackTrace();
-            // UserController.flashMsg(RESTfulCalls
-            //         .createResponse(ResponseType.UNKNOWN));
         }
         return ok(signup.render(nu));  
     }
