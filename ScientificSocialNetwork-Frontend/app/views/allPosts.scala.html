@@ -1,0 +1,87 @@
+@(numbers: List[Integer], posts: List[PostTitle])
+@import helper._
+@main("Forum"){
+
+    <h2>Discussion Forum</h2>
+    <div class="forum_container row container">
+        <div class="col-md-8">
+            <ul class="pagination">
+            @for(i <- numbers) {
+                <li><a href="/forum/page?page=@i">@i</a></li> }
+            </ul>
+            <div>
+                <table class="table post_item">
+                    <thead>
+                        <tr>
+                            <th>Thumb Up</th>
+                            <th>Thumb Down</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    @for(post <- posts) {
+
+                        <tr>
+                            <td class="votes">
+                                <div>@post.getUpvote()</div>
+                            </td>
+                            <td class="votes">
+                                <div>@post.getDownvote()</div>
+                            </td>
+                            <td class=" post_title"><a href="#">@post.getPostTitle()</a></td>
+                        </tr>
+
+                    }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-md-4 side_bar">
+            <div>
+
+                <button class="btn" onclick="onCreatePost()">Create Post</button>
+                <br>
+                <button class="btn" onclick="onCreateQuestion()">Post a
+                    Question</button>
+
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .post_item .votes {
+        width: 15%
+    }
+
+    .post_item .post_title {
+        width: 70%
+    }
+
+    .post_item th {
+        text-align: center;
+    }
+
+    .post_item td {
+        height: 50px;
+        text-align: center;
+    }
+
+    .forum_container .btn {
+        width: 80%;
+        margin: 5px auto 5px auto
+    }
+    </style>
+
+    <script type="text/javascript">
+            function onCreatePost() {
+                console.log("onCreatePost");
+            }
+
+            function onCreateQuestion() {
+                console.log("onCreateQuestion");
+            }
+    </script>
+}

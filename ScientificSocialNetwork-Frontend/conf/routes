@@ -27,6 +27,11 @@ GET		/forum/create				controllers.TestController.getPostPage
 POST	/forum/createConfirm		controllers.TestController.createPost
 GET		/forum/createCancel			controllers.TestController.cancelPost
 
+#Test All Posts page
+GET		/forum  	                controllers.ForumController.getPosts
+GET		/forum/page                 controllers.ForumController.getPostsAtPage(page: Integer)
+
+
 # Home page
 GET     /                           controllers.UserController.home
 GET     /login                      controllers.UserController.login
