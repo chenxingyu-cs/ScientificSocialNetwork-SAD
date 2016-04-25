@@ -7,26 +7,17 @@ public class ForumComment {
   private String replyTo;
   private String content;
   private String timestamp;
-
-  public String getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(String timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public ForumComment() {
-  }
+  private Integer thumb;
 
   public ForumComment(Integer commentId, Integer postId, String userName,
-      String replyTo, String content, String timestamp) {
+      String replyTo, String content, String timestamp, Integer thumb) {
     this.cid = commentId;
     this.postId = postId;
     this.userName = userName;
     this.replyTo = replyTo;
     this.content = content;
     this.timestamp = timestamp;
+    this.thumb = thumb;
   }
 
   public Integer getCId() {
@@ -67,5 +58,24 @@ public class ForumComment {
 
   public void setContent(String content) {
     this.content = content;
+  }
+  
+  public String getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(String timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  public ForumComment() {
+  }
+  
+  public Integer getThumb() {
+    return thumb;
+  }
+
+  public void setThumb(Integer thumb) {
+    this.thumb = thumb;
   }
 }

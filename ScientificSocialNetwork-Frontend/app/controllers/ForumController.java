@@ -115,7 +115,7 @@ public class ForumController extends Controller {
 
   private ForumComment deserializeJsonToForumComment(JsonNode commentJson) {
     ForumComment forumComment = new ForumComment();
-    forumComment.setCommentId(commentJson.path("cid").asInt());
+    forumComment.setCId(commentJson.path("cid").asInt());
     forumComment.setPostId(commentJson.path("post").path("postId").asInt());
     // TODO: change firstName to userName
     forumComment.setUserName(commentJson.path("user").path("firstName")
@@ -124,6 +124,11 @@ public class ForumController extends Controller {
         .asText());
     forumComment.setContent(commentJson.path("content").asText());
     forumComment.setTimestamp(commentJson.path("timestamp").asText());
+
+//  TODO: change firstName to userName
+//    forumComment.setThumb(commentJson.path("thumb").asInt());
+    forumComment.setThumb(10);
+    
     return forumComment;
   }
 
