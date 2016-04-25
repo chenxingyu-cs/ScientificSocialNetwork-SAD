@@ -15,6 +15,8 @@ import models.PublicationComment;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.*;
+import play.data.Form;
+import play.data.FormFactory;
 import play.libs.ws.*;
 
 import java.util.concurrent.CompletableFuture;
@@ -32,14 +34,13 @@ public class PublicationController extends Controller {
 	
 	@Inject WSClient ws;
 	@Inject FormFactory formFactory;
+
 	// the global form
 	static Form<PublicationComment> commentForm;
 
-//	public Result getCommentForm(){
-//		// init global form
-//		commentForm = formFactory.form(PublicationComment.class);
-//		return ok("success");
-//	}
+	
+	// the global form
+	static Form<Publication> publicationForm ;
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -183,6 +184,16 @@ public class PublicationController extends Controller {
 			
 		return ok(mostPopularPublications.render(publications));
 		
+	}
+	
+	public Result publicationSearch() {
+		publicationForm = formFactory.form(Publication.class);
+		return ok(publicationSearch.render(publicationForm));
+	}
+	
+	public Result publicationSearchSubmit() {
+		List<Publication> publications = new ArrayList<>();
+		return ok(mostPopularPublications.render(publications));
 	}
     
     public static Publication deserializeJsonToPublication(JsonNode json) {
