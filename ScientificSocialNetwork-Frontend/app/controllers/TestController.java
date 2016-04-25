@@ -29,7 +29,12 @@ public class TestController extends Controller{
 	@Inject FormFactory formFactory;
 	// the global form
 	static Form<ForumPost> postForm ;
-	
+
+	/**
+	 *
+	 * @param postType can give "question" as parameter
+	 * @return
+     */
 	public Result getPostPage(){
 		// init global form
 		postForm = formFactory.form(ForumPost.class);
@@ -44,6 +49,7 @@ public class TestController extends Controller{
 		//get form data
 		Form<ForumPost> filledForm = postForm.bindFromRequest();
 		ObjectNode jsonData = Json.newObject();
+		JsonNode postId = null;
 		try {
 			jsonData.put("title", filledForm.get().getTitle());
 			jsonData.put("content", filledForm.get().getContent());
@@ -52,31 +58,33 @@ public class TestController extends Controller{
 			jsonData.put("userId", "111");
 			System.out.println(jsonData);
 			// POST Climate Service JSON data
-	    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;
-	    	System.out.println(url);
+			String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;
+			System.out.println(url);
 //	    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
-	    	
-	    	CompletionStage<WSResponse> jsonPromise = ws.url(url).post((JsonNode)jsonData);
-	    	CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
-	    	JsonNode publicationNode = jsonFuture.join().asJson();
 
-	    	System.out.println(publicationNode);
+			CompletionStage<WSResponse> jsonPromise = ws.url(url).post((JsonNode) jsonData);
+			CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
+			postId = jsonFuture.join().asJson();
+
+			System.out.println("newly created post : " + postId);
+		} catch (Exception e) {
+			return badRequest("Failed to create the post.");
+		}
 
 			/**
 			 * TODO: May use redirect to the newly created forum post page.
 			 */
-			return ok(detailedForumPost.render(new ForumPostDetail(
-
-			),null));
+		try {
+			return redirect("/forum/post/" + Long.valueOf(postId.toString()));
+//			return ok(detailedForumPost.render(new ForumPostDetail(
+//			),null));
 		}
 		catch (IllegalStateException e) {
-			
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 		}
 //		return ok(home.render());
 		return ok(createPost.render(filledForm));
-		
 	}
 }

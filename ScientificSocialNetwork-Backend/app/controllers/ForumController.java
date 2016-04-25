@@ -184,8 +184,9 @@ public class ForumController extends Controller {
       /**
        * Type Default to discussion
        */
-      if (post.getType() == null) {
-        title.setPostType("discussion");
+      System.out.format("Post %d Type: %s\n", post.getPostId(), post.getType());
+      if (post.getType() == null || post.getType().length() == 0) {
+        title.setPostType("discussion (unspecified)");
       } else {
         title.setPostType(post.getType());
       }

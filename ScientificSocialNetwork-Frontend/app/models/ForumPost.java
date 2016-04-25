@@ -16,6 +16,7 @@ public class ForumPost {
   private String title;
   private String content;
   private String link;
+  private String type;
 
   public String getTimestamp() {
     return timestamp;
@@ -78,12 +79,21 @@ public class ForumPost {
   }
 
   public ForumPost(long id, long userId, String title, String content,
-      String link) {
+      String link, String type) {
     super();
     this.postId = id;
     this.userId = userId;
     this.title = title;
     this.content = content;
     this.link = link;
+    this.type = type;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }

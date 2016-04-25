@@ -40,7 +40,7 @@ public class ForumController extends Controller {
         1,
         "this is tile",
         "A service-oriented architecture (SOA) is an architectural pattern in computer software design in which application components provide services to other components via a communications protocol, typically over a network. The principles of service-orientation are independent of any vendor, product or technology.[1]\nA service is a self-contained unit of functionality, such as retrieving an online bank statement.[2] By that definition, a service is an operation that may be discretely invoked. However, in the Web Services Description Language (WSDL), a service is an interface definition that may list several discrete services/operations. And elsewhere, the term service is used for a component that is encapsulated behind an interface. This widespread ambiguity is reflected in what follows.\nServices can be combined to provide the functionality of a large software application.[3] SOA makes it easier for software components on computers connected over a network to cooperate. Every computer can run any number of services, and each service is built in a way that ensures that the service can exchange information with any other service in the network without human interaction and without the need to make changes to the underlying program itself.",
-        "");
+        "", "discussion");
     detailed.comments = new ArrayList<ForumComment>();
     detailed.comments.add(new ForumComment(1, 1, "Yuanchen", "Haoyuan",
         "comment content 1", "Sep 30, 2015, 9:12 AM"));

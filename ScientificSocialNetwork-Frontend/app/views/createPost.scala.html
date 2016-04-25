@@ -20,7 +20,10 @@
                 '_error -> postForm.globalError,
                 'class -> "form-control"                            
             )
-
+            @inputRadioGroup(
+                postForm("type"),
+                options = options("discussion" -> "discussion", "question" -> "question")
+            )
             @textarea(
                 postForm("content"),
                 '_label -> "Content", 
