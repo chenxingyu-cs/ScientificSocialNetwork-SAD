@@ -47,7 +47,7 @@ public class TestController extends Controller{
 			jsonData.put("title", filledForm.get().getTitle());
 			jsonData.put("content", filledForm.get().getContent());
 //			jsonData.put("timestamp", filledForm.get().getTimestamp());
-			jsonData.put("link", filledForm.get().getLink());
+			jsonData.put("link", filledForm.get().getPaperLink());
 			jsonData.put("userId", "111");
 			
 			System.out.println(jsonData);
@@ -61,8 +61,8 @@ public class TestController extends Controller{
 	    	JsonNode publicationNode = jsonFuture.join().asJson();
 
 	    	System.out.println(publicationNode);
-
-			return ok(detailedForumPost.render(filledForm,null));
+	    	return ok();
+//			return ok(createPost.render(filledForm,null));
 		}
 		catch (IllegalStateException e) {
 			
