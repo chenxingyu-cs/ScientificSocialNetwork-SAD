@@ -46,6 +46,10 @@ public class Publication extends Model{
 	@JsonManagedReference
 	List<Author> authors;
 	
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="publications")
+	@JsonManagedReference
+	List<Tag> tags;
+	
 	
 	public static Finder<Long, Publication> find = new Finder<Long, Publication>(Publication.class);
 
@@ -55,7 +59,7 @@ public class Publication extends Model{
 	}
 
 	public Publication(String title, String pages, int year, String date, String url, String conferenceName,
-			List<Author> authors) {
+			List<Author> authors, List<Tag> tags) {
 		super();
 		this.title = title;
 		this.pages = pages;
@@ -64,6 +68,7 @@ public class Publication extends Model{
 		this.url = url;
 		this.conferenceName = conferenceName;
 		this.authors = authors;
+		this.tags = tags;
 	}
 
 	public Long getId() {
@@ -138,4 +143,11 @@ public class Publication extends Model{
 		this.count = count;
 	}
 	
+	public List<Tag> getTags() {
+		return tags;
+	}
+	
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
 }

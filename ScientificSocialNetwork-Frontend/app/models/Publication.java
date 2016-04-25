@@ -22,6 +22,7 @@ public class Publication{
 	private String url;
 	private String conferenceName;
 	List<Author> authors;
+	List<Tag> tags;
 
 
 	public Publication() {
@@ -29,7 +30,7 @@ public class Publication{
 	}
 
 	public Publication(String title, String pages, int year, String date, String url, String conferenceName,
-			List<Author> authors) {
+			List<Author> authors, List<Tag> tags) {
 		super();
 		this.title = title;
 		this.pages = pages;
@@ -38,6 +39,7 @@ public class Publication{
 		this.url = url;
 		this.conferenceName = conferenceName;
 		this.authors = authors;
+		this.tags = tags;
 	}
 
 	public Long getId() {
@@ -109,6 +111,12 @@ public class Publication{
 		this.authors = authors;
 	}
 	
+	public List<Tag> getTags() {
+		return tags;
+	}
 	
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
 	
 }

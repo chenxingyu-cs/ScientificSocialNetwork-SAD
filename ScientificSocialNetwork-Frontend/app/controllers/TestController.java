@@ -51,7 +51,7 @@ public class TestController extends Controller{
 			jsonData.put("userId", "defalutID");
 			System.out.println(jsonData);
 			// POST Climate Service JSON data
-	    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;
+	    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_TAG;
 	    	System.out.println(url);
 //	    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
 	    	
