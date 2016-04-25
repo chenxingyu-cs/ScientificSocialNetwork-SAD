@@ -22,6 +22,7 @@
 							<li><a href="@routes.PublicationController.getAllPublications()">Publication List</a></li>
 							<li><a href="@routes.PublicationController.publicationPublish()">Publish a Publication</a></li>
 							<li><a href="@routes.PublicationController.getMostPopularPublications()">Most Popular Publications</a></li>
+							<li><a href="@routes.PublicationController.publicationSearch()">Search Publication</a></li>
 						</ul>
 					</li>
 
@@ -33,35 +34,6 @@
 						</ul>
 					</li>
 
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Scientist<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>All Users</li>
-							<li>Search User</li>
-						</ul>
-					</li>
-					
-					@if(!session.get("email")) {
-						<form class="navbar-form navbar-right" action="#">
-							<button type="submit" class="btn btn-success">Log in</button>
-						</form>
-					} else {
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Services<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">My Publications</a></li>
-								<li><a href="#">My Profile</a></li>
-							</ul>
-						</li>
-
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">@session.get("email")<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Log out</a></li>
-							</ul>
-						</li>
-					}
-
 					@if(!session.get("email")) {
 						<form class="navbar-form navbar-right" action="@routes.UserController.login()">
 							<button type="submit" class="btn btn-success">Log in</button>
@@ -70,8 +42,8 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Space<b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">My climate services</a></li>
-								<li><a href="#">My datasets</a></li>
+								<li><a href="#">My Profile</a></li>
+								<li><a href="#">My Groups</a></li>
 							</ul>
 						</li>
 
