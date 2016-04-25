@@ -6,13 +6,7 @@ package models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.Model.Finder;
@@ -40,7 +34,9 @@ public class Publication extends Model{
 	@Column(columnDefinition = "int default 0")
 	public int count = 0;
 
-
+	@OneToMany(mappedBy="publication", cascade=CascadeType.ALL)
+	@JsonManagedReference
+	public List<PublicationComment> comments;
 
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="publications")
 	@JsonManagedReference
@@ -59,7 +55,10 @@ public class Publication extends Model{
 	}
 
 	public Publication(String title, String pages, int year, String date, String url, String conferenceName,
-			List<Author> authors, List<Tag> tags) {
+
+			List<Author> authors, List<Tag> tags, List<PublicationComment> comments) {
+
+
 		super();
 		this.title = title;
 		this.pages = pages;
@@ -69,6 +68,7 @@ public class Publication extends Model{
 		this.conferenceName = conferenceName;
 		this.authors = authors;
 		this.tags = tags;
+		this.comments = comments;
 	}
 
 	public Long getId() {
@@ -149,5 +149,13 @@ public class Publication extends Model{
 	
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+
+	public List<PublicationComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<PublicationComment> comments) {
+		this.comments = comments;
 	}
 }

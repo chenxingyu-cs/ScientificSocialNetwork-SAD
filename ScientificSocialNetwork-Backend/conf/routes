@@ -12,12 +12,27 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
+
+GET     /publication/searchPublicationByKeywords/:keywordsStr     controllers.PublicationController.searchPublicationByKeywords(keywordsStr: String)
+# Publication
 GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
 GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
-
 GET     /publication/getMostPopularPublications/json  controllers.PublicationController.getMostPopularPublications(format: String="json") 
+
 POST    /publication/addTag                           controllers.PublicationController.createTag
 GET     /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
+
+
+# Publication Comment
+POST            /publication/addComment                                                                       @controllers.PublicationController.addComment
+GET             /publication/getComments/:publicationId                                                         @controllers.PublicationController.getComments(publicationId: Long)
+
+#POST           /publication/comment/addReply                                                                         @controllers.CommentController.addReply
+#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
+#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
+GET            /publication/comment/thumbUp/:commentId                                                              @controllers.PublicationController.thumbUp(commentId: Long)
+GET            /publication/comment/thumbDown/:commentId                                                              @controllers.PublicationController.thumbDown(commentId: Long)
+
 
 #forum
 POST           /forum/createPost     controllers.ForumController.createPost

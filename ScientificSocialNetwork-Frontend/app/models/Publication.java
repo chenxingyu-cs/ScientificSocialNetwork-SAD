@@ -103,7 +103,8 @@ public class Publication{
 		for(Author author : authors) {
 			sb.append(author.getName() + ", ");
 		}
-		sb.delete(sb.length()-2, sb.length());
+		if(sb.length() > 0)
+			sb.delete(sb.length()-2, sb.length());
 		return sb.toString();
 	}
 
