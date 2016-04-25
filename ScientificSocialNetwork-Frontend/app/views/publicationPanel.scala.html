@@ -134,9 +134,13 @@
 	<div class="row">
 		<form class="form" role="form" action="@routes.PublicationController.addComment(publication.getId)"
 		enctype="multipart/form-data" method="POST">
+			<div class="alert alert-danger fade" role="alert" id="alert">
+				<strong>ERROR!</strong> Content cannot be empty.
+				<a class="close" data-dismiss="alert">x</a>
+			</div>
 			<div class="form-group">
-				<textarea class="form-control" rows="5" name="content"></textarea>
-				<button type="submit" class="btn btn-primary mt-btn" >Comment</button>
+				<textarea class="form-control" rows="5" name="content" id="content"></textarea>
+				<button type="submit" class="btn btn-primary mt-btn" id="comment">Comment</button>
 			</div>
 		</form>
 	</div>

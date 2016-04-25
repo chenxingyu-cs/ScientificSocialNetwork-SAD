@@ -29,5 +29,12 @@ $(function(){
             });
         }
     })
+    
+    $("#comment").click(function () {
+        var content = $("#content").value();
+        if(content == "") {
+            $("#alert").addClass("in");
+        }
+    })
 
 });
