@@ -1,32 +1,26 @@
 package controllers;
 
-import models.PostTitle;
-import play.libs.Json;
-import utils.Constants;
-import views.html.detailedForumPost;
-import views.html.allPosts;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-import javax.inject.Inject;
-
-import org.w3c.dom.Document;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
-import models.ForumPostDetail;
 import models.ForumComment;
 import models.ForumPost;
+import models.ForumPostDetail;
+import models.PostTitle;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.Constants;
+import views.html.allPosts;
+import views.html.detailedForumPost;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class ForumController extends Controller {
   @Inject
@@ -141,8 +135,9 @@ public class ForumController extends Controller {
      * @return
      */
     public Result getPostsJson () {
+
         response().setHeader("Content-Type", "application/json;charset=UTF-8");
-       return ok(Json.toJson(getPostTitlesHelper()).toString());
+        return ok(Json.toJson(getPostTitlesHelper()).toString());
     }
 
     public List<PostTitle> getPostTitlesHelper () {
@@ -159,9 +154,7 @@ public class ForumController extends Controller {
             JsonNode json = response.path(i);
             try {
                 PostTitle oneTitle = deserializeJsonToPostTitle(json);
-                if (oneTitle.getPostType().equals("question")) {
-                    oneTitle.setPostTitle(oneTitle.getPostTitle() + " (?)");
-                }
+                if (oneTitle == null) continue;
                 postTitles.add(oneTitle);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -172,12 +165,17 @@ public class ForumController extends Controller {
     }
 
     public static PostTitle deserializeJsonToPostTitle(JsonNode json) {
-        PostTitle postTitle = new PostTitle();
-        postTitle.setPostTitle(json.path("postTitle").asText());
-        postTitle.setPostId(json.path("postId").asLong());
-        postTitle.setUpvote(json.path("upvote").asInt());
-        postTitle.setDownvote(json.path("downvote").asInt());
-        postTitle.setPostType(json.path("postType").asText());
-        return postTitle;
+        try {
+            PostTitle postTitle = new PostTitle();
+            postTitle.setPostTitle(json.path("postTitle").asText());
+            postTitle.setPostId(json.path("postId").asLong());
+            postTitle.setUpvote(json.path("upvote").asInt());
+            postTitle.setDownvote(json.path("downvote").asInt());
+            postTitle.setPostType(json.path("postType").asText());
+            return postTitle;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

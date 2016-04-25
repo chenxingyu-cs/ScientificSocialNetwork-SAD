@@ -181,7 +181,14 @@ public class ForumController extends Controller {
       title.setPostTitle(post.getPostTitle());
       title.setUpvote(upvoteCount);
       title.setDownvote(downvoteCount);
-      title.setPostType(post.getType());
+      /**
+       * Type Default to discussion
+       */
+      if (post.getType() == null) {
+        title.setPostType("discussion");
+      } else {
+        title.setPostType(post.getType());
+      }
       titles.add(title);
     }
     return ok(Json.toJson(titles).toString());

@@ -22,7 +22,7 @@ create table forum_post (
   post_title                    varchar(255),
   post_content                  TEXT,
   paper_link                    varchar(255),
-  type                          default 'discussion',
+  type                          varchar(255),
   best_comment_id               bigint,
   constraint pk_forum_post primary key (post_id)
 );

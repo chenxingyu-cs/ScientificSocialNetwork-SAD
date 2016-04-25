@@ -15,6 +15,7 @@
                             <th>Thumb Up</th>
                             <th>Thumb Down</th>
                             <th>Title</th>
+                            <th>Type</th>
                         </tr>
                     </thead>
                     <tbody id="forum_table_body">
@@ -38,11 +39,15 @@
 
     <style>
     .post_item .votes {
-        width: 15%
+        width: 7%
     }
 
     .post_item .post_title {
-        width: 70%
+        width: 71%
+    }
+
+    .post_item .post_type {
+        width: 15%
     }
 
     .post_item th {
@@ -135,7 +140,8 @@
                         "        <div>"+ downvote +"</div>                                                             		" +
                         "    </td>                                                                                          " +
                         "    <td class=\"post_title\"><a href=/forum/post/" + postId + ">" + postTitle +"</a></td>  			" +
-                        "</tr>                                                                                              ";
+                        "    <td class=\"post_type\">" + postType + "</td>" +
+                        "</tr>";
                 return string;
             }
     </script>

@@ -41,7 +41,6 @@ public class ForumPost extends Model {
 
   private String paperLink;
 
-  @Column(columnDefinition = "default 'discussion'")
   private String type;
   private Long bestCommentId;
 

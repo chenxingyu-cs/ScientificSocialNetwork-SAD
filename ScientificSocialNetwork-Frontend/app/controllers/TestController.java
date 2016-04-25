@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.ForumPost;
+import models.ForumPostDetail;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -61,7 +62,12 @@ public class TestController extends Controller{
 
 	    	System.out.println(publicationNode);
 
-			return ok(detailedForumPost.render(filledForm,null));
+			/**
+			 * TODO: May use redirect to the newly created forum post page.
+			 */
+			return ok(detailedForumPost.render(new ForumPostDetail(
+
+			),null));
 		}
 		catch (IllegalStateException e) {
 			
