@@ -29,12 +29,12 @@ public class ForumComment {
     this.timestamp = timestamp;
   }
 
-  public Integer getCommentId() {
+  public Integer getCId() {
     return cid;
   }
 
-  public void setCommentId(Integer commentId) {
-    this.cid = commentId;
+  public void setCId(Integer cid) {
+    this.cid = cid;
   }
 
   public Integer getPostId() {

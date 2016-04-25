@@ -127,37 +127,36 @@ public class ForumController extends Controller {
     return forumComment;
   }
 
-  public Result addComment(Long id) {
+  public Result addComment(Long postId) {
     forumCommentForm = formFactory.form(ForumComment.class);
     Form<ForumComment> form = forumCommentForm.bindFromRequest();
 
     ObjectNode commentJson = Json.newObject();
     try {
-      System.out.println("session user id: " + session("id"));
-      commentJson.put("userId", session("id"));
-      commentJson.put("publicationID", id);
-      commentJson.put("Content", form.field("content").value());
+      System.out.println("addComment(): session user name - " + session("username"));
+      commentJson.put("userName", session("username"));
+      commentJson.put("postId", postId);
+//      commentJson.put("replyTo", form.field("replyTo").value());
+      commentJson.put("replyTo", form.field("haoyuan").value());
+      commentJson.put("content", form.field("content").value());
     } catch (Exception e) {
       flash("error", "Form value invalid");
     }
 
-    String addNewCommentUrl = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
-        + "/forum/addNewComment";
-    CompletionStage<WSResponse> jsonPromise = ws.url(addNewCommentUrl).post(
-        (JsonNode) commentJson);
-    CompletableFuture<WSResponse> jsonFuture = jsonPromise
-        .toCompletableFuture();
-    JsonNode responseNode = jsonFuture.join().asJson();
+//    String addNewCommentUrl = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + "/forum/addNewComment";
+//    CompletionStage<WSResponse> jsonPromise = ws.url(addNewCommentUrl).post((JsonNode) commentJson);
+//    CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
+//    JsonNode responseNode = jsonFuture.join().asJson();
+//
+//    if (responseNode == null) {
+//      flash("error", "Create Comment Error. responseNode = null");
+//    } else if (responseNode.has("error")) {
+//      System.out.println(responseNode.toString());
+//      flash("error", responseNode.get("error").textValue());
+//    } else {
+//      flash("success", "Create Comment Successfully.");
+//    }
 
-    if (responseNode == null || responseNode.has("error")) {
-      System.out.println(responseNode.toString());
-      if (responseNode == null)
-        flash("error", "Create Comment Error.");
-      else
-        flash("error", responseNode.get("error").textValue());
-      return redirect(routes.ForumController.getPostDetail(id));
-    }
-    flash("success", "Create Comment successfully.");
-    return redirect(routes.ForumController.getPostDetail(id));
+    return redirect(routes.ForumController.getPostDetail(postId));
   }
 }

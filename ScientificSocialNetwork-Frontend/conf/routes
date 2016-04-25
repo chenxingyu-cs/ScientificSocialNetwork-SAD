@@ -27,3 +27,5 @@ GET		/forum/create				controllers.TestController.getPostPage()
 POST	/forum/createConfirm		controllers.TestController.createPost()
 GET		/forum/createCancel			controllers.TestController.cancelPost()
 GET		/forum/post/:id				controllers.ForumController.getPostDetail(id: Long)
+POST    /forum/comment/:id          controllers.ForumController.addComment(id: Long)
+
