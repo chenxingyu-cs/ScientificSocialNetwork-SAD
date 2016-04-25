@@ -1,0 +1,40 @@
+.banner {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 20px;
+}
+
+.banner p {
+    padding: 40px 24px;
+    color: #5d5d5d;
+}
+
+.sec-2 {
+    height: 700px;
+    background: url(../img/hello_bg.jpg) center center;
+    position: relative;
+}
+
+.sec-2 .hello{
+    position: absolute;
+    padding-top: 11px;
+    top: 74px;
+    left: 88px;
+    text-shadow: 5px 5px 9px black;
+}
+.sec-2 .hello p {
+    font-size: 60px;
+    color: white;
+    padding:0;
+}
+
+.sec-2 .entry a {
+    position: absolute;
+    padding-top: 11px;
+    font-size: 50px;
+    color: #AB2C24;
+    bottom: 74px;
+    right: 88px;
+    text-shadow: 5px 5px 9px #9C9797;
+}
+.sec-2 .entry a:hover{color:#FF655C; text-decoration: none;}

@@ -3,6 +3,8 @@ package models;
 /**
  * Created by why on 4/21/16.
  */
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.ws.WSClient;
@@ -10,39 +12,47 @@ import play.libs.ws.WSResponse;
 import util.Constants;
 
 import javax.inject.Inject;
+import javax.persistence.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-public class Comment {
+@Entity
+public class PublicationComment extends Model {
     @Inject
     private static WSClient ws;
     private final static String CREATE = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + "publication/addComment";
 
+    @ManyToOne
+    @JsonBackReference
+    public Publication publication;
+//    @ManyToOne
+//    private User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long user;
+    // one to one
+    private long user_id;
+    private String userName;
     private long timestamp;
     private String content;
-
-    private String userName;
-
     private int thumb;
 
-    public Comment() {
+    //TODO reply
+
+
+    public static Finder<Long, PublicationComment> find = new Finder<>(PublicationComment.class);
+
+    public PublicationComment() {
 
     }
 
-    public Comment(JsonNode node) {
-        if (node != null) {
-            if (node.get("id") != null) id = node.get("id").asLong();
-            if (node.get("user") != null) {
-                user = node.get("user").get("id").asLong();
-                userName = node.get("user").get("userName").asText();
-            }
-            if (node.get("timestamp") != null) timestamp = node.get("timestamp").asLong();
-            if (node.get("content") != null) content = node.get("content").asText();
-            if (node.get("thumb") != null) thumb = node.get("thumb").asInt();
-
-        }
+    public PublicationComment(Publication publication, long user_id, long timestamp, String content, String userName) {
+        this.publication = publication;
+        this.user_id = user_id;
+        this.userName = userName;
+        this.timestamp = timestamp;
+        this.content = content;
+        this.thumb = 0;
     }
 
     public static JsonNode create(ObjectNode node) {
@@ -70,7 +80,7 @@ public class Comment {
         this.userName = userName;
     }
 
-    public long getUser() { return user; }
+    public long getUser() { return user_id; }
 
     public long getId() {
         return id;
@@ -90,6 +100,19 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "PublicationComment{" +
+                "publication=" + publication.getId() +
+                ", id=" + id +
+                ", user_id=" + user_id +
+                ", userName='" + userName + '\'' +
+                ", timestamp=" + timestamp +
+                ", content='" + content + '\'' +
+                ", thumb=" + thumb +
+                '}';
     }
 }
 

@@ -37,6 +37,17 @@ create table publication (
   constraint pk_publication primary key (id)
 );
 
+create table publication_comment (
+  id                            bigint auto_increment not null,
+  publication_id                bigint,
+  user_id                       bigint,
+  user_name                     varchar(255),
+  timestamp                     bigint,
+  content                       varchar(255),
+  thumb                         integer,
+  constraint pk_publication_comment primary key (id)
+);
+
 create table user (
   id                            bigint auto_increment not null,
   email                         varchar(255),
@@ -55,6 +66,9 @@ create index ix_author_publication_author on author_publication (author_id);
 alter table author_publication add constraint fk_author_publication_publication foreign key (publication_id) references publication (id) on delete restrict on update restrict;
 create index ix_author_publication_publication on author_publication (publication_id);
 
+alter table publication_comment add constraint fk_publication_comment_publication_id foreign key (publication_id) references publication (id) on delete restrict on update restrict;
+create index ix_publication_comment_publication_id on publication_comment (publication_id);
+
 
 # --- !Downs
 
@@ -64,6 +78,9 @@ drop index ix_author_publication_author on author_publication;
 alter table author_publication drop foreign key fk_author_publication_publication;
 drop index ix_author_publication_publication on author_publication;
 
+alter table publication_comment drop foreign key fk_publication_comment_publication_id;
+drop index ix_publication_comment_publication_id on publication_comment;
+
 drop table if exists author;
 
 drop table if exists author_publication;
@@ -71,6 +88,8 @@ drop table if exists author_publication;
 drop table if exists forum_post;
 
 drop table if exists publication;
+
+drop table if exists publication_comment;
 
 drop table if exists user;
 
