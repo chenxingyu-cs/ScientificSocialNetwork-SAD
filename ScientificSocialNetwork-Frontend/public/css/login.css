@@ -1,0 +1,73 @@
+.container_header {
+    padding: 0 40px;
+}
+.ptl {
+    padding-top: 20px !important;
+}
+
+.title-text {
+    font-size: 26px;
+    line-height: 26px;
+    color: #1e90ff;
+}
+
+.center-text {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.helper-text {
+    color: red;
+}
+.center {
+    margin: auto;
+    width: 40%;
+    border:3px solid #8AC007;
+    padding: 10px;
+    background-color: yellowgreen;
+}
+
+.center-users {
+    margin: auto;
+    width: 40%;
+    border:3px solid lightgrey;
+    padding: 10px;
+    background-color: lightgrey;
+}
+
+.login_icon_input {
+    padding-left: 2px !important;
+    width: 280px;
+    height : 37px;
+}
+
+.btn-primary {
+    background-color: #49a2f6;
+    background-image: linear-gradient(to top, #2b90ef 0%, #49a2f6 100%);
+    border-color: #2a7cca;
+    color: #fff;
+}
+
+.btn-login {
+    width: 290px;
+    height : 37px;
+}
+
+.button-link {
+    background:none!important;
+    border:none;
+    padding:0!important;
+
+    /*optional*/
+    font-family:arial,sans-serif; /*input has OS specific font-family*/
+    color:#069;
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+/* Style Sheet for New Login Page */
+.form-title h1{margin: 50px 0 30px 0; font-weight: 200; color:#e2e2e2;}
+.form-title h1 a.title_lable,.form-title h1 a.title_lable:hover,.form-title h1 a.title_lable:active,h1 a.title_lable:link{color:#e2e2e2;text-decoration: none}
+.form-title h1 a.active {font-weight: 500; color:#333!important;}
+.warning p{text-align: center;line-height: 2em;}

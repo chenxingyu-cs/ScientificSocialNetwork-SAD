@@ -1,0 +1,38 @@
+.main-list {
+    width: 100% ;
+}
+.list-view {
+    display: flex ;
+    flex-direction: column ;
+}
+.main-img {
+    width: 100% ;
+}
+
+.red {
+    color:#F1812C;
+}
+
+.right {
+    position: absolute;
+    right:10px;
+}
+
+.ninja {display:none}
+
+.mt-btn{margin-top:5px}
+.toggle{display:block;}
+.list-group-item p {padding:10px;border:1px silver solid;background-color: #EFEEEE;}
+.shy {color:#cccccc;}
+.shy:hover {color:#333333;}
+.tags{padding-left:0;}
+.detail_tag {
+    padding: 2px 15px 2px 5px;
+    border-radius: 0px 35px 35px 0px;
+    border: 1px solid #E2E0E0;
+    background-color: #FFFFCC;
+    text-align: center;
+    display: inline-block;
+    list-style-type: none;
+    margin-right: 6px;
+}

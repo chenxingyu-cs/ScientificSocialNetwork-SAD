@@ -26,8 +26,14 @@ public class Constants {
 	
 	public static final String GET_ALL_PUBLICATIONS = "/publication/getAllPublications/json";
 	public static final String GET_PUBLICATION_PANEL = "/publication/getPublicationPanel/";
+	public static final String GET_PUBLICATION_COMMENTS = "/publication/getComments/";
+
 	public static final String GET_MOST_POPULAR_PUBLICATIONS = "/publication/getMostPopularPublications/json";
 	public static final String SEARCH_PUBLICATION_BY_KEYWORDS = "/publication/searchPublicationByKeywords/";
+
+	public static final String COMMENT_THUMB_UP = "/publication/comment/thumbUp/";
+	public static final String COMMENT_THUMB_DOWN = "/publication/comment/thumbDown/";
+
 
 	// user
 	public static final String IS_USER_VALID = "/users/isUserValid";
