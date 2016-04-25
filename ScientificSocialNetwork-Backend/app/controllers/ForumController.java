@@ -29,6 +29,15 @@ public class ForumController extends Controller {
     String postTitle = postNode.findPath("title").asText();
     String postContent = postNode.findPath("content").asText();
     String paperLink = postNode.findPath("link").asText();
+
+    /*
+    * Specify type, default as "discussion", optionally "question"
+    * */
+    String type = null;
+    JsonNode typeNode = postNode.findPath("type");
+    if (typeNode == null) type = "discussion";
+    else type = typeNode.asText();
+
     User user = User.find.byId(1L);
 
     if (user != null) {
@@ -38,7 +47,7 @@ public class ForumController extends Controller {
     }
 
     ForumPost forumPost = new ForumPost(user, postTitle, postContent,
-        paperLink, -1L);
+        paperLink, -1L, type);
     forumPost.save();
 
     return created(Json.toJson(forumPost.getPostId()).toString());
@@ -151,9 +160,7 @@ public class ForumController extends Controller {
     System.out.println("Number of posts found: " + posts.size());
     List<PostTitle> titles = new ArrayList<>();
     for (ForumPost post : posts) {
-      /**
-       * There may be better way then this...
-       */
+
       Integer upvoteCount = ForumPostRating
               .find
               .where()
@@ -173,7 +180,7 @@ public class ForumController extends Controller {
       title.setPostTitle(post.getPostTitle());
       title.setUpvote(upvoteCount);
       title.setDownvote(downvoteCount);
-      title.setPostType("post"); // TODO: Consider question types
+      title.setPostType(post.getType());
       titles.add(title);
     }
     return ok(Json.toJson(titles).toString());

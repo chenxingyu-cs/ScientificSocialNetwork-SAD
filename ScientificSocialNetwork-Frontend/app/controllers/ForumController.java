@@ -142,9 +142,8 @@ public class ForumController extends Controller {
      */
     public Result getPostsJson () {
         response().setHeader("Content-Type", "application/json;charset=UTF-8");
-       return ok(Json.toJson(getPostTitlesHelper(1)).toString());
+       return ok(Json.toJson(getPostTitlesHelper()).toString());
     }
-
 
     public List<PostTitle> getPostTitlesHelper () {
         List<PostTitle> postTitles = new ArrayList <> ();
@@ -152,7 +151,6 @@ public class ForumController extends Controller {
         CompletionStage<JsonNode> jsonPromise =
                 ws.url(url)
                         .setQueryParameter("startId", "0")
-                        .setQueryParameter("limit", "200")
                         .get().thenApply(WSResponse::asJson);
         CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
         JsonNode response = jsonFuture.join();
@@ -161,6 +159,9 @@ public class ForumController extends Controller {
             JsonNode json = response.path(i);
             try {
                 PostTitle oneTitle = deserializeJsonToPostTitle(json);
+                if (oneTitle.getPostType().equals("question")) {
+                    oneTitle.setPostTitle(oneTitle.getPostTitle() + " (?)");
+                }
                 postTitles.add(oneTitle);
             } catch (Exception e) {
                 e.printStackTrace();

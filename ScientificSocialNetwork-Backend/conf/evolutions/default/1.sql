@@ -22,6 +22,7 @@ create table forum_post (
   post_title                    varchar(255),
   post_content                  TEXT,
   paper_link                    varchar(255),
+  type                          default 'discussion',
   best_comment_id               bigint,
   constraint pk_forum_post primary key (post_id)
 );
@@ -147,4 +148,8 @@ drop table if exists forum_post_comment;
 drop table if exists forum_post_comment_rating;
 
 drop table if exists forum_post_rating;
+
+drop table if exists publication;
+
+drop table if exists user;
 
