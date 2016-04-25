@@ -1,5 +1,5 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
+# This file defines all UserController routes (Higher priority routes first)
 # ~~~~
 
 # An example controller showing a sample home page
@@ -16,8 +16,15 @@ GET     /publicationPublishSubmit    controllers.PublicationController.publicati
 
 
 # An example to show publication panel
-GET     /publication/publicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
+GET     /publication/publicationPanel/:id               controllers.PublicationController.getPublicationPanel(id: Long)
 GET     /publication/getMostPopularPublications         controllers.PublicationController.getMostPopularPublications
+
+POST    /publication/addComment/:id                           controllers.PublicationController.addComment(id: Long)
+GET     /publication/thumbUp/:commentId                   controllers.PublicationController.thumbUp(commentId: Long)
+GET     /publication/thumbDown/:commentId                 controllers.PublicationController.thumbDown(commentId: Long)
+
+GET     /publication/publicationSearch                  controllers.PublicationController.publicationSearch()
+GET     /publication/publicationSearchByKeywords            controllers.PublicationController.publicationSearchByKeywords()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
@@ -29,3 +36,17 @@ GET		/forum/create				controllers.TestController.getPostPage()
 POST	/forum/createConfirm		controllers.TestController.createPost()
 GET		/forum/createCancel			controllers.TestController.cancelPost()
 GET		/forum/post/:id				controllers.ForumController.getPostDetail(id: Integer)
+
+# Home page
+GET     /                           controllers.UserController.home
+GET     /login                      controllers.UserController.login
+GET     /logout                     controllers.UserController.logout
+GET     /authenticate               controllers.UserController.authenticate
+GET     /signup                     controllers.UserController.signup
+GET     /createNewUser              controllers.UserController.createNewUser
+GET     /createSuccess              controllers.UserController.createSuccess
+POST    /isEmailExisted             controllers.UserController.isEmailExisted
+
+
+#Map static resources from the /public folder to the /assets URL path
+GET     	/assets/*file               						controllers.Assets.at(path="/public", file)

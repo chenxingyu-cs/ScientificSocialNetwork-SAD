@@ -1,8 +1,16 @@
-@(publication: Publication)
+@(publication: Publication, comments: List[PublicationComment])
 @import helper._
 
 @main("All Climate Services") {
-
+	<head>
+		<link href='@routes.Assets.at("css/bootstrap.min.css")' rel="stylesheet"/>
+		<link rel="stylesheet" href='@routes.Assets.at("css/forum.css")'>
+		<link rel="stylesheet" href='@routes.Assets.at("css/prism.css")'>
+		<link rel="stylesheet" href='@routes.Assets.at("css/detail.css")'>
+		<script src='@routes.Assets.at("js/jquery-1.1.js")'></script>
+		<script src='@routes.Assets.at("js/forum.js")'></script>
+		<script src='@routes.Assets.at("js/prism.js")'></script>
+	</head>
     <h1>Publication Metadata</h1>
 	<table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
 		<tbody>
@@ -48,6 +56,64 @@
 		</tbody>
 	</table>
 
+	<div class="row">
+		<h3>Comments:</h3>
+		<ul class="list-group list-view">
+		@for( i <- 0 until comments.size) {
+			<li class="list-group-item list-view outer-list">
+				<h4><span class="red">&#35; @(i + 1)</span> &#64; @(comments(i).getUserName) <small class="right">@(new Date(comments(i).getTimestamp).toString)</small></h4>
+				<div class="row">
+					<div class="col-md-10">
+						<p>@comments(i).getContent</p>
+					</div>
+					<div class="col-md-2">
+						<div class="comment-vote">
+							<a href="javascript:void(0)" data-act="voteup" data-commentId="@comments(i).getId" data-id="@publication.getId" class="vote-thumb vote-up"></a>
+							<p class="vote-num">@comments(i).getThumb</p>
+							<a href="javascript:void(0)" data-act="votedown" data-commentId="@comments(i).getId" data-id="@publication.getId" class="vote-thumb vote-down"></a>
+						</div>
+					</div>
+				</div>
+				@*<form class="form" action="@routes.WorkflowController.addReply(comments(i).getUser, comments(i).getId, wf.getId)" enctype="multipart/form-data" method="POST">*@
+					@*<a href="javascript:void(0)" class="toggle">Reply</a>*@
+					@*<div class="ninja hide-hood">*@
+						@*<input class="form-control input-sm" type="text" name="content">*@
+						@*<button class="btn-xs btn-primary mt-btn" type="submit">Submit</button>*@
+					@*</div>*@
+				@*</form>*@
+				@*<ul class="list-group list-view">*@
+				@*for( j <- 0 until replyRes.get(i).size) {*@
+					@*<li class="list-group-item list-view">*@
+						@*<h5>@(replyRes.get(i).get(j).getFromUserName) <span class="shy"> &rarr; @(replyRes.get(i).get(j).getToUserName)</span>*@
+						@*<small class="right">@(new Date(replyRes.get(i).get(j).getTimestamp).toString)</small>*@
+						@*</h5>*@
+						@*<p>@("\t" + replyRes.get(i).get(j).getContent)</p>*@
 
-    
+						@*<form class="form" action="@routes.WorkflowController.addReply(replyRes.get(i).get(j).getFromUserId, comments(i).getId, wf.getId)" enctype="multipart/form-data" method="POST">*@
+							@*<a href="javascript:void(0)" class="toggle">Reply</a>*@
+							@*<div class="ninja hide-hood">*@
+								@*<input class="form-control input-sm" type="text" name="content">*@
+								@*<button class="btn-xs btn-primary mt-btn" type="submit">Submit</button>*@
+							@*</div>*@
+
+						@*</form>*@
+					@*</li>*@
+				@*}*@
+				@*</ul>*@
+			</li>
+		}
+		</ul>
+	</div>
+	<div class="row">
+		<form class="form" role="form" action="@routes.PublicationController.addComment(publication.getId)"
+		enctype="multipart/form-data" method="POST">
+			<div class="form-group">
+				<textarea class="form-control" rows="5" name="content"></textarea>
+				<button type="submit" class="btn btn-primary mt-btn" >Comment</button>
+			</div>
+		</form>
+	</div>
+
+
+
 }

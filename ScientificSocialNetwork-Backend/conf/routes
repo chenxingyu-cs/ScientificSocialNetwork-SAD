@@ -12,9 +12,22 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
+
+GET     /publication/searchPublicationByKeywords/:keywordsStr     controllers.PublicationController.searchPublicationByKeywords(keywordsStr: String)
+# Publication
 GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
 GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
 GET     /publication/getMostPopularPublications/json  controllers.PublicationController.getMostPopularPublications(format: String="json") 
+
+# Publication Comment
+POST            /publication/addComment                                                                       @controllers.PublicationController.addComment
+GET             /publication/getComments/:publicationId                                                         @controllers.PublicationController.getComments(publicationId: Long)
+
+#POST           /publication/comment/addReply                                                                         @controllers.CommentController.addReply
+#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
+#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
+GET            /publication/comment/thumbUp/:commentId                                                              @controllers.PublicationController.thumbUp(commentId: Long)
+GET            /publication/comment/thumbDown/:commentId                                                              @controllers.PublicationController.thumbDown(commentId: Long)
 
 
 # Forum
@@ -29,3 +42,14 @@ GET           /forum/getPostDownvoteCount   	@controllers.ForumController.getPos
 PUT           /forum/voteComment           		@controllers.ForumController.voteComment()
 GET           /forum/getCommentUpvoteCount		@controllers.ForumController.getCommentUpvoteCount(cid: Long)
 GET           /forum/getCommentDownvoteCount	@controllers.ForumController.getCommentDownvoteCount(cid: Long)
+#forum
+
+
+#Users
+
+#GET         /users/:id                                controllers.UserController.getUser(id: Long, format: String="json")
+POST         /users/add                                controllers.UserController.userRegister
+POST         /users/isUserValid                        controllers.UserController.userLogin
+POST         /users/isEmailExisted                     controllers.UserController.isEmailExisted
+POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
+GET          /users/getprofile/:id/json                controllers.UserController.getProfile(id: Long, format: String="json")

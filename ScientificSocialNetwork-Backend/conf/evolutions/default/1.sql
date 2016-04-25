@@ -65,12 +65,26 @@ create table publication (
   constraint pk_publication primary key (id)
 );
 
+create table publication_comment (
+  id                            bigint auto_increment not null,
+  publication_id                bigint,
+  user_id                       bigint,
+  user_name                     varchar(255),
+  timestamp                     bigint,
+  content                       varchar(255),
+  thumb                         integer,
+  constraint pk_publication_comment primary key (id)
+);
+
 create table user (
   id                            bigint auto_increment not null,
   email                         varchar(255),
   password                      varchar(255),
   first_name                    varchar(255),
   last_name                     varchar(255),
+  mailing_address               varchar(255),
+  phone_number                  varchar(255),
+  research_fields               varchar(255),
   constraint pk_user primary key (id)
 );
 
@@ -103,6 +117,9 @@ create index ix_forum_post_rating_post_id on forum_post_rating (post_id);
 
 alter table forum_post_rating add constraint fk_forum_post_rating_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_forum_post_rating_user_id on forum_post_rating (user_id);
+
+alter table publication_comment add constraint fk_publication_comment_publication_id foreign key (publication_id) references publication (id) on delete restrict on update restrict;
+create index ix_publication_comment_publication_id on publication_comment (publication_id);
 
 
 # --- !Downs
@@ -137,6 +154,9 @@ drop index ix_forum_post_rating_post_id on forum_post_rating;
 alter table forum_post_rating drop foreign key fk_forum_post_rating_user_id;
 drop index ix_forum_post_rating_user_id on forum_post_rating;
 
+alter table publication_comment drop foreign key fk_publication_comment_publication_id;
+drop index ix_publication_comment_publication_id on publication_comment;
+
 drop table if exists author;
 
 drop table if exists author_publication;
@@ -150,6 +170,8 @@ drop table if exists forum_post_comment_rating;
 drop table if exists forum_post_rating;
 
 drop table if exists publication;
+
+drop table if exists publication_comment;
 
 drop table if exists user;
 

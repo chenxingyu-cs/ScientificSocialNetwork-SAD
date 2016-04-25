@@ -1,0 +1,23 @@
+.navbar {border-radius: 0}
+.dropdown-menu li a.active {background-color: #337AB7; color: white;}
+.header {background-color:#f8f8f8;border-color: #e7e7e7;}
+#header ul.nav>li>a:hover {color:#333333;}
+.navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover {
+    color: #333333;
+    background-color: transparent;
+}
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    color: #333333;
+    background-color: #E4E3E3;
+}
+
+.reddot{
+    width: 10px;
+    height: 10px;
+    border-radius: 8px;
+    border: 1px #F7C0C0 solid;
+    position: absolute;
+    top: 14px;
+    right: 5px;
+    background-color: #F71313;
+}
