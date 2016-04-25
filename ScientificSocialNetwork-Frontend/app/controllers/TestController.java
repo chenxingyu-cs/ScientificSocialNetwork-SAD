@@ -46,9 +46,10 @@ public class TestController extends Controller{
 		try {
 			jsonData.put("title", filledForm.get().getTitle());
 			jsonData.put("content", filledForm.get().getContent());
-			jsonData.put("timestamp", filledForm.get().getTimestamp());
-			jsonData.put("Paperlink", filledForm.get().getPaperLink());
-			jsonData.put("userId", "defalutID");
+//			jsonData.put("timestamp", filledForm.get().getTimestamp());
+			jsonData.put("link", filledForm.get().getLink());
+			jsonData.put("userId", "111");
+			
 			System.out.println(jsonData);
 			// POST Climate Service JSON data
 	    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;
@@ -58,8 +59,10 @@ public class TestController extends Controller{
 	    	CompletionStage<WSResponse> jsonPromise = ws.url(url).post((JsonNode)jsonData);
 	    	CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
 	    	JsonNode publicationNode = jsonFuture.join().asJson();
+
 	    	System.out.println(publicationNode);
-			return ok(createPost.render(filledForm));
+
+			return ok(detailedForumPost.render(filledForm,null));
 		}
 		catch (IllegalStateException e) {
 			

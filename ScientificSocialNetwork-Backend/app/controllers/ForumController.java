@@ -26,20 +26,21 @@ public class ForumController extends Controller {
 
   public Result addNewPost() {
     JsonNode postNode = request().body().asJson();
+    System.out.println(postNode.asText());
     if (postNode == null) {
       return badRequest("Post not saved, expecting json data.");
     }
-
     String postTitle = postNode.findPath("title").asText();
     String postContent = postNode.findPath("content").asText();
     String paperLink = postNode.findPath("link").asText();
-    User user = User.find.byId(1L);
 
+    User user = User.find.byId(1L);
+    System.out.println(user.getId()+"===================");
     ForumPost forumPost = new ForumPost(user, postTitle, postContent,
         paperLink, -1L);
     forumPost.save();
-
     return created(Json.toJson(forumPost.getPostId()).toString());
+
   }
 
   public Result addNewComment() {
@@ -153,16 +154,4 @@ public class ForumController extends Controller {
     return ok(Json.toJson(count).toString());
   }
 
-  public Result createPost () {
-    JsonNode json = request().body().asJson();
-//    System.out.println("=============");
-    System.out.println(json);
-    ForumPost post = new ForumPost();
-    post.setPaperLink(json.get("link").asText());
-    post.setPostTitle(json.get("title").asText());
-    post.setPostContent(json.get("content").asText());
-    post.save();
-        return created(post.getPostId()+"");
-//    return created(new Gson().toJson(post.getPostId()));
-  }
 }
