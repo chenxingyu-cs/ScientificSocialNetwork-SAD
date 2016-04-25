@@ -15,7 +15,7 @@ public class ForumPost {
   private String userName;
   private String title;
   private String content;
-  private String link;
+  private String paperLink;
 
   public String getTimestamp() {
     return timestamp;
@@ -65,12 +65,12 @@ public class ForumPost {
     this.content = content;
   }
 
-  public String getLink() {
-    return link;
+  public String getPaperLink() {
+    return paperLink;
   }
 
-  public void setLink(String link) {
-    this.link = link;
+  public void setPaperLink(String paperLink) {
+    this.paperLink = paperLink;
   }
 
   public ForumPost() {
@@ -84,6 +84,6 @@ public class ForumPost {
     this.userId = userId;
     this.title = title;
     this.content = content;
-    this.link = link;
+    this.paperLink = link;
   }
 }

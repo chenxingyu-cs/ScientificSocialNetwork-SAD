@@ -1,7 +1,7 @@
 package models;
 
 public class ForumComment {
-  private Integer commentId;
+  private Integer cid;
   private Integer postId;
   private String userName;
   private String replyTo;
@@ -21,7 +21,7 @@ public class ForumComment {
 
   public ForumComment(Integer commentId, Integer postId, String userName,
       String replyTo, String content, String timestamp) {
-    this.commentId = commentId;
+    this.cid = commentId;
     this.postId = postId;
     this.userName = userName;
     this.replyTo = replyTo;
@@ -30,11 +30,11 @@ public class ForumComment {
   }
 
   public Integer getCommentId() {
-    return commentId;
+    return cid;
   }
 
   public void setCommentId(Integer commentId) {
-    this.commentId = commentId;
+    this.cid = commentId;
   }
 
   public Integer getPostId() {

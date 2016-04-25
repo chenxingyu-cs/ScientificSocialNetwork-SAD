@@ -47,7 +47,7 @@ public class TestController extends Controller{
 			jsonData.put("title", filledForm.get().getTitle());
 			jsonData.put("content", filledForm.get().getContent());
 			jsonData.put("timestamp", filledForm.get().getTimestamp());
-			jsonData.put("link", filledForm.get().getLink());
+			jsonData.put("Paperlink", filledForm.get().getPaperLink());
 			jsonData.put("userId", "defalutID");
 			System.out.println(jsonData);
 			// POST Climate Service JSON data

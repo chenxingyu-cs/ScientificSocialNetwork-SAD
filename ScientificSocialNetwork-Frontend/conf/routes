@@ -26,4 +26,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET		/forum/create				controllers.TestController.getPostPage()
 POST	/forum/createConfirm		controllers.TestController.createPost()
 GET		/forum/createCancel			controllers.TestController.cancelPost()
-GET		/forum/post/:id				controllers.ForumController.getPostDetail(id: Integer)
+GET		/forum/post/:id				controllers.ForumController.getPostDetail(id: Long)

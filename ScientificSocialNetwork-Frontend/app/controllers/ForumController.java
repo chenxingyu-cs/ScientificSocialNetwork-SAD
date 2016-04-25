@@ -13,12 +13,14 @@ import javax.inject.Inject;
 import org.w3c.dom.Document;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.ForumPostDetail;
 import models.ForumComment;
 import models.ForumPost;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
 import play.mvc.Controller;
@@ -31,7 +33,7 @@ public class ForumController extends Controller {
   @Inject
   FormFactory formFactory;
 
-  Form<ForumComment> forumCommentForm;
+  static Form<ForumComment> forumCommentForm;
 
   public Result getPostDetail_test(Integer id) {
     ForumPostDetail detailed = new ForumPostDetail(new ForumPost(),
@@ -53,24 +55,24 @@ public class ForumController extends Controller {
     detailed.comments.add(new ForumComment(2, 1, "Xingyu", "Haoyuan",
         "comment content 4", "Nov 12, 2015, 23:12 PM"));
 
-    return ok(detailedForumPost.render(detailed, this.forumCommentForm));
+    return ok(detailedForumPost.render(detailed, forumCommentForm));
   }
 
-  public Result getPostDetail(Integer id) {
+  public Result getPostDetail(Long id) {
     String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
         + Constants.FORUM_POST_DETAIL;
 
-    CompletionStage<JsonNode> jsonPromise = this.ws.url(url).setQueryParameter("id", "1")
-        .get().thenApply(WSResponse::asJson);
+    CompletionStage<JsonNode> jsonPromise = this.ws.url(url)
+        .setQueryParameter("id", "1").get().thenApply(WSResponse::asJson);
     CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
     JsonNode detailedForumPostNode = jsonFuture.join();
     ForumPostDetail detailed = deserializeJsonToDetailedForumPost(detailedForumPostNode);
     return ok(detailedForumPost.render(detailed, forumCommentForm));
 
-//     CompletionStage<WSResponse> promise = ws.url(url).get();
-//     CompletableFuture<WSResponse> future = promise.toCompletableFuture();
-//     WSResponse response = future.join();
-//     return ok(detailedForumPost.render(null, null));
+    // CompletionStage<WSResponse> promise = ws.url(url).get();
+    // CompletableFuture<WSResponse> future = promise.toCompletableFuture();
+    // WSResponse response = future.join();
+    // return ok(detailedForumPost.render(null, null));
   }
 
   public ForumPostDetail deserializeJsonToDetailedForumPost(
@@ -89,14 +91,15 @@ public class ForumController extends Controller {
     return detailed;
   }
 
-  private ForumPost deserializeJsonToForumPost(JsonNode topicJson) {
-    ForumPost forumTopic = new ForumPost();
-    forumTopic.setId(topicJson.path("id").asInt());
-    forumTopic.setUserName(topicJson.path("userName").asText());
-    forumTopic.setTimestamp(topicJson.path("timestamp").asText());
-    forumTopic.setTitle(topicJson.path("title").asText());
-    forumTopic.setContent(topicJson.path("content").asText());
-    return forumTopic;
+  private ForumPost deserializeJsonToForumPost(JsonNode postJson) {
+    ForumPost forumPost = new ForumPost();
+    forumPost.setId(postJson.path("postId").asInt());
+    forumPost.setUserName(postJson.path("user").path("firstName").asText());
+    forumPost.setTimestamp(postJson.path("timestamp").asText());
+    forumPost.setTitle(postJson.path("postTitle").asText());
+    forumPost.setContent(postJson.path("postContent").asText());
+    forumPost.setPaperLink(postJson.path("paperLink").asText());
+    return forumPost;
   }
 
   private List<ForumComment> deserializeJsonToForumComments(
@@ -112,14 +115,49 @@ public class ForumController extends Controller {
 
   private ForumComment deserializeJsonToForumComment(JsonNode commentJson) {
     ForumComment forumComment = new ForumComment();
-
-    forumComment.setCommentId(commentJson.path("commentId").asInt());
-    forumComment.setPostId(commentJson.path("topicId").asInt());
-    forumComment.setUserName(commentJson.path("userName").asText());
-    forumComment.setReplyTo(commentJson.path("replyTo").asText());
+    forumComment.setCommentId(commentJson.path("cid").asInt());
+    forumComment.setPostId(commentJson.path("post").path("postId").asInt());
+    // TODO: change firstName to userName
+    forumComment.setUserName(commentJson.path("user").path("firstName")
+        .asText());
+    forumComment.setReplyTo(commentJson.path("replyToUser").path("firstName")
+        .asText());
     forumComment.setContent(commentJson.path("content").asText());
     forumComment.setTimestamp(commentJson.path("timestamp").asText());
-
     return forumComment;
+  }
+
+  public Result addComment(Long id) {
+    forumCommentForm = formFactory.form(ForumComment.class);
+    Form<ForumComment> form = forumCommentForm.bindFromRequest();
+
+    ObjectNode commentJson = Json.newObject();
+    try {
+      System.out.println("session user id: " + session("id"));
+      commentJson.put("userId", session("id"));
+      commentJson.put("publicationID", id);
+      commentJson.put("Content", form.field("content").value());
+    } catch (Exception e) {
+      flash("error", "Form value invalid");
+    }
+
+    String addNewCommentUrl = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+        + "/forum/addNewComment";
+    CompletionStage<WSResponse> jsonPromise = ws.url(addNewCommentUrl).post(
+        (JsonNode) commentJson);
+    CompletableFuture<WSResponse> jsonFuture = jsonPromise
+        .toCompletableFuture();
+    JsonNode responseNode = jsonFuture.join().asJson();
+
+    if (responseNode == null || responseNode.has("error")) {
+      System.out.println(responseNode.toString());
+      if (responseNode == null)
+        flash("error", "Create Comment Error.");
+      else
+        flash("error", responseNode.get("error").textValue());
+      return redirect(routes.ForumController.getPostDetail(id));
+    }
+    flash("success", "Create Comment successfully.");
+    return redirect(routes.ForumController.getPostDetail(id));
   }
 }
