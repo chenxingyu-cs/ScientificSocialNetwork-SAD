@@ -31,7 +31,6 @@ POST         /users/isEmailExisted                     controllers.UserControlle
 POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
 GET          /users/getprofile/:id/json                controllers.UserController.getProfile(id: Long, format: String="json")
 
-
 GET           /users/subscribe/subscriberId/:subscriberId/UserId/:UserId                               controllers.UserController.userSubscribe(subscriberId: Long, UserId: Long)
 GET           /users/unsubscribe/subscriberId/:subscriberId/UserId/:UserId                             controllers.UserController.userUnsubscribe(subscriberId: Long, UserId: Long)
 GET           /users/getSubscribers/:id                                                                controllers.UserController.getSubscribers(id: Long)

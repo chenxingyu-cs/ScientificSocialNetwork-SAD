@@ -39,6 +39,7 @@ public class User extends Model{
 	@Constraints.Required
 	private String password;
 
+    private String accessLevel;
 	private String firstName;
 	private String lastName;
 	private String mailingAddress;
@@ -78,6 +79,7 @@ public class User extends Model{
 		this.mailingAddress = mailingAddress;
 		this.phoneNumber = phoneNumber;
 		this.researchFields = researchFields;
+		this.accessLevel ="User";
 	}
 
 	public Long getId() {
@@ -154,6 +156,7 @@ public class User extends Model{
 	
     public void addSubscriber(User subscriber) {
 		this.subscribers.add(subscriber);
+		this.update();
 	}
 
 	public void setFriendRequestSender(Set<User> friendRequestSender) {
