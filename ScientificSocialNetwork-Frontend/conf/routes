@@ -18,6 +18,11 @@ GET     /publicationPublishSubmit    controllers.PublicationController.publicati
 # An example to show publication panel
 GET     /publication/publicationPanel/:id               controllers.PublicationController.getPublicationPanel(id: Long)
 GET     /publication/getMostPopularPublications         controllers.PublicationController.getMostPopularPublications
+
+POST    /publication/addComment/:id                           controllers.PublicationController.addComment(id: Long)
+GET     /publication/thumbUp/:commentId                   controllers.PublicationController.thumbUp(commentId: Long)
+GET     /publication/thumbDown/:commentId                 controllers.PublicationController.thumbDown(commentId: Long)
+
 GET     /publication/publicationSearch                  controllers.PublicationController.publicationSearch()
 GET     /publication/publicationSearchSubmit            controllers.PublicationController.publicationSearchSubmit()
 
@@ -38,3 +43,7 @@ GET     /signup                     controllers.UserController.signup
 GET     /createNewUser              controllers.UserController.createNewUser
 GET     /createSuccess              controllers.UserController.createSuccess
 POST    /isEmailExisted             controllers.UserController.isEmailExisted
+
+
+#Map static resources from the /public folder to the /assets URL path
+GET     	/assets/*file               						controllers.Assets.at(path="/public", file)

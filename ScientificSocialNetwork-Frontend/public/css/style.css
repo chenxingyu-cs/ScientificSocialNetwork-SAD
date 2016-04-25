@@ -1,0 +1,98 @@
+/* Clear Style */
+ul li, ol li {list-style-type:none}
+
+/* Font */
+
+.messages {
+  font-size: 150%;
+}
+
+.inputMessage {
+  font-size: 100%;
+}
+
+.log {
+  color: #8000ff;
+  font-size: 70%;
+  margin: 5px;
+  text-align: center;
+}
+
+/* Messages */
+
+.username {
+  font-size: 100%;
+}
+
+.messageBody {
+  color: #555;
+}
+
+.chatArea {
+  display: block;
+  width: 100%;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow-y: auto;
+  -webkibox-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.messages {
+  margin: 0;
+  padding: 1px 5px 3px 5px;
+}
+
+#chatwindow {
+  height:300px;
+}
+.message {
+  display: block;
+  height: auto;
+  width: 100%;
+  position: relative;
+  float: none;
+  padding: 2px;
+  line-height: 1.42857143;
+  font-size: 100%;
+  font-family: inherit;
+  background-color: #E8E8E8;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4px
+}
+
+.message.typing {
+  color: gray;
+}
+
+/* Input */
+
+.inputMessage {	
+    display: block;
+    width: 100%;
+    height: 34px;
+    line-height: 1.42857143;
+    padding-left: 7px;
+    color: #555;
+    background-color: #fff;
+    /* background-image: none; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    margin: 5px 0px;
+}
+
+.loadButton {text-align: center;display: block; cursor:pointer;}
+
+.container {
+  width: 85%;
+  margin: 0 auto;
+}
