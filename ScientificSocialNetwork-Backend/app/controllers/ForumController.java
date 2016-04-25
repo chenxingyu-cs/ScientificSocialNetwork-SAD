@@ -22,10 +22,10 @@ public class ForumController extends Controller {
 
   public Result addNewPost() {
     JsonNode postNode = request().body().asJson();
+    System.out.println(postNode.asText());
     if (postNode == null) {
       return badRequest("Post not saved, expecting json data.");
     }
-
     String postTitle = postNode.findPath("title").asText();
     String postContent = postNode.findPath("content").asText();
     String paperLink = postNode.findPath("link").asText();
@@ -49,8 +49,8 @@ public class ForumController extends Controller {
     ForumPost forumPost = new ForumPost(user, postTitle, postContent,
         paperLink, -1L, type);
     forumPost.save();
-
     return created(Json.toJson(forumPost.getPostId()).toString());
+
   }
 
   public Result addNewComment() {
@@ -148,6 +148,7 @@ public class ForumController extends Controller {
         .findList().size();
     return ok(Json.toJson(count).toString());
   }
+
 
   /**
    * Alfred: To display only title and current rating of posts.
