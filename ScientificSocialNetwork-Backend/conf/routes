@@ -30,3 +30,16 @@ POST         /users/isUserValid                        controllers.UserControlle
 POST         /users/isEmailExisted                     controllers.UserController.isEmailExisted
 POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
 GET          /users/getprofile/:id/json                controllers.UserController.getProfile(id: Long, format: String="json")
+
+
+GET           /users/subscribe/subscriberId/:subscriberId/UserId/:UserId                               controllers.UserController.userSubscribe(subscriberId: Long, UserId: Long)
+GET           /users/unsubscribe/subscriberId/:subscriberId/UserId/:UserId                             controllers.UserController.userUnsubscribe(subscriberId: Long, UserId: Long)
+GET           /users/getSubscribers/:id                                                                controllers.UserController.getSubscribers(id: Long)
+
+GET           /users/sendFriendRequest/sender/:senderId/receiver/:receiverId                            controllers.UserController.sendFriendRequest(senderId: Long, receiverId: Long)
+GET           /users/getFriendRequests/userId/:userId                                                   controllers.UserController.getFriendRequests(userId: Long)
+GET           /users/acceptFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.acceptFriendRequest(userId: Long, senderId: Long)
+GET           /users/rejectFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.rejectFriendRequest(userId: Long, senderId: Long)
+GET           /users/getFriends/userId/:userId                                                          controllers.UserController.getFriends(userId: Long)
+GET           /users/deleteFriend/userId/:userId/friendId/:friendId                                     controllers.UserController.deleteFriend(userId: Long, friendId: Long)
+
