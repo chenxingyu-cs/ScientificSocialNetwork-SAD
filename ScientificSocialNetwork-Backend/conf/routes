@@ -30,8 +30,19 @@ GET            /publication/comment/thumbUp/:commentId                          
 GET            /publication/comment/thumbDown/:commentId                                                              @controllers.PublicationController.thumbDown(commentId: Long)
 
 
+# Forum
+POST          /forum/createPost 				@controllers.ForumController.addNewPost()
+POST          /forum/addNewComment				@controllers.ForumController.addNewComment()
+GET           /forum/getOnePost					@controllers.ForumController.getOnePost(id: Long)
+GET  		  /forum/getPosts 					@controllers.ForumController.getPosts(start: Integer=0, limit: Integer=10)
+GET           /forum/getPostsWithVoteCounts     @controllers.ForumController.getPostsWithVoteCounts
+PUT           /forum/votePost           		@controllers.ForumController.votePost()
+GET           /forum/getPostUpvoteCount     	@controllers.ForumController.getPostUpvoteCount(pid: Long)
+GET           /forum/getPostDownvoteCount   	@controllers.ForumController.getPostDownvoteCount(pid: Long)
+PUT           /forum/voteComment           		@controllers.ForumController.voteComment()
+GET           /forum/getCommentUpvoteCount		@controllers.ForumController.getCommentUpvoteCount(cid: Long)
+GET           /forum/getCommentDownvoteCount	@controllers.ForumController.getCommentDownvoteCount(cid: Long)
 #forum
-POST           /forum/createPost     @controllers.ForumController.createPost
 
 
 #Users
