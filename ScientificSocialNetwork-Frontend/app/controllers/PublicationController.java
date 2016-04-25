@@ -118,7 +118,8 @@ public class PublicationController extends Controller {
 
 		ObjectNode jsonData = Json.newObject();
 		try {
-			jsonData.put("userID", 1);
+			System.out.println("session user id: "+session("id"));
+			jsonData.put("userID", session("id"));
 			jsonData.put("timestamp", new Date().getTime());
 			jsonData.put("publicationID", id);
 			jsonData.put("Content", form.field("content").value());
