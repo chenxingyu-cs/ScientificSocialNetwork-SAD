@@ -48,6 +48,17 @@ create table publication_comment (
   constraint pk_publication_comment primary key (id)
 );
 
+create table publication_reply (
+  id                            bigint auto_increment not null,
+  publication_comment_id        bigint,
+  status                        tinyint(1) default 0,
+  from_user_id                  bigint,
+  to_user_id                    bigint,
+  timestamp                     bigint,
+  content                       varchar(255),
+  constraint pk_publication_reply primary key (id)
+);
+
 create table user (
   id                            bigint auto_increment not null,
   email                         varchar(255),
@@ -69,6 +80,15 @@ create index ix_author_publication_publication on author_publication (publicatio
 alter table publication_comment add constraint fk_publication_comment_publication_id foreign key (publication_id) references publication (id) on delete restrict on update restrict;
 create index ix_publication_comment_publication_id on publication_comment (publication_id);
 
+alter table publication_reply add constraint fk_publication_reply_publication_comment_id foreign key (publication_comment_id) references publication_comment (id) on delete restrict on update restrict;
+create index ix_publication_reply_publication_comment_id on publication_reply (publication_comment_id);
+
+alter table publication_reply add constraint fk_publication_reply_from_user_id foreign key (from_user_id) references user (id) on delete restrict on update restrict;
+create index ix_publication_reply_from_user_id on publication_reply (from_user_id);
+
+alter table publication_reply add constraint fk_publication_reply_to_user_id foreign key (to_user_id) references user (id) on delete restrict on update restrict;
+create index ix_publication_reply_to_user_id on publication_reply (to_user_id);
+
 
 # --- !Downs
 
@@ -81,6 +101,15 @@ drop index ix_author_publication_publication on author_publication;
 alter table publication_comment drop foreign key fk_publication_comment_publication_id;
 drop index ix_publication_comment_publication_id on publication_comment;
 
+alter table publication_reply drop foreign key fk_publication_reply_publication_comment_id;
+drop index ix_publication_reply_publication_comment_id on publication_reply;
+
+alter table publication_reply drop foreign key fk_publication_reply_from_user_id;
+drop index ix_publication_reply_from_user_id on publication_reply;
+
+alter table publication_reply drop foreign key fk_publication_reply_to_user_id;
+drop index ix_publication_reply_to_user_id on publication_reply;
+
 drop table if exists author;
 
 drop table if exists author_publication;
@@ -90,6 +119,8 @@ drop table if exists forum_post;
 drop table if exists publication;
 
 drop table if exists publication_comment;
+
+drop table if exists publication_reply;
 
 drop table if exists user;
 

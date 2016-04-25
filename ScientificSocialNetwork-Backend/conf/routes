@@ -21,9 +21,8 @@ GET     /publication/getMostPopularPublications/json  controllers.PublicationCon
 POST            /publication/addComment                                                                       @controllers.PublicationController.addComment
 GET             /publication/getComments/:publicationId                                                         @controllers.PublicationController.getComments(publicationId: Long)
 
-#POST           /publication/comment/addReply                                                                         @controllers.CommentController.addReply
-#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
-#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
+POST           /publication/comment/addReply                                                                         @controllers.PublicationController.addReply
+#GET            /publication/comment/getReply/:commentId                                                              @controllers.PublicationController.getReply(commentId: Long)
 GET            /publication/comment/thumbUp/:commentId                                                              @controllers.PublicationController.thumbUp(commentId: Long)
 GET            /publication/comment/thumbDown/:commentId                                                              @controllers.PublicationController.thumbDown(commentId: Long)
 

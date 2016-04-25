@@ -25,7 +25,7 @@ GET     /publication/thumbDown/:commentId                 controllers.Publicatio
 
 GET     /publication/publicationSearch                  controllers.PublicationController.publicationSearch()
 GET     /publication/publicationSearchSubmit            controllers.PublicationController.publicationSearchSubmit()
-
+POST    /publication/addReply/:toUserId/:commentId/:publicationId        controllers.PublicationController.addReply(toUserId: Long, commentId: Long, publicationId: Long)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 

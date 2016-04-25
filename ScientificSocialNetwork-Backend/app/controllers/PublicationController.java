@@ -8,9 +8,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import models.Publication;
-import models.PublicationComment;
-import models.User;
+import models.*;
+
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -52,7 +51,7 @@ public class PublicationController extends Controller{
 		String result = new String();
 		JsonNode jsonNode = Json.toJson(publication);
 		result = jsonNode.toString();
-		System.out.println(result);
+		//System.out.println(result);
 		return ok(result);
 	}
 	
@@ -116,6 +115,48 @@ public class PublicationController extends Controller{
 			e.printStackTrace();
 			return Common.badRequestWrapper("Failed to add comment!");
 		}
+	}
+
+	// Post
+	public Result addReply() {
+		JsonNode jsonNode = request().body().asJson();
+		if (jsonNode == null){
+			System.out.println("Reply not added, expecting Json data");
+			return Common.badRequestWrapper("Reply not added, expecting Json data");
+		}
+
+		long commentId = jsonNode.path("commentId").asLong();
+		long fromUserId = jsonNode.path("fromUserId").asLong();
+		long toUserId = jsonNode.path("toUserId").asLong();
+		long timestamp = jsonNode.path("timestamp").asLong();
+		String content = jsonNode.path("content").asText();
+		PublicationComment comment = PublicationComment.find.byId(commentId);
+		if(comment==null){
+			System.out.println("Cannot find comment!");
+			return Common.badRequestWrapper("Cannot find comment!");
+		}
+		User fromUser = User.find.byId(fromUserId);
+		if(fromUser==null){
+			System.out.println("Cannot find fromUser!");
+			return Common.badRequestWrapper("Cannot find fromUser!");
+		}
+		User toUser = User.find.byId(toUserId);
+		if(toUser==null){
+			System.out.println("Cannot find toUser!");
+			return Common.badRequestWrapper("Cannot find toUser!");
+		}
+
+		PublicationReply reply = new PublicationReply(comment, fromUser, toUser, timestamp, content);
+		reply.save();
+
+		List<PublicationReply> replyList = PublicationReply.find.where().eq("publication_comment_id", commentId).findList();
+		//replyList.add(reply);
+		comment.setReplies(replyList);
+		comment.save();
+
+		JsonNode responseJson = Json.toJson(reply);
+		String result = responseJson.toString();
+		return ok(result);
 	}
 
 	public Result getComments(Long publicationId) {

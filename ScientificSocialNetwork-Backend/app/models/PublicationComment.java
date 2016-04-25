@@ -5,6 +5,7 @@ package models;
  */
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.ws.WSClient;
@@ -13,6 +14,7 @@ import util.Constants;
 
 import javax.inject.Inject;
 import javax.persistence.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -38,7 +40,9 @@ public class PublicationComment extends Model {
     private int thumb;
 
     //TODO reply
-
+    @OneToMany(mappedBy="publicationComment", cascade=CascadeType.ALL)
+    @JsonManagedReference
+    public List<PublicationReply> replies;
 
     public static Finder<Long, PublicationComment> find = new Finder<>(PublicationComment.class);
 
@@ -96,6 +100,14 @@ public class PublicationComment extends Model {
 
     public String getContent() {
         return content;
+    }
+
+    public List<PublicationReply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<PublicationReply> replies) {
+        this.replies = replies;
     }
 
     public void setContent(String content) {
