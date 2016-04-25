@@ -19,6 +19,10 @@ GET     /publication/getAllPublications/json          controllers.PublicationCon
 GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
 GET     /publication/getMostPopularPublications/json  controllers.PublicationController.getMostPopularPublications(format: String="json") 
 
+POST    /publication/addTag                           controllers.PublicationController.createTag
+GET     /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
+
+
 # Publication Comment
 POST            /publication/addComment                                                                       @controllers.PublicationController.addComment
 GET             /publication/getComments/:publicationId                                                         @controllers.PublicationController.getComments(publicationId: Long)

@@ -12,7 +12,10 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+
+
 import models.Publication;
+import models.Tag;
 import models.PublicationComment;
 import models.User;
 import play.libs.Json;
@@ -103,6 +106,58 @@ public class PublicationController extends Controller{
 		return ok(result);	
 	}
 	
+	public Result createTag() {
+		System.out.println("create tag");
+		JsonNode json = request().body().asJson();
+//		System.out.println("=============");
+		System.out.println(json);
+		
+		long publicationId = json.get("publicationId").asLong();
+		Publication publication = Publication.find.byId(publicationId);
+		
+		Tag tag = new Tag();
+		List<Tag> tags = Tag.find.where().eq("tagName", json.get("tagName").asText()).findList();
+		if (tags.size() == 0) {
+			tag.setTagName(json.get("tagName").asText());
+			List<Publication> publications = new ArrayList<>();
+			publications.add(publication);
+			System.out.println(publication.getTitle());
+			tag.setPublications(publications);
+		} else {
+			tag = tags.get(0);
+			tag.getPublications().add(publication);
+		}
+
+		tag.save();
+//		System.out.println("*******************" + json.get("publicationId").asLong() + "***************");
+        return created(tag.getId() + "");
+
+//		return created(new Gson().toJson(post.getPostId()));
+	}
+	
+	public Result getPublicationsOnOneTag(String tag) {
+		
+		List<Tag> tags = Tag.find.where().eq("tagName", tag).findList();
+		if (tags.size() == 0) {
+			System.out.println("No tag found");
+		}
+		
+		List<Publication> publications = tags.get(0).getPublications();
+		
+		if (publications == null) {
+			System.out.println("No publication found");
+		}
+		
+		// Use the json in Play library this time
+		String result = new String();
+//		if (format.equals("json")) {
+			JsonNode jsonNode = Json.toJson(publications);
+			result = jsonNode.toString();
+//		}
+		return ok(result);	
+	}
+
+
 	
 
 	/**

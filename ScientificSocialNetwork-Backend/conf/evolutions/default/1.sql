@@ -76,6 +76,18 @@ create table publication_comment (
   constraint pk_publication_comment primary key (id)
 );
 
+create table tag (
+  id                            bigint auto_increment not null,
+  tag_name                      varchar(255),
+  constraint pk_tag primary key (id)
+);
+
+create table tag_publication (
+  tag_id                        bigint not null,
+  publication_id                bigint not null,
+  constraint pk_tag_publication primary key (tag_id,publication_id)
+);
+
 create table user (
   id                            bigint auto_increment not null,
   email                         varchar(255),
@@ -121,6 +133,12 @@ create index ix_forum_post_rating_user_id on forum_post_rating (user_id);
 alter table publication_comment add constraint fk_publication_comment_publication_id foreign key (publication_id) references publication (id) on delete restrict on update restrict;
 create index ix_publication_comment_publication_id on publication_comment (publication_id);
 
+alter table tag_publication add constraint fk_tag_publication_tag foreign key (tag_id) references tag (id) on delete restrict on update restrict;
+create index ix_tag_publication_tag on tag_publication (tag_id);
+
+alter table tag_publication add constraint fk_tag_publication_publication foreign key (publication_id) references publication (id) on delete restrict on update restrict;
+create index ix_tag_publication_publication on tag_publication (publication_id);
+
 
 # --- !Downs
 
@@ -157,6 +175,12 @@ drop index ix_forum_post_rating_user_id on forum_post_rating;
 alter table publication_comment drop foreign key fk_publication_comment_publication_id;
 drop index ix_publication_comment_publication_id on publication_comment;
 
+alter table tag_publication drop foreign key fk_tag_publication_tag;
+drop index ix_tag_publication_tag on tag_publication;
+
+alter table tag_publication drop foreign key fk_tag_publication_publication;
+drop index ix_tag_publication_publication on tag_publication;
+
 drop table if exists author;
 
 drop table if exists author_publication;
@@ -172,6 +196,10 @@ drop table if exists forum_post_rating;
 drop table if exists publication;
 
 drop table if exists publication_comment;
+
+drop table if exists tag;
+
+drop table if exists tag_publication;
 
 drop table if exists user;
 

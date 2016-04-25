@@ -61,6 +61,7 @@ public class TestController extends Controller{
 			// POST Climate Service JSON data
 			String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;
 			System.out.println(url);
+
 //	    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
 
 			CompletionStage<WSResponse> jsonPromise = ws.url(url).post((JsonNode) jsonData);

@@ -1,4 +1,5 @@
-@(publication: Publication, comments: List[PublicationComment])
+@(publication: Publication, tagForm: Form[Tag], comments: List[PublicationComment])
+
 @import helper._
 
 @main("All Climate Services") {
@@ -51,10 +52,36 @@
 				<a href = "@publication.getUrl()">@publication.getUrl()</a>
 				 </span></td>
 			</tr>
-
-
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-1">Tag</th>
+				<td><span class="@publication.getTitle() editable" data-name='year'>
+				@for(tag <- publication.getTags()) {				
+					<code><a href="/publication/getPublicationsOnOneTag/@tag.getTagName()">@tag.getTagName()</a></code>
+				}
+				 </span></td>
+			</tr>
 		</tbody>
+	
 	</table>
+
+	@helper.form(action = routes.PublicationController.createTag(publication.getId())) {
+       <div class="row"> 
+        <fieldset>
+            @inputText(
+                tagForm("tagName"), 
+                '_label -> "Tag",                 
+                '_error -> tagForm.globalError,
+                'class -> "form-control"                            
+            )
+        </fieldset>
+		<div class="actions">
+	         	<input type="submit" class="btn primary" value="Add a tag">
+	         	<a href="" class="btn">Cancel</a>
+	    </div> 
+	    </div>
+
+	}
+	
 
 	<div class="row">
 		<h3>Comments:</h3>
@@ -113,7 +140,6 @@
 			</div>
 		</form>
 	</div>
-
 
 
 }

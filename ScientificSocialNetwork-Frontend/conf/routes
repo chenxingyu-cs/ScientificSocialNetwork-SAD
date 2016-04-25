@@ -19,12 +19,17 @@ GET     /publicationPublishSubmit    controllers.PublicationController.publicati
 GET     /publication/publicationPanel/:id               controllers.PublicationController.getPublicationPanel(id: Long)
 GET     /publication/getMostPopularPublications         controllers.PublicationController.getMostPopularPublications
 
+
+POST     /publication/createTag/:publicationId        controllers.PublicationController.createTag(publicationId: Long)
+GET    /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
+
 POST    /publication/addComment/:id                           controllers.PublicationController.addComment(id: Long)
 GET     /publication/thumbUp/:commentId                   controllers.PublicationController.thumbUp(commentId: Long)
 GET     /publication/thumbDown/:commentId                 controllers.PublicationController.thumbDown(commentId: Long)
 
 GET     /publication/publicationSearch                  controllers.PublicationController.publicationSearch()
 GET     /publication/publicationSearchByKeywords            controllers.PublicationController.publicationSearchByKeywords()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
