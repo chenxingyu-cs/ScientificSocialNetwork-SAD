@@ -3,13 +3,13 @@
 
 @main("Detailed Forum Post Page") {
 <head>
-	<link href='@routes.Assets.at("css/bootstrap.min.css")' rel="stylesheet"/>
-	<link rel="stylesheet" href='@routes.Assets.at("stylesheets/forum.css")'>
-	<link rel="stylesheet" href='@routes.Assets.at("stylesheets/prism.css")'>
-	<link rel="stylesheet" href='@routes.Assets.at("stylesheets/detail.css")'>
-	<script src='@routes.Assets.at("javascript/jquery-1.1.js")'></script>
-	<script src='@routes.Assets.at("javascript/forum-post.js")'></script>
-	<script src='@routes.Assets.at("javascript/prism.js")'></script>
+	<link href='@routes.Assets.versioned("stylesheets/bootstrap.min.css")' rel="stylesheet"/>
+	<link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/forum-post.css")'>
+	<link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/prism.css")'>
+	<link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/detail.css")'>
+	<script src='@routes.Assets.versioned("javascripts/jquery-1.1.js")'></script>
+	<script src='@routes.Assets.versioned("javascripts/forum-post.js")'></script>
+	<script src='@routes.Assets.versioned("javascripts/prism.js")'></script>
 </head>
 
 <div class="container">
@@ -35,9 +35,9 @@
         <div class="panel-body">
           <p>@comment.getContent()</p>
             <div class="comment-vote">
-              <a href="javascript:void(0)" data-act="voteup" data-commentId="@comment.getCId()" data-id="@publication.getId" class="vote-thumb vote-up"></a>
+              <a href="javascript:void(0)" data-act="voteup" data-commentId="@comment.getCId()" data-id="@detail.getPost().getPostId()" class="vote-thumb vote-up"></a>
               <p class="vote-num">@comment.getThumb</p>
-              <a href="javascript:void(0)" data-act="votedown" data-commentId="@comment.getCId()" data-id="@publication.getId" class="vote-thumb vote-down"></a>
+              <a href="javascript:void(0)" data-act="votedown" data-commentId="@comment.getCId()" data-id="@detail.getPost().getPostId()" class="vote-thumb vote-down"></a>
             </div>
           <button class="btn btn-default pull-right" href="#replyTo">Reply</button>
         </div>

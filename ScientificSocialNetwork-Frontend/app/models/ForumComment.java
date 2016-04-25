@@ -10,14 +10,14 @@ public class ForumComment {
   private Integer thumb;
 
   public ForumComment(Integer commentId, Integer postId, String userName,
-      String replyTo, String content, String timestamp, Integer thumb) {
+      String replyTo, String content) {
     this.cid = commentId;
     this.postId = postId;
     this.userName = userName;
     this.replyTo = replyTo;
     this.content = content;
-    this.timestamp = timestamp;
-    this.thumb = thumb;
+    this.timestamp = "";
+    this.thumb = 0;
   }
 
   public Integer getCId() {

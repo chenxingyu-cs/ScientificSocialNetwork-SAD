@@ -126,6 +126,21 @@ public class ForumController extends Controller {
     return created(Json.toJson(rating.getRid()).toString());
   }
 
+  public Result commentThumbUp(Long cid) {
+    ForumPostComment comment = ForumPostComment.find.byId(cid);
+    comment.setVote(comment.getVote() + 1);
+    comment.save();
+    return created(Json.toJson(comment.getVote()));
+  }
+  
+  public Result commentThumbDown(Long cid) {
+    ForumPostComment comment = ForumPostComment.find.byId(cid);
+    comment.setVote(comment.getVote() - 1);
+    comment.save();
+    return created(Json.toJson(comment.getVote()));
+  }
+  
+  
   public Result getCommentUpvoteCount(Long cid) {
     Integer count = ForumPostCommentRating.find.where().eq("updown", 1)
         .findList().size();

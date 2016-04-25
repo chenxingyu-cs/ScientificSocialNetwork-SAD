@@ -47,13 +47,13 @@ public class ForumController extends Controller {
         "");
     detailed.comments = new ArrayList<ForumComment>();
     detailed.comments.add(new ForumComment(1, 1, "Yuanchen", "Haoyuan",
-        "comment content 1", "Sep 30, 2015, 9:12 AM"));
+        "comment content 1"));
     detailed.comments.add(new ForumComment(2, 1, "Yuanchen", "Haoyuan",
-        "comment content 2", "Sep 31, 2015, 20:12 PM"));
+        "comment content 2"));
     detailed.comments.add(new ForumComment(2, 1, "Haoyun", "Haoyuan",
-        "comment content 3", "Oct 1, 2015, 22:02 PM"));
+        "comment content 3"));
     detailed.comments.add(new ForumComment(2, 1, "Xingyu", "Haoyuan",
-        "comment content 4", "Nov 12, 2015, 23:12 PM"));
+        "comment content 4"));
 
     return ok(detailedForumPost.render(detailed, forumCommentForm));
   }
@@ -124,11 +124,7 @@ public class ForumController extends Controller {
         .asText());
     forumComment.setContent(commentJson.path("content").asText());
     forumComment.setTimestamp(commentJson.path("timestamp").asText());
-
-//  TODO: change firstName to userName
-//    forumComment.setThumb(commentJson.path("thumb").asInt());
-    forumComment.setThumb(10);
-    
+    forumComment.setThumb(commentJson.path("vote").asInt());
     return forumComment;
   }
 
@@ -139,7 +135,11 @@ public class ForumController extends Controller {
     ObjectNode commentJson = Json.newObject();
     try {
       System.out.println("addComment(): session user name - " + session("username"));
-      commentJson.put("userName", session("username"));
+      
+      // TODO: change to session username
+//      commentJson.put("userName", session("username"));
+      commentJson.put("userName", "nan");
+      
       commentJson.put("postId", postId);
 //      commentJson.put("replyTo", form.field("replyTo").value());
       commentJson.put("replyTo", form.field("haoyuan").value());
@@ -148,20 +148,44 @@ public class ForumController extends Controller {
       flash("error", "Form value invalid");
     }
 
-//    String addNewCommentUrl = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + "/forum/addNewComment";
-//    CompletionStage<WSResponse> jsonPromise = ws.url(addNewCommentUrl).post((JsonNode) commentJson);
-//    CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
-//    JsonNode responseNode = jsonFuture.join().asJson();
-//
-//    if (responseNode == null) {
-//      flash("error", "Create Comment Error. responseNode = null");
-//    } else if (responseNode.has("error")) {
-//      System.out.println(responseNode.toString());
-//      flash("error", responseNode.get("error").textValue());
-//    } else {
-//      flash("success", "Create Comment Successfully.");
-//    }
+    String addNewCommentUrl = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + "/forum/addNewComment";
+    CompletionStage<WSResponse> jsonPromise = ws.url(addNewCommentUrl).post((JsonNode) commentJson);
+    CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
+    JsonNode responseNode = jsonFuture.join().asJson();
+
+    if (responseNode == null) {
+      flash("error", "Create Comment Error. responseNode = null");
+    } else if (responseNode.has("error")) {
+      System.out.println(responseNode.toString());
+      flash("error", responseNode.get("error").textValue());
+    } else {
+      flash("success", "Create Comment Successfully.");
+    }
 
     return redirect(routes.ForumController.getPostDetail(postId));
+  }
+  
+  public Result commentThumbUp(Long commentId) {
+    String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.FORUM_COMMENT_THUMB_UP + commentId;
+    CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+    CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+    JsonNode res = jsonFuture.join();
+
+    if (res == null || res.has("error")) {
+      flash("error", res.get("error").textValue());
+    }
+    return ok("{\"success\":\"success\"}");
+  }
+
+  public Result commentThumbDown(Long commentId) {
+    String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.FORUM_COMMENT_THUMB_DOWN + commentId;
+    CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+    CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+    JsonNode res = jsonFuture.join();
+
+    if (res == null || res.has("error")) {
+      flash("error", res.get("error").textValue());
+    }
+    return ok("{\"success\":\"success\"}");
   }
 }

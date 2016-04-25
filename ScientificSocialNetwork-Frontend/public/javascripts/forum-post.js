@@ -10,7 +10,7 @@ $(function(){
         var act = $(this).attr("data-act");
         var self = $(this)
         if (act === "voteup") {
-            var url = "/forum/thumbUp/"+commentId;
+            var url = "/forum/comment/thumbUp/"+commentId;
             $.getJSON(url, {}, function(data){
                 var vote_num = self.parent().children(".vote-num");
                 var number = $(vote_num[0]).text();
@@ -19,7 +19,7 @@ $(function(){
                 self.addClass("voted")
             });
         } else {
-            var url = "/forum/thumbDown/"+commentId;
+            var url = "/forum/comment/thumbDown/"+commentId;
             $.getJSON(url, {}, function(data){
                 var vote_num = self.parent().children(".vote-num");
                 var number = $(vote_num[0]).text();

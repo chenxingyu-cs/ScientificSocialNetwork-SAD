@@ -29,4 +29,6 @@ public class Constants {
 	public static final String GET_MOST_POPULAR_PUBLICATIONS = "/publication/getMostPopularPublications/json";
 
   public static final String FORUM_POST_DETAIL = "/forum/getOnePost";
+  public static final String FORUM_COMMENT_THUMB_UP = "/forum/comment/thumbUp/";
+  public static final String FORUM_COMMENT_THUMB_DOWN = "/forum/comment/thumbDown/";
 }
