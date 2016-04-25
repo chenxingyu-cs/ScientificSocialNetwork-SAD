@@ -21,5 +21,3 @@ libraryDependencies ++= Seq(
 
 
 fork in run := false
-
-
