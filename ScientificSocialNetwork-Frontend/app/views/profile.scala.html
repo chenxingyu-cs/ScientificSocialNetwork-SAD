@@ -1,0 +1,12 @@
+@(user: User)
+@import helper._
+
+@main("User Profile"){
+    <h1> User Profile Information</h1>
+    <h3> @user.getFirstName() </h3>
+    <h3> @user.getLastName() </h4>
+    <h3> @user.getEmail() </h4>
+    <h3> @user.getMailingAddress() </h4>
+    <h3> @user.getPhoneNumber() </h4>
+    <h3> @user.getResearchFields() </h4>
+}

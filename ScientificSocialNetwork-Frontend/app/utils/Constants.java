@@ -39,14 +39,11 @@ public class Constants {
 	public static final String COMMENT_THUMB_UP = "/publication/comment/thumbUp/";
 	public static final String COMMENT_THUMB_DOWN = "/publication/comment/thumbDown/";
 
-
-
 	// user
 	public static final String IS_USER_VALID = "/users/isUserValid";
 	public static final String ADD_USER = "/users/add";
 	public static final String IS_EMAIL_EXISTED = "/users/isEmailExisted";
-	
-	
+	public static final String GET_PROFILE ="/users/getprofile/";
 
   // add all parameter
     public static final String ADD_ALL_PARAMETERS = "/parameter/addParameter";
