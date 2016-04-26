@@ -133,6 +133,7 @@ create index ix_author_publication_author on author_publication (author_id);
 alter table author_publication add constraint fk_author_publication_publication foreign key (publication_id) references publication (id) on delete restrict on update restrict;
 create index ix_author_publication_publication on author_publication (publication_id);
 
+<<<<<<< HEAD
 alter table forum_post add constraint fk_forum_post_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_forum_post_user_id on forum_post (user_id);
 
@@ -175,6 +176,8 @@ create index ix_tag_publication_tag on tag_publication (tag_id);
 alter table tag_publication add constraint fk_tag_publication_publication foreign key (publication_id) references publication (id) on delete restrict on update restrict;
 create index ix_tag_publication_publication on tag_publication (publication_id);
 
+=======
+>>>>>>> divya
 alter table user add constraint fk_user_self_id foreign key (self_id) references user (id) on delete restrict on update restrict;
 create index ix_user_self_id on user (self_id);
 
@@ -192,48 +195,6 @@ drop index ix_author_publication_author on author_publication;
 
 alter table author_publication drop foreign key fk_author_publication_publication;
 drop index ix_author_publication_publication on author_publication;
-
-alter table forum_post drop foreign key fk_forum_post_user_id;
-drop index ix_forum_post_user_id on forum_post;
-
-alter table forum_post_comment drop foreign key fk_forum_post_comment_post_id;
-drop index ix_forum_post_comment_post_id on forum_post_comment;
-
-alter table forum_post_comment drop foreign key fk_forum_post_comment_user_id;
-drop index ix_forum_post_comment_user_id on forum_post_comment;
-
-alter table forum_post_comment drop foreign key fk_forum_post_comment_reply_to_user_id;
-drop index ix_forum_post_comment_reply_to_user_id on forum_post_comment;
-
-alter table forum_post_comment_rating drop foreign key fk_forum_post_comment_rating_comment_id;
-drop index ix_forum_post_comment_rating_comment_id on forum_post_comment_rating;
-
-alter table forum_post_comment_rating drop foreign key fk_forum_post_comment_rating_user_id;
-drop index ix_forum_post_comment_rating_user_id on forum_post_comment_rating;
-
-alter table forum_post_rating drop foreign key fk_forum_post_rating_post_id;
-drop index ix_forum_post_rating_post_id on forum_post_rating;
-
-alter table forum_post_rating drop foreign key fk_forum_post_rating_user_id;
-drop index ix_forum_post_rating_user_id on forum_post_rating;
-
-alter table publication_comment drop foreign key fk_publication_comment_publication_id;
-drop index ix_publication_comment_publication_id on publication_comment;
-
-alter table publication_reply drop foreign key fk_publication_reply_publication_comment_id;
-drop index ix_publication_reply_publication_comment_id on publication_reply;
-
-alter table publication_reply drop foreign key fk_publication_reply_from_user_id;
-drop index ix_publication_reply_from_user_id on publication_reply;
-
-alter table publication_reply drop foreign key fk_publication_reply_to_user_id;
-drop index ix_publication_reply_to_user_id on publication_reply;
-
-alter table tag_publication drop foreign key fk_tag_publication_tag;
-drop index ix_tag_publication_tag on tag_publication;
-
-alter table tag_publication drop foreign key fk_tag_publication_publication;
-drop index ix_tag_publication_publication on tag_publication;
 
 alter table user drop foreign key fk_user_self_id;
 drop index ix_user_self_id on user;
