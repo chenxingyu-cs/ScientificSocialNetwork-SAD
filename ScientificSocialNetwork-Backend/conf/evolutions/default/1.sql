@@ -103,6 +103,7 @@ create table user (
   id                            bigint auto_increment not null,
   email                         varchar(255),
   password                      varchar(255),
+  access_level                  varchar(255),
   first_name                    varchar(255),
   last_name                     varchar(255),
   mailing_address               varchar(255),

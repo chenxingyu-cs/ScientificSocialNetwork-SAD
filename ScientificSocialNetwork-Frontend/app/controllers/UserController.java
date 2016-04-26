@@ -130,7 +130,7 @@ public class UserController extends Controller {
     }
 
     public Result getProfile() {
-        String id = session.get("id");
+        String id = session().get("id");
 
         String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_PROFILE + id;
 
@@ -172,7 +172,7 @@ public class UserController extends Controller {
         User user = new User();
         user.setId(json.path("id").asLong());
         user.setEmail(json.path("email").asText());
-        user.setFirstName(json.path("firstName").asInt());
+        user.setFirstName(json.path("firstName").asText());
         user.setLastName(json.path("lastName").asText());
         user.setMailingAddress(json.path("mailingAddress").asText());
         user.setPhoneNumber(json.path("phoneNumber").asText());
