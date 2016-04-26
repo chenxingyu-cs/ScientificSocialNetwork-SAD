@@ -29,7 +29,7 @@ POST         /users/add                                controllers.UserControlle
 POST         /users/isUserValid                        controllers.UserController.userLogin
 POST         /users/isEmailExisted                     controllers.UserController.isEmailExisted
 POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
-GET          /users/getprofile/:id/json                controllers.UserController.getProfile(id: Long, format: String="json")
+GET          /users/getprofile/:id                controllers.UserController.getProfile(id: Long)
 
 GET           /users/subscribe/subscriberId/:subscriberId/UserId/:UserId                               controllers.UserController.userSubscribe(subscriberId: Long, UserId: Long)
 GET           /users/unsubscribe/subscriberId/:subscriberId/UserId/:UserId                             controllers.UserController.userUnsubscribe(subscriberId: Long, UserId: Long)
