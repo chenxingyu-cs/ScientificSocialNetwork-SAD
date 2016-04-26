@@ -319,14 +319,99 @@ public class UserController extends Controller{
 
 
 	public Result getFriends(Long userId) {
-        String result = new String();
-		return ok(result);	
+       try{
+         if(userId==null){
+				System.out.println("User id is null or empty!");
+				return Common.badRequestWrapper("User id is null or empty");
+			}
+			
+		 User user = User.find.byId(userId);
+		
+		    if(user==null){
+				System.out.println("Cannot find user");
+				return Common.badRequestWrapper("Cannot find user");
+			}
+
+		Set<User> friends = user.getFriends();
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"friends\":");
+
+    	String subsc = new String();
+
+		if(!friends.isEmpty()) {
+			sb.append("[");
+			for (User friend : friends) {
+			     JsonNode jsonNode = Json.toJson(friend);
+		         subsc = jsonNode.toString();
+				 sb.append(subsc + ",");
+			}
+			if (sb.lastIndexOf(",") > 0) {
+				sb.deleteCharAt(sb.lastIndexOf(","));
+			}
+			sb.append("]}");
+		} else {
+			sb.append("{}}");
+		}
+		return ok(sb.toString());
+	}catch (Exception e){
+			e.printStackTrace();
+			return Common.badRequestWrapper("Could not get friends");
+		}
+
 
 	}
 
 	public Result deleteFriend(Long userId, Long friendId) {
-        String result = new String();
-		return ok(result);	
+		try{
+	        if(userId==null){
+				System.out.println("User id is null or empty!");
+				return Common.badRequestWrapper("User id is null or empty");
+			}
+			if(friendId==null){
+				System.out.println("friend id is null or empty!");
+				return Common.badRequestWrapper("friend id is null or empty");
+			}
+
+			User user = User.find.byId(userId);
+
+			if(user==null){
+				System.out.println("Cannot find user");
+				return Common.badRequestWrapper("Cannot find user");
+			}
+			User friend = User.find.byId(friendId);
+			if(friend==null){
+				System.out.println("Cannot find friend");
+				return Common.badRequestWrapper("Cannot find friend");
+			}
+			
+			String result = new String();
+
+			Set<User> friends = user.getFriends();
+			for(User f: friends) {
+				if(f.getId()==friend.getId()) {
+					friends.remove(f);
+				}
+			}
+
+			user.setFriends(friends);
+			user.update();
+
+			//Removing from both the friends list
+			
+			friends = friend.getFriends();
+			for(User f: friends) {
+				if(f.getId()==user.getId()) {
+					friends.remove(f);
+				}
+			}
+			friend.setFriends(friends);
+			friend.update();
+
+			return ok("Friend deleted");	
+		}catch (Exception e){
+			e.printStackTrace();
+			return Common.badRequestWrapper("Could not delete friend");
+		}
 
 	}
 
