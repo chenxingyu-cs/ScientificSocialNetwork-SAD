@@ -128,6 +128,21 @@ public class UserController extends Controller {
         }
         return ok(signup.render(nu));  
     }
+
+    public Result getProfile() {
+        String id = session.get("id");
+
+        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_PROFILE + id;
+
+        CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode userNode = jsonFuture.join();
+
+        JsonNode json = userNode;
+        User user = deserializeJsonToUser(json);
+
+        return ok(profile.render(user));
+    }
     
     public Result isEmailExisted() {
         JsonNode json = request().body().asJson();
@@ -152,4 +167,26 @@ public class UserController extends Controller {
         }
         return ok(response);
     }
+
+    public static User deserializeJsonToUser(JsonNode json) {
+        User user = new User();
+        user.setId(json.path("id").asLong());
+        user.setEmail(json.path("email").asText());
+        user.setFirstName(json.path("firstName").asInt());
+        user.setLastName(json.path("lastName").asText());
+        user.setMailingAddress(json.path("mailingAddress").asText());
+        user.setPhoneNumber(json.path("phoneNumber").asText());
+        user.setResearchFields(json.path("researchFields").asText());
+        // JsonNode authorNode = json.path("authors");
+        // List<Author> authorList = new ArrayList<>();
+        // for(int i = 0 ; i < authorNode.size() ; i ++) {
+        //     JsonNode json_tmp = authorNode.path(i);
+        //     Author oneAuthor = new Author();
+        //     oneAuthor.setName(json_tmp.path("name").asText());
+        //     authorList.add(oneAuthor);
+        // }
+        // user.setAuthors(authorList);
+        return user;
+    }
+
 }
