@@ -5,83 +5,121 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Column;
+import javax.persistence.Version;
+
 import com.avaje.ebean.Model;
-import com.avaje.ebean.Model.Finder;
 
-import play.data.validation.Constraints.Required;
-
-
-/**
- * @author Yuanchen Bai
- * @version Apr 13, 2016 10:42:25 AM
- */
 @Entity
-public class ForumPost extends Model{
-	@Id
-	private long postId;
+public class ForumPost extends Model {
 
-	private String timeStamp;
-	private long userId;
-	@Required
-	private String postTitle;
-	@Required
-	private String postContent;
-	@Required
-	private String link;
-	
-	public static Finder<Long, ForumPost> find = new Finder<Long, ForumPost>(ForumPost.class);
+  public static Finder<Long, ForumPost> find = new Finder<Long, ForumPost>(
+      ForumPost.class);
 
-	
-	public long getPostId() {
-		return postId;
-	}
-	public void setId(long postId) {
-		this.postId = postId;
-	}
-	public long getTimeStamp() {
-		Date date =new Date();
-		return date.getTime();
-	}
-	public void setTimeStamp(String timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-	public long getUserId() {
-		return userId;
-	}
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-	public String getPostTitle() {
-		return postTitle;
-	}
-	public void setPostTitle(String title) {
-		this.postTitle = title;
-	}
-	public String getPostContent() {
-		return postContent;
-	}
-	public void setPostContent(String content) {
-		this.postContent = content;
-	}
-	public String getLink() {
-		return link;
-	}
-	public void setLink(String link) {
-		this.link = link;
-	}
-	public ForumPost() {
-		
-	}
-	
-	public ForumPost(long id, String timeStamp, long userId, String title, String content, String link) {
-		super();
-		this.postId = id;
-		this.timeStamp = timeStamp;
-		this.userId = userId;
-		this.postTitle = title;
-		this.postContent = content;
-		this.link = link;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long postId;
 
-	
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  private User user;
+
+  @Column(name="timestamp", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+  @Temporal(TemporalType.TIMESTAMP)
+  Date timestamp;
+
+  private String postTitle;
+
+  @Column(columnDefinition = "TEXT")
+  private String postContent;
+
+  private String paperLink;
+
+  private String type;
+  private Long bestCommentId;
+
+  public String getPaperLink() {
+    return paperLink;
+  }
+
+  public void setPaperLink(String paperLink) {
+    this.paperLink = paperLink;
+  }
+
+  public ForumPost() {
+
+  }
+
+  public ForumPost(User user, String postTitle,
+      String postContent, String paperLink, Long bestCommentId, String type) {
+    super();
+    setUser(user);
+    setPostTitle(postTitle);
+    setPostContent(postContent);
+    setPaperLink(paperLink);
+    setBestCommentId(bestCommentId);
+    setType(type);
+  }
+
+  public long getPostId() {
+    return postId;
+  }
+
+  public void setPostId(long postId) {
+    this.postId = postId;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(Date timestamp) {
+    this.timestamp = timestamp;
+  }
+  
+  public String getPostTitle() {
+    return postTitle;
+  }
+
+  public void setPostTitle(String postTitle) {
+    this.postTitle = postTitle;
+  }
+
+  public String getPostContent() {
+    return postContent;
+  }
+
+  public void setPostContent(String postContent) {
+    this.postContent = postContent;
+  }
+
+  public long getBestCommentId() {
+    return bestCommentId;
+  }
+
+  public void setBestCommentId(long bestCommentId) {
+    this.bestCommentId = bestCommentId;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
 }

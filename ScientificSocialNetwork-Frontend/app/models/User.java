@@ -71,6 +71,10 @@ public class User{
 		this.password = password;
 	}
 
+	public String getName() {
+		return this.firstName + " " + this.lastName;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
