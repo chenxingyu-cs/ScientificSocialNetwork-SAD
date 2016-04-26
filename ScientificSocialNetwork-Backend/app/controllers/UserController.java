@@ -117,7 +117,7 @@ public class UserController extends Controller{
 		return hexString.toString();
 	}
 
-	public Result getProfile(Long id, String format) {
+	public Result getProfile(Long id) {
 		if (id == null) {
 			System.out.println("User id is null or empty!");
 			return Common.badRequestWrapper("User is not valid");
@@ -131,10 +131,9 @@ public class UserController extends Controller{
 		}
 		
 		String result = new String();
-		if (format.equals("json")) {
-			JsonNode jsonNode = Json.toJson(user);
-			result = jsonNode.toString();
-		}
+		JsonNode jsonNode = Json.toJson(user);
+		result = jsonNode.toString();
+		
 
 		return ok(result);
 	}
