@@ -30,8 +30,6 @@
 
                 <button class="btn" onclick="onCreatePost()">Create Post</button>
                 <br>
-                <button class="btn" onclick="onCreateQuestion()">Post a
-                    Question</button>
 
             </div>
         </div>
@@ -74,11 +72,6 @@
 
             function onCreatePost() {
                 console.log("onCreatePost");
-                window.location = '@routes.TestController.getPostPage()';
-            }
-
-            function onCreateQuestion() {
-                console.log("onCreateQuestion");
                 window.location = '@routes.TestController.getPostPage()';
             }
 
