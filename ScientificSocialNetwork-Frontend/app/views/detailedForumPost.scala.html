@@ -3,10 +3,10 @@
 
 @main("Detailed Forum Post Page") {
 <head>
-	<link href='@routes.Assets.versioned("stylesheets/bootstrap.min.css")' rel="stylesheet"/>
-	<link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/forum-post.css")'>
-	<link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/prism.css")'>
-	<link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/detail.css")'>
+	<link href='@routes.Assets.versioned("css/bootstrap.min.css")' rel="stylesheet"/>
+	<link rel="stylesheet" href='@routes.Assets.versioned("css/forum.css")'>
+	<link rel="stylesheet" href='@routes.Assets.versioned("css/prism.css")'>
+	<link rel="stylesheet" href='@routes.Assets.versioned("css/detail.css")'>
 	<script src='@routes.Assets.versioned("js/jquery-1.1.js")'></script>
 	<script src='@routes.Assets.versioned("js/forum-post.js")'></script>
 	<script src='@routes.Assets.versioned("js/prism.js")'></script>
@@ -30,7 +30,7 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4>@comment.getUserName()  <small>@comment.getTimestamp()</small></h4>
+          <h4>@comment.getUserName()  <small class="right">@comment.getTimestamp()</small></h4>
         </div>
         <div class="panel-body">
           <p>@comment.getContent()</p>

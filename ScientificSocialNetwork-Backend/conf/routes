@@ -45,7 +45,6 @@ GET           /forum/getPostDownvoteCount   	@controllers.ForumController.getPos
 GET           /forum/comment/thumbUp/:commentId		@controllers.ForumController.commentThumbUp(commentId: Long)
 GET           /forum/comment/thumbDown/:commentId	@controllers.ForumController.commentThumbDown(commentId: Long)
 
-
 #Users
 
 #GET         /users/:id                                controllers.UserController.getUser(id: Long, format: String="json")

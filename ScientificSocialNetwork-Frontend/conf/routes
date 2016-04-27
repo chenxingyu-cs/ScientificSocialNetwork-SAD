@@ -42,11 +42,10 @@ GET     /forum/allPostsInJson       controllers.ForumController.getPostsJson
 GET		/forum/create				controllers.TestController.getPostPage()
 POST	/forum/createConfirm		controllers.TestController.createPost()
 GET		/forum/createCancel			controllers.TestController.cancelPost()
-GET     /forum/post/:id                         controllers.ForumController.getPostDetail(id: Long)
+GET		/forum/post/:id			                controllers.ForumController.getPostDetail(id: Long)
 POST    /forum/comment/:id                      controllers.ForumController.addComment(id: Long)
 GET     /forum/comment/thumbUp/:commentId       controllers.ForumController.commentThumbUp(commentId: Long)
 GET     /forum/comment/thumbDown/:commentId     controllers.ForumController.commentThumbDown(commentId: Long)
-
 
 # Home page
 GET     /                           controllers.UserController.home

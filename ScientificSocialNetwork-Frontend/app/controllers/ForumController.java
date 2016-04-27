@@ -1,17 +1,5 @@
 package controllers;
 
-import utils.Constants;
-import views.html.detailedForumPost;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-import javax.inject.Inject;
-
-import org.w3c.dom.Document;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -32,7 +20,11 @@ import views.html.allPosts;
 import views.html.detailedForumPost;
 
 import javax.inject.Inject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -46,8 +38,18 @@ public class ForumController extends Controller {
 
   static Form<ForumComment> forumCommentForm;
 
+  public Result getPostDetail(Long id) {
+    String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+        + Constants.FORUM_POST_DETAIL;
 
-
+    CompletionStage<JsonNode> jsonPromise = this.ws.url(url)
+        .setQueryParameter("id", "1").get().thenApply(WSResponse::asJson);
+    CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+    JsonNode detailedForumPostNode = jsonFuture.join();
+    ForumPostDetail detailed = deserializeJsonToDetailedForumPost(detailedForumPostNode);
+    return ok(detailedForumPost.render(detailed, forumCommentForm));
+  }
+  
   public ForumPostDetail deserializeJsonToDetailedForumPost(
       JsonNode detailedForumPostJson) {
     ForumPostDetail detailed = new ForumPostDetail();
@@ -68,7 +70,7 @@ public class ForumController extends Controller {
     ForumPost forumPost = new ForumPost();
     forumPost.setId(postJson.path("postId").asInt());
     forumPost.setUserName(postJson.path("user").path("firstName").asText());
-    forumPost.setTimestamp(postJson.path("timestamp").asText());
+    forumPost.setTimestamp(changeTimestampToDate(postJson.path("timestamp").asLong()));
     forumPost.setTitle(postJson.path("postTitle").asText());
     forumPost.setContent(postJson.path("postContent").asText());
     forumPost.setLink(postJson.path("paperLink").asText());
@@ -91,12 +93,10 @@ public class ForumController extends Controller {
     forumComment.setCId(commentJson.path("cid").asInt());
     forumComment.setPostId(commentJson.path("post").path("postId").asInt());
     // TODO: change firstName to userName
-    forumComment.setUserName(commentJson.path("user").path("firstName")
-        .asText());
-    forumComment.setReplyTo(commentJson.path("replyToUser").path("firstName")
-        .asText());
+    forumComment.setUserName(commentJson.path("user").path("firstName").asText());
+    forumComment.setReplyTo(commentJson.path("replyToUser").path("firstName").asText());
     forumComment.setContent(commentJson.path("content").asText());
-    forumComment.setTimestamp(commentJson.path("timestamp").asText());
+    forumComment.setTimestamp(changeTimestampToDate(commentJson.path("timestamp").asLong()));
     forumComment.setThumb(commentJson.path("vote").asInt());
     return forumComment;
   }
@@ -162,6 +162,13 @@ public class ForumController extends Controller {
     return ok("{\"success\":\"success\"}");
   }
   
+  private String changeTimestampToDate(Long timestamp) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(timestamp);
+    SimpleDateFormat dateFormat = new SimpleDateFormat();
+    dateFormat.applyPattern("MM/dd/yyyy, hh:mm");
+    return dateFormat.format(calendar.getTime());
+  }
   
     /**
      * Alfred: I'll be in charge of the following methods
