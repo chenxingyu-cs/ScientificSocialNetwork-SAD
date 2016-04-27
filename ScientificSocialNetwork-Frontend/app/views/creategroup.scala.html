@@ -1,0 +1,44 @@
+@(userGroupForm: Form[UserGroup])
+
+<html>
+    <head>
+        <link href='@routes.Assets.at("css/bootstrap.min.css")'
+        rel="stylesheet"/>
+        <link href='@routes.Assets.at("css/header.css")'
+        rel="stylesheet"/>
+
+        <script src='@routes.Assets.at("js/jquery-1.1.js")'></script>
+    </head>
+    <body>
+       
+        <div class="container">
+            <div class="alert-info" role="alert">
+                @if(flash.containsKey("groupName")) {
+                    Congratulations, the pass for the group is @flash.get("groupName") !
+                }
+                @if(flash.containsKey("failed")) {
+                    @flash.get("failed")
+                }
+            </div>
+            <div>
+                <h3>Create new group</h3>
+                <form action="@routes.UserGroupController.createNewUserGroup()" method="POST">
+                    <input type="hidden" name="id" id="id" 
+                    class="form-control" placeholder="id"value='@userGroupForm("id").value'>
+                    <input type="text" name="groupName" id="groupName"
+                    class="form-control"placeholder="groupName"value='@userGroupForm("groupName").value'>
+                    <input type="text" name="groupDescription" id="groupDescription"
+                    class="form-control"placeholder="groupDescription"value='@userGroupForm("groupDescription").value'>
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+
+           
+        </div>
+    </body>
+</html>
+
+
+
+
+

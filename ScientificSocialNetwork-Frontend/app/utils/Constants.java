@@ -45,6 +45,10 @@ public class Constants {
 	public static final String IS_EMAIL_EXISTED = "/users/isEmailExisted";
 	public static final String GET_PROFILE ="/users/getprofile/";
 
+	//userGroup
+	public static final String ADD_USERGROUP = "/userGroup/add";
+	public static final String ADD_USERTOGROUP = "/userGroup/addusertogroup";
+
   // add all parameter
     public static final String ADD_ALL_PARAMETERS = "/parameter/addParameter";
     public static final String GET_ALL_PUBLICATIONS = "/publication/getAllPublications/json";
