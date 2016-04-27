@@ -41,7 +41,8 @@ public class ForumPost extends Model {
 
   private String paperLink;
 
-  private long bestCommentId;
+  private String type;
+  private Long bestCommentId;
 
   public String getPaperLink() {
     return paperLink;
@@ -56,13 +57,14 @@ public class ForumPost extends Model {
   }
 
   public ForumPost(User user, String postTitle,
-      String postContent, String paperLink, long bestCommentId) {
+      String postContent, String paperLink, Long bestCommentId, String type) {
     super();
     setUser(user);
     setPostTitle(postTitle);
     setPostContent(postContent);
     setPaperLink(paperLink);
     setBestCommentId(bestCommentId);
+    setType(type);
   }
 
   public long getPostId() {
@@ -111,5 +113,13 @@ public class ForumPost extends Model {
 
   public void setBestCommentId(long bestCommentId) {
     this.bestCommentId = bestCommentId;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }

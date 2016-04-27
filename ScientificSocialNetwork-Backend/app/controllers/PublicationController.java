@@ -4,13 +4,14 @@
  */
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import models.Publication;
-import models.PublicationComment;
-import models.User;
+import models.*;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -52,8 +53,35 @@ public class PublicationController extends Controller{
 		String result = new String();
 		JsonNode jsonNode = Json.toJson(publication);
 		result = jsonNode.toString();
-		System.out.println(result);
+		//System.out.println(result);
 		return ok(result);
+	}
+	
+	public Result searchPublicationByKeywords(String keywordsStr) {
+        ArrayList<String> keywords = new ArrayList<String>(Arrays.asList(keywordsStr.split("\\P{Alpha}+")));
+        keywords.remove("");
+		System.out.println(keywords.toString());
+		
+		Set<Publication> publicationSet = new HashSet<>();
+		
+		for (String keyword : keywords) {
+			List<Publication> publications = Publication.find.where().contains("title", keyword).findList();
+			publicationSet.addAll(publications);
+		}
+		
+		
+		if (publicationSet.size() == 0) {
+			System.out.println("No publication found");
+		}
+		
+		List<Publication> resultPublication = new ArrayList<>();
+		resultPublication.addAll(publicationSet);
+
+		// Use the json in Play library this time
+		String result = new String();
+			JsonNode jsonNode = Json.toJson(resultPublication);
+			result = jsonNode.toString();
+		return ok(result);	
 	}
 	
 	public Result getMostPopularPublications(String format) {
@@ -71,6 +99,60 @@ public class PublicationController extends Controller{
 		}
 		return ok(result);	
 	}
+	
+	public Result createTag() {
+		System.out.println("create tag");
+		JsonNode json = request().body().asJson();
+//		System.out.println("=============");
+		System.out.println(json);
+		
+		long publicationId = json.get("publicationId").asLong();
+		Publication publication = Publication.find.byId(publicationId);
+		
+		Tag tag = new Tag();
+		List<Tag> tags = Tag.find.where().eq("tagName", json.get("tagName").asText()).findList();
+		if (tags.size() == 0) {
+			tag.setTagName(json.get("tagName").asText());
+			List<Publication> publications = new ArrayList<>();
+			publications.add(publication);
+			System.out.println(publication.getTitle());
+			tag.setPublications(publications);
+		} else {
+			tag = tags.get(0);
+			tag.getPublications().add(publication);
+		}
+
+		tag.save();
+//		System.out.println("*******************" + json.get("publicationId").asLong() + "***************");
+        return created(tag.getId() + "");
+
+//		return created(new Gson().toJson(post.getPostId()));
+	}
+	
+	public Result getPublicationsOnOneTag(String tag) {
+		
+		List<Tag> tags = Tag.find.where().eq("tagName", tag).findList();
+		if (tags.size() == 0) {
+			System.out.println("No tag found");
+		}
+		
+		List<Publication> publications = tags.get(0).getPublications();
+		
+		if (publications == null) {
+			System.out.println("No publication found");
+		}
+		
+		// Use the json in Play library this time
+		String result = new String();
+//		if (format.equals("json")) {
+			JsonNode jsonNode = Json.toJson(publications);
+			result = jsonNode.toString();
+//		}
+		return ok(result);	
+	}
+
+
+	
 
 	/**
 	 * Comment: by Haoyun
@@ -116,6 +198,48 @@ public class PublicationController extends Controller{
 			e.printStackTrace();
 			return Common.badRequestWrapper("Failed to add comment!");
 		}
+	}
+
+	// Post
+	public Result addReply() {
+		JsonNode jsonNode = request().body().asJson();
+		if (jsonNode == null){
+			System.out.println("Reply not added, expecting Json data");
+			return Common.badRequestWrapper("Reply not added, expecting Json data");
+		}
+
+		long commentId = jsonNode.path("commentId").asLong();
+		long fromUserId = jsonNode.path("fromUserId").asLong();
+		long toUserId = jsonNode.path("toUserId").asLong();
+		long timestamp = jsonNode.path("timestamp").asLong();
+		String content = jsonNode.path("content").asText();
+		PublicationComment comment = PublicationComment.find.byId(commentId);
+		if(comment==null){
+			System.out.println("Cannot find comment!");
+			return Common.badRequestWrapper("Cannot find comment!");
+		}
+		User fromUser = User.find.byId(fromUserId);
+		if(fromUser==null){
+			System.out.println("Cannot find fromUser!");
+			return Common.badRequestWrapper("Cannot find fromUser!");
+		}
+		User toUser = User.find.byId(toUserId);
+		if(toUser==null){
+			System.out.println("Cannot find toUser!");
+			return Common.badRequestWrapper("Cannot find toUser!");
+		}
+
+		PublicationReply reply = new PublicationReply(comment, fromUser, toUser, timestamp, content);
+		reply.save();
+
+		List<PublicationReply> replyList = PublicationReply.find.where().eq("publication_comment_id", commentId).findList();
+		//replyList.add(reply);
+		comment.setReplies(replyList);
+		comment.save();
+
+		JsonNode responseJson = Json.toJson(reply);
+		String result = responseJson.toString();
+		return ok(result);
 	}
 
 	public Result getComments(Long publicationId) {

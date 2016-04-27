@@ -30,7 +30,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Forum<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="@routes.TestController.getPostPage()">Create Forum Post</a></li>
-							<li><a href="#">See All Posts</a></li>
+							<li><a href="@routes.ForumController.getPosts">See All Posts</a></li>
 						</ul>
 					</li>
 
@@ -42,7 +42,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Space<b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">My Profile</a></li>
+								<li><a href="@routes.UserController.getProfile()">My Profile</a></li>
 								<li><a href="#">My Groups</a></li>
 							</ul>
 						</li>

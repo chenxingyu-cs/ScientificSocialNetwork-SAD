@@ -20,13 +20,20 @@
                 '_error -> postForm.globalError,
                 'class -> "form-control"                            
             )
-
+            @inputRadioGroup(
+                postForm("type"),
+                options = options("discussion" -> "discussion", "question" -> "question"),
+                '_label -> "Type",
+                'class -> "radio-inline",
+                '_error -> postForm.globalError
+                // 'class -> "form-control"
+            )
             @textarea(
                 postForm("content"),
                 '_label -> "Content", 
                 'cols -> 65, 
                 'rows -> 7,
-                'class -> "form-control"                                                                        
+                'class -> "form-control"
             )
            
         </fieldset>

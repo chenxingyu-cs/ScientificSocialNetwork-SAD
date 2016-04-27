@@ -15,7 +15,8 @@ public class ForumPost {
   private String userName;
   private String title;
   private String content;
-  private String paperLink;
+  private String link;
+  private String type;
 
   public String getTimestamp() {
     return timestamp;
@@ -65,12 +66,12 @@ public class ForumPost {
     this.content = content;
   }
 
-  public String getPaperLink() {
-    return paperLink;
+  public String getLink() {
+    return link;
   }
 
-  public void setPaperLink(String paperLink) {
-    this.paperLink = paperLink;
+  public void setLink(String link) {
+    this.link = link;
   }
 
   public ForumPost() {
@@ -78,12 +79,21 @@ public class ForumPost {
   }
 
   public ForumPost(long id, long userId, String title, String content,
-      String link) {
+      String link, String type) {
     super();
     this.postId = id;
     this.userId = userId;
     this.title = title;
     this.content = content;
-    this.paperLink = link;
+    this.link = link;
+    this.type = type;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }

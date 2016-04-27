@@ -9,6 +9,8 @@ public class ForumComment {
   private String timestamp;
   private Integer thumb;
 
+  public ForumComment() {
+  }
   public ForumComment(Integer commentId, Integer postId, String userName,
       String replyTo, String content) {
     this.cid = commentId;
@@ -66,9 +68,6 @@ public class ForumComment {
 
   public void setTimestamp(String timestamp) {
     this.timestamp = timestamp;
-  }
-
-  public ForumComment() {
   }
   
   public Integer getThumb() {

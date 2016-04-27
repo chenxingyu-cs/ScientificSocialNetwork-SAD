@@ -1,7 +1,8 @@
-@(publication: Publication, comments: List[PublicationComment])
+@(publication: Publication, comments: List[PublicationComment], commentReply: List[List[PublicationReply]], tagForm: Form[Tag])
+
 @import helper._
 
-@main("All Climate Services") {
+@main("Publication Panel") {
 	<head>
 		<link href='@routes.Assets.at("css/bootstrap.min.css")' rel="stylesheet"/>
 		<link rel="stylesheet" href='@routes.Assets.at("css/forum.css")'>
@@ -38,7 +39,7 @@
 			<tr>
 				<th style = "vertical-align: middle;" class="col-md-1">Date</th>
 				<td><span class="@publication.getTitle() editable" data-name='year'>
-				@publication.getDate() </span></td>
+					@publication.getDate </span></td>
 			</tr>
 			<tr>
 				<th style = "vertical-align: middle;" class="col-md-1">Year</th>
@@ -51,10 +52,36 @@
 				<a href = "@publication.getUrl()">@publication.getUrl()</a>
 				 </span></td>
 			</tr>
-
-
+			<tr>
+				<th style = "vertical-align: middle;" class="col-md-1">Tag</th>
+				<td><span class="@publication.getTitle() editable" data-name='year'>
+				@for(tag <- publication.getTags()) {				
+					<code><a href="/publication/getPublicationsOnOneTag/@tag.getTagName()">@tag.getTagName()</a></code>
+				}
+				 </span></td>
+			</tr>
 		</tbody>
+	
 	</table>
+
+	@helper.form(action = routes.PublicationController.createTag(publication.getId())) {
+       <div class="row"> 
+        <fieldset>
+            @inputText(
+                tagForm("tagName"), 
+                '_label -> "Tag",                 
+                '_error -> tagForm.globalError,
+                'class -> "form-control"                            
+            )
+        </fieldset>
+		<div class="actions">
+	         	<input type="submit" class="btn primary" value="Add a tag">
+	         	<a href="" class="btn">Cancel</a>
+	    </div> 
+	    </div>
+
+	}
+	
 
 	<div class="row">
 		<h3>Comments:</h3>
@@ -74,32 +101,32 @@
 						</div>
 					</div>
 				</div>
-				@*<form class="form" action="@routes.WorkflowController.addReply(comments(i).getUser, comments(i).getId, wf.getId)" enctype="multipart/form-data" method="POST">*@
-					@*<a href="javascript:void(0)" class="toggle">Reply</a>*@
-					@*<div class="ninja hide-hood">*@
-						@*<input class="form-control input-sm" type="text" name="content">*@
-						@*<button class="btn-xs btn-primary mt-btn" type="submit">Submit</button>*@
-					@*</div>*@
-				@*</form>*@
-				@*<ul class="list-group list-view">*@
-				@*for( j <- 0 until replyRes.get(i).size) {*@
-					@*<li class="list-group-item list-view">*@
-						@*<h5>@(replyRes.get(i).get(j).getFromUserName) <span class="shy"> &rarr; @(replyRes.get(i).get(j).getToUserName)</span>*@
-						@*<small class="right">@(new Date(replyRes.get(i).get(j).getTimestamp).toString)</small>*@
-						@*</h5>*@
-						@*<p>@("\t" + replyRes.get(i).get(j).getContent)</p>*@
+				<form class="form" action="@routes.PublicationController.addReply(comments(i).getUserId, comments(i).getId, publication.getId)" enctype="multipart/form-data" method="POST">
+					<a href="javascript:void(0)" class="toggle">Reply</a>
+					<div class="ninja hide-hood">
+						<input class="form-control input-sm" type="text" name="content">
+						<button class="btn-xs btn-primary mt-btn" type="submit">Submit</button>
+					</div>
+				</form>
+				<ul class="list-group list-view">
+				@for( j <- 0 until commentReply.get(i).size) {
+					<li class="list-group-item list-view">
+						<h5>@(commentReply.get(i).get(j).getFromUser.getName) <span class="shy"> &rarr; @(commentReply.get(i).get(j).getToUser.getName)</span>
+						<small class="right">@(new Date(commentReply.get(i).get(j).getTimestamp).toString)</small>
+						</h5>
+						<p>@("\t" + commentReply.get(i).get(j).getContent)</p>
 
-						@*<form class="form" action="@routes.WorkflowController.addReply(replyRes.get(i).get(j).getFromUserId, comments(i).getId, wf.getId)" enctype="multipart/form-data" method="POST">*@
-							@*<a href="javascript:void(0)" class="toggle">Reply</a>*@
-							@*<div class="ninja hide-hood">*@
-								@*<input class="form-control input-sm" type="text" name="content">*@
-								@*<button class="btn-xs btn-primary mt-btn" type="submit">Submit</button>*@
-							@*</div>*@
+						<form class="form" action="@routes.PublicationController.addReply(commentReply.get(i).get(j).getFromUser.getId, comments(i).getId, publication.getId)" enctype="multipart/form-data" method="POST">
+							<a href="javascript:void(0)" class="toggle">Reply</a>
+							<div class="ninja hide-hood">
+								<input class="form-control input-sm" type="text" name="content">
+								<button class="btn-xs btn-primary mt-btn" type="submit">Submit</button>
+							</div>
 
-						@*</form>*@
-					@*</li>*@
-				@*}*@
-				@*</ul>*@
+						</form>
+					</li>
+				}
+				</ul>
 			</li>
 		}
 		</ul>
@@ -107,13 +134,16 @@
 	<div class="row">
 		<form class="form" role="form" action="@routes.PublicationController.addComment(publication.getId)"
 		enctype="multipart/form-data" method="POST">
+			<div class="alert alert-danger fade" role="alert" id="alert">
+				<strong>ERROR!</strong> Content cannot be empty.
+				<a class="close" data-dismiss="alert">x</a>
+			</div>
 			<div class="form-group">
-				<textarea class="form-control" rows="5" name="content"></textarea>
-				<button type="submit" class="btn btn-primary mt-btn" >Comment</button>
+				<textarea class="form-control" rows="5" name="content" id="content"></textarea>
+				<button type="submit" class="btn btn-primary mt-btn" id="comment">Comment</button>
 			</div>
 		</form>
 	</div>
-
 
 
 }

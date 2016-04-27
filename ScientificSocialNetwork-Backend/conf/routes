@@ -12,32 +12,36 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
+
+GET     /publication/searchPublicationByKeywords/:keywordsStr     controllers.PublicationController.searchPublicationByKeywords(keywordsStr: String)
 # Publication
 GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
 GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
 GET     /publication/getMostPopularPublications/json  controllers.PublicationController.getMostPopularPublications(format: String="json") 
 
+POST    /publication/addTag                           controllers.PublicationController.createTag
+GET     /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
+
+
 # Publication Comment
 POST            /publication/addComment                                                                       @controllers.PublicationController.addComment
 GET             /publication/getComments/:publicationId                                                         @controllers.PublicationController.getComments(publicationId: Long)
 
-#POST           /publication/comment/addReply                                                                         @controllers.CommentController.addReply
-#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
-#GET            /publication/comment/getReply/:commentId                                                              @controllers.CommentController.getReply(commentId: Long)
+POST           /publication/comment/addReply                                                                         @controllers.PublicationController.addReply
+#GET            /publication/comment/getReply/:commentId                                                              @controllers.PublicationController.getReply(commentId: Long)
 GET            /publication/comment/thumbUp/:commentId                                                              @controllers.PublicationController.thumbUp(commentId: Long)
 GET            /publication/comment/thumbDown/:commentId                                                              @controllers.PublicationController.thumbDown(commentId: Long)
 
 
-
-#Forum
-POST          /forum/createPost						@controllers.ForumController.createPost
-POST          /forum/addNewPost						@controllers.ForumController.addNewPost()
-POST          /forum/addNewComment					@controllers.ForumController.addNewComment()
-GET           /forum/getOnePost						@controllers.ForumController.getOnePost(id: Long)
-GET  		  /forum/getPosts 						@controllers.ForumController.getPosts(start: Integer=0, limit: Integer=10)
-PUT           /forum/votePost           			@controllers.ForumController.votePost()
-GET           /forum/getPostUpvoteCount     		@controllers.ForumController.getPostUpvoteCount(pid: Long)
-GET           /forum/getPostDownvoteCount   		@controllers.ForumController.getPostDownvoteCount(pid: Long)
+# Forum
+POST          /forum/createPost 				@controllers.ForumController.addNewPost()
+POST          /forum/addNewComment				@controllers.ForumController.addNewComment()
+GET           /forum/getOnePost					@controllers.ForumController.getOnePost(id: Long)
+GET  		  /forum/getPosts 					@controllers.ForumController.getPosts(start: Integer=0, limit: Integer=10)
+GET           /forum/getPostsWithVoteCounts     @controllers.ForumController.getPostsWithVoteCounts
+PUT           /forum/votePost           		@controllers.ForumController.votePost()
+GET           /forum/getPostUpvoteCount     	@controllers.ForumController.getPostUpvoteCount(pid: Long)
+GET           /forum/getPostDownvoteCount   	@controllers.ForumController.getPostDownvoteCount(pid: Long)
 GET           /forum/comment/thumbUp/:commentId		@controllers.ForumController.commentThumbUp(commentId: Long)
 GET           /forum/comment/thumbDown/:commentId	@controllers.ForumController.commentThumbDown(commentId: Long)
 
@@ -49,5 +53,15 @@ POST         /users/add                                controllers.UserControlle
 POST         /users/isUserValid                        controllers.UserController.userLogin
 POST         /users/isEmailExisted                     controllers.UserController.isEmailExisted
 POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
-GET          /users/getprofile/:id/json                controllers.UserController.getProfile(id: Long, format: String="json")
->>>>>>> master
+GET          /users/getprofile/:id                controllers.UserController.getProfile(id: Long)
+
+GET           /users/subscribe/subscriberId/:subscriberId/UserId/:UserId                               controllers.UserController.userSubscribe(subscriberId: Long, UserId: Long)
+GET           /users/unsubscribe/subscriberId/:subscriberId/UserId/:UserId                             controllers.UserController.userUnsubscribe(subscriberId: Long, UserId: Long)
+GET           /users/getSubscribers/:id                                                                controllers.UserController.getSubscribers(id: Long)
+
+GET           /users/sendFriendRequest/sender/:senderId/receiver/:receiverId                            controllers.UserController.sendFriendRequest(senderId: Long, receiverId: Long)
+GET           /users/getFriendRequests/userId/:userId                                                   controllers.UserController.getFriendRequests(userId: Long)
+GET           /users/acceptFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.acceptFriendRequest(userId: Long, senderId: Long)
+GET           /users/rejectFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.rejectFriendRequest(userId: Long, senderId: Long)
+GET           /users/getFriends/userId/:userId                                                          controllers.UserController.getFriends(userId: Long)
+GET           /users/deleteFriend/userId/:userId/friendId/:friendId                                     controllers.UserController.deleteFriend(userId: Long, friendId: Long)

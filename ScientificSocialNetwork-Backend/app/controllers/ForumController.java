@@ -1,12 +1,8 @@
 package controllers;
 
-import models.DetailedForumPost;
-import models.ForumPost;
-import models.ForumPostComment;
-import models.ForumPostCommentRating;
-import models.ForumPostRating;
-import models.User;
+import models.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
@@ -34,10 +30,24 @@ public class ForumController extends Controller {
     String postContent = postNode.findPath("content").asText();
     String paperLink = postNode.findPath("link").asText();
 
+    /*
+    * Specify type, default as "discussion", optionally "question"
+    * */
+    String type = null;
+    JsonNode typeNode = postNode.findPath("type");
+    if (typeNode == null) type = "discussion";
+    else type = typeNode.asText();
+
     User user = User.find.byId(1L);
-    System.out.println(user.getId()+"===================");
+
+    if (user != null) {
+      System.out.println("User: " + user.getId());
+    } else {
+      System.out.println("User not found.");
+    }
+
     ForumPost forumPost = new ForumPost(user, postTitle, postContent,
-        paperLink, -1L);
+        paperLink, -1L, type);
     forumPost.save();
     return created(Json.toJson(forumPost.getPostId()).toString());
 
@@ -154,4 +164,62 @@ public class ForumController extends Controller {
     return ok(Json.toJson(count).toString());
   }
 
+
+  /**
+   * Alfred: To display only title and current rating of posts.
+   * @return
+     */
+  public Result getPostsWithVoteCounts () {
+    // Get all posts
+    System.out.println("getPostsWithVoteCounts");
+    List<ForumPost> posts = ForumPost.find.all();
+    System.out.println("Number of posts found: " + posts.size());
+    List<PostTitle> titles = new ArrayList<>();
+    for (ForumPost post : posts) {
+
+      Integer upvoteCount = ForumPostRating
+              .find
+              .where()
+              .eq("post_id", post.getPostId())
+              .eq("updown", 1)
+              .findList().size();
+
+      Integer downvoteCount = ForumPostRating
+              .find
+              .where()
+              .eq("post_id", post.getPostId())
+              .eq("updown", -1)
+              .findList().size();
+
+      PostTitle title = new PostTitle ();
+      title.setPostId(post.getPostId());
+      title.setPostTitle(post.getPostTitle());
+      title.setUpvote(upvoteCount);
+      title.setDownvote(downvoteCount);
+      /**
+       * Type Default to discussion
+       */
+      System.out.format("Post %d Type: %s\n", post.getPostId(), post.getType());
+      if (post.getType() == null || post.getType().length() == 0) {
+        title.setPostType("discussion (unspecified)");
+      } else {
+        title.setPostType(post.getType());
+      }
+      titles.add(title);
+    }
+    return ok(Json.toJson(titles).toString());
+  }
+
+  public Result createPost () {
+    JsonNode json = request().body().asJson();
+//    System.out.println("=============");
+    System.out.println(json);
+    ForumPost post = new ForumPost();
+    post.setPaperLink(json.get("link").asText());
+    post.setPostTitle(json.get("title").asText());
+    post.setPostContent(json.get("content").asText());
+    post.save();
+        return created(post.getPostId()+"");
+//    return created(new Gson().toJson(post.getPostId()));
+  }
 }
