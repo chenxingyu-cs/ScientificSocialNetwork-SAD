@@ -153,6 +153,11 @@ public class PublicationController extends Controller {
 			flash("error", "Form value invalid");
 		}
 
+		if(jsonData.path("Content").asText().equals("")) {
+			flash("error", "Content cannot be empty!");
+			return redirect(routes.PublicationController.getPublicationPanel(id));
+		}
+
 		// Create comment
 		String CREATE = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + "/publication/addComment";
 		CompletionStage<WSResponse> jsonPromise = ws.url(CREATE).post((JsonNode)jsonData);
