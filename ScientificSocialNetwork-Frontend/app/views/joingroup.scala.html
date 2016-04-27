@@ -1,0 +1,37 @@
+@(userGroupForm: play.data.Form[UserGroup])
+
+<html>
+    <head>
+        <link href='@routes.Assets.at("css/bootstrap.min.css")'
+        rel="stylesheet"/>
+        <link href='@routes.Assets.at("css/header.css")'
+        rel="stylesheet"/>
+
+        <script src='@routes.Assets.at("js/jquery-1.1.js")'></script>
+    </head>
+    <body>
+       
+        <div class="container">
+            <div class="alert-info" role="alert">
+                @if(flash.containsKey("success")) {
+                    @flash.get("success")
+                }
+                @if(flash.containsKey("failed")) {
+                    @flash.get("failed")
+                }
+            </div>
+            <div>
+                <h3>Join group</h3>
+                <form action="@routes.UserGroupController.joinGroup()" method="POST">
+                    <input type="hidden" name="groupId" value='@userGroupForm("id").value'>
+                    <input type="text" name="groupUrl" placeholder="pass code">
+                    <button type="submit">Join</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+
