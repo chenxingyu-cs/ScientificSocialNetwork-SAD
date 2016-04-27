@@ -47,8 +47,9 @@ public class TestController extends Controller{
                 .get().thenApply(WSResponse::asJson);
         CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
         JsonNode detailedForumPostNode = jsonFuture.join();
-        
-    }
+
+		return null;
+	}
 
 
 	public Result getPostPage(){
@@ -72,7 +73,7 @@ public class TestController extends Controller{
 //			jsonData.put("timestamp", filledForm.get().getTimestamp());
 			jsonData.put("link", filledForm.get().getLink());
 			jsonData.put("type",filledForm.get().getType());
-			jsonData.put("userId", "1");
+			jsonData.put("userId", session("id"));
 			System.out.println(jsonData);
 			// POST Climate Service JSON data
 			String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;
