@@ -35,6 +35,22 @@ public class TestController extends Controller{
 	 * @param postType can give "question" as parameter
 	 * @return
      */
+
+    /**
+     * use to get a post from backend and edit it
+     * **/
+    public Result editPostPage(){
+        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+                + Constants.FORUM_POST_DETAIL;
+
+        CompletionStage<JsonNode> jsonPromise = this.ws.url(url).setQueryParameter("id", "1")
+                .get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode detailedForumPostNode = jsonFuture.join();
+        
+    }
+
+
 	public Result getPostPage(){
 		// init global form
 		postForm = formFactory.form(ForumPost.class);
