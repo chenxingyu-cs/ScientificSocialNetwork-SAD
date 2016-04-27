@@ -1,0 +1,35 @@
+@(publications: List[Publication], keyword: String)
+@import helper._
+
+@main("Most Popular Publications") {
+    <h1>@publications.size() Publications on @keyword</h1>
+	<table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
+	<thead>
+		<tr class="text-center">
+			<th style = "vertical-align: middle;" class="col-md-5">Paper Title</th>
+			<th style = "vertical-align: middle;" class="col-md-3">Authors</th>
+			<th style = "vertical-align: middle;" class="col-md-3">Conference Name</th>
+			<th style = "vertical-align: middle;" class="col-md-1">Year</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(publication <- publications) {
+				<tr>
+
+					<td><span class="@publication.getTitle() editable" data-name='paperTitle'>
+					<a href = "/publication/publicationPanel/@publication.getId()">@publication.getTitle()</a> </span></td>
+
+					<td><span class="@publication.getTitle() editable" data-name='authors'>
+							@publication.getAuthors() </span></td>
+
+					<td><span class="@publication.getTitle() editable" data-name='conferenceName'>
+							@publication.getConferenceName() </span></td>
+
+					<td><span class="@publication.getTitle() editable" data-name='year'>
+							@publication.getYear() </span></td>
+				</tr>
+			}
+	</tbody>
+    </table>
+
+}

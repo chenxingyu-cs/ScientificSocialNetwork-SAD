@@ -258,6 +258,7 @@ public class PublicationController extends Controller {
 		Form<Publication> filledForm = publicationForm.bindFromRequest();
         ObjectNode jsonData = Json.newObject();
         String keywordsStr = filledForm.get().getTitle();
+        String kString = keywordsStr;
         keywordsStr = keywordsStr.replace(" ", "+");
         
         String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.SEARCH_PUBLICATION_BY_KEYWORDS + keywordsStr;
@@ -273,7 +274,7 @@ public class PublicationController extends Controller {
 			publications.add(onePublication);
 		}
 			
-		return ok(mostPopularPublications.render(publications));
+		return ok(publicationSearchResult.render(publications, kString));
 		
 	}
     
