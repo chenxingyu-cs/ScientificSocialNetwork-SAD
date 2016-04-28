@@ -16,24 +16,24 @@ GET     /publicationPublishSubmit    controllers.PublicationController.publicati
 
 
 # An example to show publication panel
-GET     /publication/publicationPanel/:id               controllers.PublicationController.getPublicationPanel(id: Long)
-GET     /publication/getMostPopularPublications         controllers.PublicationController.getMostPopularPublications
+GET     /publication/publicationPanel/:id                               controllers.PublicationController.getPublicationPanel(id: Long)
+GET     /publication/getMostPopularPublications/:category               controllers.PublicationController.getMostPopularPublications(category: Int)
 
 
-POST     /publication/createTag/:publicationId        controllers.PublicationController.createTag(publicationId: Long)
-GET    /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
-POST     /publication/createSuggestion/:publicationId        controllers.PublicationController.createSuggestion(publicationId: Long)
+POST     /publication/createTag/:publicationId                          controllers.PublicationController.createTag(publicationId: Long)
+GET      /publication/getPublicationsOnOneTag/:tag                      controllers.PublicationController.getPublicationsOnOneTag(tag: String)
+POST     /publication/createSuggestion/:publicationId                   controllers.PublicationController.createSuggestion(publicationId: Long)
 GET      /publication/getSuggestionsOnOnePublication/:publicationId     controllers.PublicationController.getSuggestionsOnOnePublication(publicationId: Long)
 
 
-POST    /publication/addComment/:id                           controllers.PublicationController.addComment(id: Long)
-GET     /publication/thumbUp/:commentId                   controllers.PublicationController.thumbUp(commentId: Long)
-GET     /publication/thumbDown/:commentId                 controllers.PublicationController.thumbDown(commentId: Long)
-POST    /publication/addReply/:toUserId/:commentId/:publicationId        controllers.PublicationController.addReply(toUserId: Long, commentId: Long, publicationId: Long)
+POST    /publication/addComment/:id                                     controllers.PublicationController.addComment(id: Long)
+GET     /publication/thumbUp/:commentId                                 controllers.PublicationController.thumbUp(commentId: Long)
+GET     /publication/thumbDown/:commentId                               controllers.PublicationController.thumbDown(commentId: Long)
+POST    /publication/addReply/:toUserId/:commentId/:publicationId       controllers.PublicationController.addReply(toUserId: Long, commentId: Long, publicationId: Long)
 
 # Search
-GET     /publication/publicationSearch                  controllers.PublicationController.publicationSearch()
-GET     /publication/publicationSearchByKeywords            controllers.PublicationController.publicationSearchByKeywords()
+GET     /publication/publicationSearch                                  controllers.PublicationController.publicationSearch()
+GET     /publication/publicationSearchByKeywords                        controllers.PublicationController.publicationSearchByKeywords()
 
 
 # Map static resources from the /public folder to the /assets URL path
