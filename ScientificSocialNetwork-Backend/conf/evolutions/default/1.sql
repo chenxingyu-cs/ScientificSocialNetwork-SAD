@@ -34,6 +34,7 @@ create table forum_post_comment (
   timestamp                     TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   content                       TEXT,
   reply_to_user_id              bigint,
+  vote                          bigint,
   constraint pk_forum_post_comment primary key (cid)
 );
 

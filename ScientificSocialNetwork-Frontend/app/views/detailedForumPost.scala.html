@@ -2,15 +2,25 @@
 @import helper._
 
 @main("Detailed Forum Post Page") {
+<head>
+	<link href='@routes.Assets.versioned("css/bootstrap.min.css")' rel="stylesheet"/>
+	<link rel="stylesheet" href='@routes.Assets.versioned("css/forum.css")'>
+	<link rel="stylesheet" href='@routes.Assets.versioned("css/prism.css")'>
+	<link rel="stylesheet" href='@routes.Assets.versioned("css/detail.css")'>
+	<script src='@routes.Assets.versioned("js/jquery-1.1.js")'></script>
+	<script src='@routes.Assets.versioned("js/forum-post.js")'></script>
+	<script src='@routes.Assets.versioned("js/prism.js")'></script>
+</head>
 
 <div class="container">
   <div class="row content">
     <div class="col-md-12">
-      <h2>@detail.post.getTitle()</h2>
-      <h5><span class="label label-success">tag</span></h5>
+      <h1 class="text-center">@detail.post.getTitle()</h2>
+      <hr>
+      <h5 class="pull-right"><span class="glyphicon glyphicon-time"></span> Post By @detail.post.getUserName() at @detail.post.getTimestamp()</h5>
       <br>
-      <h5><span class="glyphicon glyphicon-time"> @detail.post.getTimestamp()</span></h5>
-      <p>@detail.post.getContent()</p>
+      <br>
+      <h4 class="text-info">@detail.post.getContent()</h2>
     </div>
   </div>
   <hr>
@@ -21,31 +31,37 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4>@comment.getUserName()  <small>@comment.getTimestamp()</small></h4>
+          <h4 class="text-muted">@comment.getUserName()    <span class="glyphicon glyphicon-time"></span> @comment.getTimestamp()</h4>
         </div>
         <div class="panel-body">
-          <p>@comment.getContent()</p>
-          <div class="stats">
-            <a href="#" class="btn btn-sm stat-item">
-              <i class="glyphicon glyphicon-thumbs-up icon"></i> 12
-            </a>
-            <a href="#" class="btn btn-sm stat-item">
-              <i class="glyphicon glyphicon-thumbs-down icon"></i> 2
-            </a>
-          </div>
+          <h4>@comment.getContent()</h4>
+            <div class="comment-vote pull-right">
+              <a href="javascript:void(0)" data-act="voteup" data-commentId="@comment.getCId()" data-id="@detail.getPost().getPostId()" class="vote-thumb vote-up"></a>
+              <p class="vote-num">@comment.getThumb</p>
+              <a href="javascript:void(0)" data-act="votedown" data-commentId="@comment.getCId()" data-id="@detail.getPost().getPostId()" class="vote-thumb vote-down"></a>
+            </div>
+          <!-- button class="btn btn-default pull-right" href="#replyTo">Reply</button-->
         </div>
     </div>
   </div>
   }
       
-      
-      <hr>
-      <form role="form">
-        <div class="form-group">
-          <textarea class="form-control" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">Submit</button>
-      </form>
+     <div class="row">
+		<form class="form" role="form" action="@routes.ForumController.addComment(detail.getPost().getPostId())"
+		enctype="multipart/form-data" method="POST">
+			<div class="form-group">
+				<textarea class="form-control" rows="5" name="content"></textarea>
+				<button type="submit" class="btn btn-primary mt-btn" >Comment</button>
+			</div>
+		</form>
+	</div>
+	
+	<script>
+		function assignReplyTo(replyTo) {
+			document.getElementById("replyTo").value = replyTo;
+		}
+	</script>
+	
     </div>
   </div>
 </div>

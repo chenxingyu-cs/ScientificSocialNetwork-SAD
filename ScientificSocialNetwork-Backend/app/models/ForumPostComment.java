@@ -35,6 +35,8 @@ public class ForumPostComment extends Model {
   @JoinColumn(name = "reply_to_user_id", referencedColumnName = "id")
   private User replyToUser;
 
+  private long vote;
+  
   public ForumPostComment() {
 
   }
@@ -94,5 +96,13 @@ public class ForumPostComment extends Model {
 
   public void setUser(User user) {
     this.user = user;
+  }
+  
+  public long getVote() {
+    return vote;
+  }
+
+  public void setVote(long vote) {
+    this.vote = vote;
   }
 }

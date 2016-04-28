@@ -42,11 +42,8 @@ GET           /forum/getPostsWithVoteCounts     @controllers.ForumController.get
 PUT           /forum/votePost           		@controllers.ForumController.votePost()
 GET           /forum/getPostUpvoteCount     	@controllers.ForumController.getPostUpvoteCount(pid: Long)
 GET           /forum/getPostDownvoteCount   	@controllers.ForumController.getPostDownvoteCount(pid: Long)
-PUT           /forum/voteComment           		@controllers.ForumController.voteComment()
-GET           /forum/getCommentUpvoteCount		@controllers.ForumController.getCommentUpvoteCount(cid: Long)
-GET           /forum/getCommentDownvoteCount	@controllers.ForumController.getCommentDownvoteCount(cid: Long)
-#forum
-
+GET           /forum/comment/thumbUp/:commentId		@controllers.ForumController.commentThumbUp(commentId: Long)
+GET           /forum/comment/thumbDown/:commentId	@controllers.ForumController.commentThumbDown(commentId: Long)
 
 #Users
 
