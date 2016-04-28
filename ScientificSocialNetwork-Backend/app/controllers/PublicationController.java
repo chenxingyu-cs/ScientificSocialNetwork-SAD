@@ -165,15 +165,17 @@ public class PublicationController extends Controller{
 			String date = json.path("date").asText();
 			String pages = json.path("pages").asText();
 			String conferenceName = json.path("conferenceName").asText();
+			String url = json.path("url").asText();
 			int year = json.path("year").asInt();
 			
-			ArrayList<Author> authors = new ArrayList<>();
+			Set<Author> authors = new HashSet<>();
 			String[] parts = authorList.split(",");
 			for (String part: parts) {
-				List<Author> authorListInDB = Author.find.where().ilike("name", part).findList();
+				List<Author> authorListInDB = Author.find.where().contains("name", part).findList();
 				if (authorListInDB.size() == 0) {
 					Author author = new Author();
 					author.setName(part);
+					author.save();
 					authors.add(author);
 				} else {
 					Author author = authorListInDB.get(0);
@@ -181,14 +183,17 @@ public class PublicationController extends Controller{
 				}
 			}
 			
+			List<Author> resultAuthorList = new ArrayList<>();
+			resultAuthorList.addAll(authors);
 			Publication publication = new Publication();
-			publication.setAuthors(authors);
+			publication.setAuthors(resultAuthorList);
 			publication.setCount(0);
 			publication.setDate(date);
 			publication.setTitle(title);
 			publication.setPages(pages);
 			publication.setConferenceName(conferenceName);
 			publication.setYear(year);
+			publication.setUrl(url);
 			
 			System.out.println(publication.toString());
 
