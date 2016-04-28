@@ -40,6 +40,11 @@ public class TestController extends Controller{
      * use to get a post from backend and edit it
      * **/
 
+
+    public Result getChatPage() {
+        return redirect("/chat/chatPage");
+    }
+
 	public Result getPostPage(){
 		// init global form
 		postForm = formFactory.form(ForumPost.class);
@@ -58,6 +63,7 @@ public class TestController extends Controller{
 		JsonNode postId = null;
 		try {
             jsonData.put("postId",filledForm.get().getPostId());
+            jsonData.put("id",filledForm.get().getPostId());
             System.out.println("Edit Post Id: "+filledForm.get().getPostId());
 			jsonData.put("title", filledForm.get().getTitle());
 			jsonData.put("content", filledForm.get().getContent());

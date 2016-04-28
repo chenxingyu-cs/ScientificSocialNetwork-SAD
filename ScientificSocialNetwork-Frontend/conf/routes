@@ -78,3 +78,10 @@ GET     	/assets/*file               						controllers.Assets.at(path="/public",
 #User
 GET    /author        controllers.UserController.getAllAuthors
 GET    /users/setAuthor/:authorId      controllers.UserController.setUserAuthor(authorId: Long)  
+# Home page
+POST    /chat/leave                      controllers.Chat.leave
+GET     /chat/chatPage                   controllers.Chat.chat
+GET     /chat/socket                     controllers.Chat.socket
+GET     /getChatPage                     controllers.TestController.getChatPage
+# Map static resources from the /public folder to the /assets URL path
+GET     /webjars/*file              @controllers.WebJarAssets.at(file)
