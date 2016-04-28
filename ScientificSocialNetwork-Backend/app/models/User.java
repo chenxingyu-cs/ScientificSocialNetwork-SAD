@@ -186,18 +186,17 @@ public class User extends Model{
         this.update();
 	}
 	
-	public void setUserGroups(List<UserGroup> userGroups) {
-		this.groups = userGroups;
-	}
+	// public void setUserGroups(List<UserGroup> userGroups) {
+	// 	this.groups = userGroups;
+	// }
 
-	public List<UserGroup> getUserGroups() {
-		return this.groups;
-	}
+	// public List<UserGroup> getUserGroups() {
+	// 	return this.groups;
+	// }
 	
 	
-	public void addUserGroup(UserGroup userGroup) {
-		this.groups.add(userGroup);
-		this.update();
-
-	}
+	// public void addUserGroup(UserGroup userGroup) {
+	// 	this.groups.add(userGroup);
+	// 	this.update();
+	// }
 }

@@ -46,9 +46,10 @@ public class Constants {
 	public static final String GET_PROFILE ="/users/getprofile/";
 
 	//userGroup
-	public static final String GET_GROUPS = "/group/getGroupList/"
-	public static final String ADD_USERGROUP = "/userGroup/add";
-	public static final String ADD_USERTOGROUP = "/userGroup/addusertogroup";
+	public static final String GET_GROUPS = "/group/getGroupList/";
+	public static final String CREATE_GROUP = "/group/createGroup";
+	public static final String ADD_USER_TO_GROUP = "/group/addMembersToGroup";
+	public static final String GET_GROUP_MEMBERS = "/group/getGroupMember/";
 
   // add all parameter
     public static final String ADD_ALL_PARAMETERS = "/parameter/addParameter";

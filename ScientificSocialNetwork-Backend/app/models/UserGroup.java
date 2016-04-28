@@ -111,9 +111,9 @@ public class UserGroup extends Model{
 		this.topic = topic;
 	}
 
-    public void addUserToGroup(User user) {
-		this.groupMembers.add(user);
-		this.update();
-	}
+ //    public void addUserToGroup(User user) {
+	// 	this.groupMembers.add(user);
+	// 	this.update();
+	// }
 	
 }

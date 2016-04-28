@@ -67,8 +67,8 @@ public class UserGroupController extends Controller {
             return Common.badRequestWrapper("Failed to add member!");
         }
         else {
-            group.addUserToGroup(user);
-            user.addUserGroup(group);
+            // group.addUserToGroup(user);
+            // user.addUserGroup(group);
         }
     
 		String result = new String();
@@ -78,19 +78,13 @@ public class UserGroupController extends Controller {
 
     //get
     public Result getGroupList(Long userID) {
-       
         String result = new String();
-       
-
         return ok(result);
     }
 
     //get
     public Result getGroupMember(Long groupId) {
-
         String result = new String();
-
-
         return ok(result);
     }
 }

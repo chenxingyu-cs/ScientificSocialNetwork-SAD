@@ -72,7 +72,6 @@ public class UserController extends Controller{
 		String email = json.path("email").asText();
 		String password = json.path("password").asText();
 		
-	     
 		List<User> users= User.find.setMaxRows(1).where().eq("email",email).findList();
 		
 		if (users.size() == 0) {
@@ -387,7 +386,7 @@ public class UserController extends Controller{
 			Set<User> friends = user.getFriends();
 			for(User f: friends) {
 				if(f.getId()==friend.getId()) {
-					friends.remove(f);
+					friends.remove(f); 
 				}
 			}
 

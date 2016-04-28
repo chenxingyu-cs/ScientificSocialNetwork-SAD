@@ -57,6 +57,7 @@ GET     /users/profile              controllers.UserController.getProfile
 
 # UserGroup
 GET     /grouplist                  controllers.UserGroupController.getGroups
+GET     /createGroup                controllers.UserGroupController.createGroupPage
 POST    /createNewUserGroup         controllers.UserGroupController.createNewUserGroup
 POST    /joinGroup                  controllers.UserGroupController.joinGroup
 GET     /createGroupSuccess         controllers.UserGroupController.createGroupSuccess

@@ -1,18 +1,23 @@
 package models;
 
+import java.util.List;
+
 public class UserGroup {
 
 	private Long id;
-	private Long createUser;
+	private Long creatorUser;
 	private String groupName;
-	public String groupDescription;
-    public String groupUrl;
+	private String groupDescription;
+    private int access;
+    private String topic;
+    private List<User> groupMembers;
+
 
     public UserGroup() {
 		super();
 	}
 
-	public UserGroup(Long id, Long creatorUser,String groupName, String groupDescription, int access, String topic,
+	public UserGroup(Long id, Long creatorUser, String groupName, String groupDescription, int access, String topic,
 			List<User> groupMembers) {
 		super();
 		this.id = id;
