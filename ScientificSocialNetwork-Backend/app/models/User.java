@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.Model.Finder;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import play.data.validation.Constraints;
 
 /**
@@ -60,16 +62,20 @@ public class User extends Model{
 	}
 
 	@ManyToOne
+	@JsonBackReference
 	User self;
 	
 	@OneToMany(mappedBy="self")
-	Set<User> friends = new HashSet<User>();
+	@JsonManagedReference
+	List<User> friends = new ArrayList<>();
 	
 	@OneToMany(mappedBy="self")
-	Set<User> subscribers = new HashSet<User>();
+	@JsonManagedReference
+	List<User> subscribers = new ArrayList<>();
 	
 	@OneToMany(mappedBy="self")
-	Set<User> friendRequestSender = new HashSet<User>();
+	@JsonManagedReference
+	List<User> friendRequestSender = new ArrayList<>();
 
 	
 	@ManyToMany(cascade=CascadeType.ALL)
@@ -97,6 +103,14 @@ public class User extends Model{
 
 	public Long getId() {
 		return id;
+	}
+
+	public User getSelf() {
+		return self;
+	}
+
+	public void setSelf(User self) {
+		this.self = self;
 	}
 
 	public void setId(Long id) {
@@ -158,59 +172,87 @@ public class User extends Model{
     public void setResearchFields(String researchFields) {
         this.researchFields = researchFields;
     }
-	
-	public Set<User> getSubscribers() {
-		return this.subscribers;
+
+	public List<User> getFriends() {
+		return friends;
 	}
 
-	public void setSubscribers(Set<User> subscribers) {
+	public void setFriends(List<User> friends) {
+		this.friends = friends;
+	}
+
+	public List<User> getSubscribers() {
+		return subscribers;
+	}
+
+	public void setSubscribers(List<User> subscribers) {
 		this.subscribers = subscribers;
 	}
-	
-    public void addSubscriber(User subscriber) {
+
+	public List<User> getFriendRequestSender() {
+		return friendRequestSender;
+	}
+
+	public void setFriendRequestSender(List<User> friendRequestSender) {
+		this.friendRequestSender = friendRequestSender;
+	}
+
+	public List<UserGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<UserGroup> groups) {
+		this.groups = groups;
+	}
+
+	public void addSubscriber(User subscriber) {
 		this.subscribers.add(subscriber);
 		this.update();
 	}
 
-	public void setFriendRequestSender(Set<User> friendRequestSender) {
-		this.friendRequestSender = friendRequestSender;
-	}
 
-	public Set<User> getFriendRequestSender() {
-		return this.friendRequestSender;
-	}
 	
     public void addFriendRequest(User friendRequest) {
 		this.friendRequestSender.add(friendRequest);
 	}
 
-
-	public void setFriends(Set<User> friends) {
-		this.friends = friends;
-	}
-
-	public Set<User> getFriends() {
-		return this.friends;
-	}
 	
 	public void addFriend(User friend) {
 		this.friends.add(friend);
         friend.update();
         this.update();
 	}
-	
-	public void setUserGroups(List<UserGroup> userGroups) {
-		this.groups = userGroups;
-	}
 
-	public List<UserGroup> getUserGroups() {
-		return this.groups;
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", accessLevel='" + accessLevel + '\'' +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", mailingAddress='" + mailingAddress + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", researchFields='" + researchFields + '\'' +
+				", self=" + self +
+				", friends=" + friends.toString() +
+				", subscribers=" + subscribers.toString() +
+				", friendRequestSender=" + friendRequestSender.toString() +
+				", groups=" + groups +
+				'}';
 	}
-	
-	public void addUserGroup(UserGroup userGroup) {
-		this.groups.add(userGroup);
-		userGroup.update();
-		this.update();
+	// public void setUserGroups(List<UserGroup> userGroups) {
+	// 	this.groups = userGroups;
+	// }
 
-	}
+	// public List<UserGroup> getUserGroups() {
+	// 	return this.groups;
+	// }
+	
+	
+	// public void addUserGroup(UserGroup userGroup) {
+	// 	this.groups.add(userGroup);
+	// 	this.update();
+	// }
 }

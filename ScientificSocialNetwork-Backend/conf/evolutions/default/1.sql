@@ -132,7 +132,9 @@ create table user_user_group (
 
 create table user_group (
   id                            bigint auto_increment not null,
-  name                          varchar(255),
+  creator_user                  bigint,
+  group_name                    varchar(255),
+  group_description             varchar(255),
   access                        integer,
   topic                         varchar(255),
   constraint pk_user_group primary key (id)

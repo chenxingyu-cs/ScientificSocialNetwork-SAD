@@ -32,7 +32,7 @@ public class Constants {
 
 	public static final String GET_PUBLICATION_COMMENTS = "/publication/getComments/";
 
-	public static final String GET_MOST_POPULAR_PUBLICATIONS = "/publication/getMostPopularPublications/json";
+	public static final String GET_MOST_POPULAR_PUBLICATIONS = "/publication/getMostPopularPublications/";
 	
 	public static final String ADD_NEW_TAG = "/publication/addTag";
 	public static final String GET_PUBLICATION_ON_ONE_TAG = "/publication/getPublicationsOnOneTag/";
@@ -52,6 +52,12 @@ public class Constants {
 	public static final String GET_PROFILE ="/users/getprofile/";
 	public static final String GET_ALL_AUTHORS = "/users/getAllAuthors/json";
 	public static final String SET_USER_AUTHOR = "/users/setUserAuthor";
+
+	//userGroup
+	public static final String GET_GROUPS = "/group/getGroupList/";
+	public static final String CREATE_GROUP = "/group/createGroup";
+	public static final String ADD_USER_TO_GROUP = "/group/addMembersToGroup";
+	public static final String GET_GROUP_MEMBERS = "/group/getGroupMember/";
 
   // add all parameter
     public static final String ADD_ALL_PARAMETERS = "/parameter/addParameter";

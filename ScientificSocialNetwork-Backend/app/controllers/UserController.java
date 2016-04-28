@@ -75,8 +75,6 @@ public class UserController extends Controller{
 		String email = json.path("email").asText();
 		String password = json.path("password").asText();
 		
-	     
-		List<Publication> publications = Publication.find.all();
 		List<User> users= User.find.setMaxRows(1).where().eq("email",email).findList();
 		
 		if (users.size() == 0) {
@@ -207,6 +205,11 @@ public class UserController extends Controller{
 			}
 
 			followee.addSubscriber(subscriber);
+			subscriber.setSelf(followee);
+			System.out.println("save: "+followee.getSubscribers().size());
+
+			followee.save();
+			subscriber.save();
 			return ok("{\"success\":\"Success!\"}");
 			
 		} catch (Exception e){
@@ -236,7 +239,7 @@ public class UserController extends Controller{
 				return Common.badRequestWrapper("Followee is not existed");
 			}
 
-			Set<User> subscribers = followee.getSubscribers();
+			List<User> subscribers = followee.getSubscribers();
 			for(User u : subscribers) {
 				if(u.getId()==subscriber.getId()) {
 					subscribers.remove(u);
@@ -262,7 +265,9 @@ public class UserController extends Controller{
 				System.out.println("Cannot find user");
 				return Common.badRequestWrapper("Cannot find user");
 			}
-			Set<User> subscribers = user.getSubscribers();
+			System.out.println(user.toString());
+			List<User> subscribers = user.getSubscribers();
+			System.out.println(subscribers.size());
 			StringBuilder sb = new StringBuilder();
 			sb.append("{\"followers\":");
 
@@ -334,7 +339,7 @@ public class UserController extends Controller{
 				return Common.badRequestWrapper("Cannot find user");
 			}
 
-		Set<User> friends = user.getFriends();
+		List<User> friends = user.getFriends();
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"friends\":");
 
@@ -388,10 +393,10 @@ public class UserController extends Controller{
 			
 			String result = new String();
 
-			Set<User> friends = user.getFriends();
+			List<User> friends = user.getFriends();
 			for(User f: friends) {
 				if(f.getId()==friend.getId()) {
-					friends.remove(f);
+					friends.remove(f); 
 				}
 			}
 

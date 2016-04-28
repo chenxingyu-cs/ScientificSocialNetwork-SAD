@@ -32,7 +32,7 @@ public class UserController extends Controller {
     @Inject WSClient ws;
     @Inject FormFactory formFactory;
     
-    static Form<User> userForm ;
+    static Form<User> userForm;
 
     public Result home() {
         return ok(home.render());
@@ -143,7 +143,6 @@ public class UserController extends Controller {
     }
     
     public Result signup() {
-        
         return ok(signup.render(userForm));
     }
   
@@ -242,7 +241,5 @@ public class UserController extends Controller {
         // user.setAuthors(authorList);
         return user;
     }
-    
-
 
 }

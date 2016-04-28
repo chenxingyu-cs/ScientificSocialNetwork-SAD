@@ -17,7 +17,7 @@ GET     /publication/searchPublicationByKeywords/:keywordsStr     controllers.Pu
 # Publication
 GET     /publication/getAllPublications/json          controllers.PublicationController.getAllPublications(format: String="json")     
 GET     /publication/getPublicationPanel/:id          controllers.PublicationController.getPublicationPanel(id: Long)
-GET     /publication/getMostPopularPublications/json  controllers.PublicationController.getMostPopularPublications(format: String="json") 
+GET     /publication/getMostPopularPublications/:categoryId  controllers.PublicationController.getMostPopularPublications(categoryId: Int) 
 POST     /publication/publishPublication               controllers.PublicationController.publishPublication
 POST    /publication/addTag                           controllers.PublicationController.createTag
 GET     /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
@@ -65,6 +65,18 @@ GET           /users/getFriendRequests/userId/:userId                           
 GET           /users/acceptFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.acceptFriendRequest(userId: Long, senderId: Long)
 GET           /users/rejectFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.rejectFriendRequest(userId: Long, senderId: Long)
 GET           /users/getFriends/userId/:userId                                                          controllers.UserController.getFriends(userId: Long)
-GET           /users/deleteFriend/userId/:userId/friendId/:friendId                                     controllers.UserController.deleteFriend(userId: Long, friendId: Long)
+
 GET           /users/getAllAuthors/json                       controllers.UserController.getAllAuthors(format: String="json")
 POST           /users/setUserAuthor                            controllers.UserController.setUserAuthor
+
+
+
+GET           /users/deleteFriend/userId/:userId/friendId/:friendId                                     controllers.UserController.deleteFriend(userId: Long, friendId: Long)
+
+
+#Group
+POST           /group/createGroup                                                                        controllers.UserGroupController.createGroup
+POST           /group/addMembersToGroup                                                                  controllers.UserGroupController.addMembersToGroup
+GET            /group/getGroupList/:userID                                                              controllers.UserGroupController.getGroupList(userID: Long)
+GET            /group/getGroupMember/:groupId                                                            controllers.UserGroupController.getGroupMember(groupId: Long)
+

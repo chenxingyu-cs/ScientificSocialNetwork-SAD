@@ -10,6 +10,7 @@
 				</button>
 				<a class="navbar-brand" style="padding-bottom: 0;" href="/">
 					<div>
+					Scientific Social Network
 					</div>
 				</a>
 			</div>
@@ -21,7 +22,8 @@
 						<ul class="dropdown-menu">
 							<li><a href="@routes.PublicationController.getAllPublications()">Publication List</a></li>
 							<li><a href="@routes.PublicationController.publicationPublish()">Publish Paper</a></li>
-							<li><a href="@routes.PublicationController.getMostPopularPublications()">Most Popular Publications</a></li>
+							<li><a href="@routes.PublicationController.getMostPopularPublications(1)">Most Popular Publications By View Count</a></li>
+							<li><a href="@routes.PublicationController.getMostPopularPublications(2)">Most Popular Publications By Comment Count</a></li>
 							<li><a href="@routes.PublicationController.publicationSearch()">Search Publication</a></li>
 						</ul>
 					</li>
@@ -34,6 +36,14 @@
 						</ul>
 					</li>
 
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="@routes.UserGroupController.createGroupPage()">Create Group</a></li>
+<!-- 							<li><a href="@routes.ForumController.getPosts">See All Posts</a></li>
+ -->						</ul>
+					</li>
+
 					@if(!session.get("email")) {
 						<form class="navbar-form navbar-right" action="@routes.UserController.login()">
 							<button type="submit" class="btn btn-success">Log in</button>
@@ -43,7 +53,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Space<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="@routes.UserController.getProfile()">My Profile</a></li>
-								<li><a href="#">My Groups</a></li>
+								<li><a href="@routes.UserGroupController.getGroups()">My Groups</a></li>
 							</ul>
 						</li>
 
