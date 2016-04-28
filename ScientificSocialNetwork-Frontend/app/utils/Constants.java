@@ -36,6 +36,9 @@ public class Constants {
 	
 	public static final String ADD_NEW_TAG = "/publication/addTag";
 	public static final String GET_PUBLICATION_ON_ONE_TAG = "/publication/getPublicationsOnOneTag/";
+	public static final String ADD_NEW_SUGGESTION = "/publication/addSuggestion";
+    public static final String GET_SUGGESTIONS_ON_ONE_PUBLICATION = "/publication/getSuggestionsOnOnePublication/";
+    
 
 	public static final String SEARCH_PUBLICATION_BY_KEYWORDS = "/publication/searchPublicationByKeywords/";
 

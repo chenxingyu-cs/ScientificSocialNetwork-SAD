@@ -350,4 +350,44 @@ public class PublicationController extends Controller{
 			return Common.badRequestWrapper("Fail to fetch replies");
 		}
 	}
+	
+	public Result createSuggestion() {
+		System.out.println("create suggestion");
+		JsonNode json = request().body().asJson();
+		// System.out.println("=============");
+		System.out.println(json);
+
+//		long publicationId = json.get("publicationId").asLong();
+//		Publication publication = Publication.find.byId(publicationId);
+
+		Suggestion suggestion = new Suggestion();
+
+		suggestion.setUserName(json.get("userName").asText());
+		suggestion.setSuggestionText(json.get("suggestionText").asText());
+		suggestion.setPublicationId(json.get("publicationId").asLong());
+
+		suggestion.save();
+		// System.out.println("*******************" +
+		// json.get("publicationId").asLong() + "***************");
+		return created(suggestion.getId() + "");
+
+		// return created(new Gson().toJson(post.getPostId()));
+	}
+
+	public Result getSuggestionsOnOnePublication(Long publicationId) {
+
+		List<Suggestion> suggestions = Suggestion.find.where().eq("publicationId", publicationId).findList();
+		if (suggestions.size() == 0) {
+			System.out.println("No suggestion found");
+		}
+
+		// Use the json in Play library this time
+		String result = new String();
+		// if (format.equals("json")) {
+		JsonNode jsonNode = Json.toJson(suggestions);
+		result = jsonNode.toString();
+		// }
+		return ok(result);
+
+	}
 }

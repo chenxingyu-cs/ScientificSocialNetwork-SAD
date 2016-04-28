@@ -21,6 +21,8 @@ GET     /publication/getMostPopularPublications/json  controllers.PublicationCon
 POST     /publication/publishPublication               controllers.PublicationController.publishPublication
 POST    /publication/addTag                           controllers.PublicationController.createTag
 GET     /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
+POST    /publication/addSuggestion                           controllers.PublicationController.createSuggestion
+GET     /publication/getSuggestionsOnOnePublication/:publicationId     controllers.PublicationController.getSuggestionsOnOnePublication(publicationId: Long)
 
 
 # Publication Comment

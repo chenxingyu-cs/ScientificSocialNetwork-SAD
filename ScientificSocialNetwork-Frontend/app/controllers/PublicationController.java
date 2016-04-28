@@ -42,6 +42,7 @@ public class PublicationController extends Controller {
 
 	
 	static Form<Tag> tagForm;
+	static Form<Suggestion> suggestionForm;
 
 
 	// the global form
@@ -432,4 +433,60 @@ public class PublicationController extends Controller {
 
 		return oneReply;
 	}
+	
+    public Result createSuggestion(long publicationId){
+        Form<Suggestion> filledForm = suggestionForm.bindFromRequest();
+        String username = session("username");
+        ObjectNode jsonData = Json.newObject();
+        try{
+            jsonData.put("userName", username);
+            jsonData.put("suggestionText", filledForm.get().getSuggestionText());
+            jsonData.put("publicationId", publicationId);
+            System.out.println(jsonData);
+            // POST Climate Service JSON data
+            String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_SUGGESTION;
+            System.out.println(url);
+            
+            CompletionStage<WSResponse> jsonPromise = ws.url(url).post((JsonNode)jsonData);
+            CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
+            JsonNode publicationNode = jsonFuture.join().asJson();
+            System.out.println(publicationNode);
+            return redirect("/publication/getSuggestionsOnOnePublication/" + publicationId);
+        }
+        catch (IllegalStateException e) {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+        }
+        return redirect("/publication/getSuggestionsOnOnePublication/" + publicationId);
+        
+    }
+    
+    public Result getSuggestionsOnOnePublication(Long publicationId) {
+    	List<Suggestion> suggestions = new ArrayList<>();
+    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_SUGGESTIONS_ON_ONE_PUBLICATION + publicationId;
+    	
+    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+    	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+    	JsonNode publicationNode = jsonFuture.join();
+    	
+    	for (int i = 0; i < publicationNode.size(); i++) {
+			JsonNode json = publicationNode.path(i);
+			Suggestion suggestion = deserializeJsonToSuggestion(json);
+			suggestions.add(suggestion);
+		}
+    	suggestionForm = formFactory.form(Suggestion.class);
+    	
+    	return ok(publicationsOnOneSuggestion.render(publicationId,suggestions,suggestionForm));
+    }
+    
+    public static Suggestion deserializeJsonToSuggestion(JsonNode json) {
+    	Suggestion suggestion = new Suggestion();
+    	suggestion.setUserName(json.path("userName").asText());
+    	suggestion.setSuggestionText(json.path("suggestionText").asText());
+    	return suggestion;
+    	
+    }
+
 }
