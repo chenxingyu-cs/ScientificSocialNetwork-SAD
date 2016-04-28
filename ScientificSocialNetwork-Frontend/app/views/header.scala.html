@@ -36,6 +36,13 @@
 						</ul>
 					</li>
 
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Chat Room<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@routes.TestController.getChatPage()">Go to Chat Room</a></li>
+                        </ul>
+                    </li>
+
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups<b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -56,6 +63,7 @@
 								<li><a href="@routes.UserGroupController.getGroups()">My Groups</a></li>
 							</ul>
 						</li>
+
 
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">@session.get("email")<b class="caret"></b></a>
