@@ -47,6 +47,7 @@ public class PublicationController extends Controller {
 	// the global form
 	static Form<PublicationComment> commentForm;
 	static Form<PublicationReply> replyForm;
+	static Form<Publication> publishForm;
 
 	
 	// the global form
@@ -90,9 +91,38 @@ public class PublicationController extends Controller {
 	}
 	
 	public Result publicationPublishSubmit() {
-		List<Author> authorsList = new ArrayList<Author>();
+		publishForm = formFactory.form(Publication.class);
+		Form<Publication> form = publishForm.bindFromRequest();
+
+		ObjectNode jnode = Json.newObject();
+		try {
+			jnode.put("title", form.field("paperTitle").value());
+			jnode.put("authorList", form.field("authorList").value());
+			jnode.put("year", form.field("year").value());
+			jnode.put("date", form.field("date").value());
+			jnode.put("pages", form.field("pages").value());
+			jnode.put("conferenceName", form.field("conferenceName").value());
+		}catch(Exception e) {
+			flash("error", "Form value invalid");
+		}
 		
-		return ok(publicationPublish.render(authorsList));
+		System.out.println(jnode.toString());
+		
+		// Create reply
+		String CREATE = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + "/publication/publishPublication";
+		CompletionStage<WSResponse> jsonPromise = ws.url(CREATE).post((JsonNode)jnode);
+		CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
+		System.out.println(CREATE);
+		
+		JsonNode responseNode = jsonFuture.join().asJson();
+		if (responseNode == null || responseNode.has("error")) {
+			if (responseNode == null) flash("error", "Create Reply error.");
+			else flash("error", responseNode.get("error").textValue());
+			return redirect("/publication");
+		}
+		flash("success", "Publish Reply successfully.");
+		
+		return redirect("/publication");
 	}
 	
 	public Result getPublicationPanel(long id) {

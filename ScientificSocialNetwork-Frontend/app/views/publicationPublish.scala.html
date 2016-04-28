@@ -2,12 +2,11 @@
  @import helper._
 
  @main("Create New Publication") {
- @form(action = routes.PublicationController.publicationPublishSubmit()) {
 <div class="container">
 	<div
 		class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 		<p id="msg"></p>
-		<form class="form-signin">
+		<form class="form-signin" action = "@routes.PublicationController.publicationPublishSubmit()">
 			<h1 class="form-signin-heading" align="center">Paper Registration</h1>
 
 			<div class="form-group">
@@ -18,14 +17,26 @@
 				<input type="text" name="authorList" id="authorList"
 					class="form-control" placeholder="Author List">
 			</div> -->
+
 			
-			<div class="form-group" id="select-wrapper">
-				<select class="form-control" id="authorList" name="authorList" placeholder="Author List..."></select>
+ 			<div class="form-group">
+				<input type="text" name="authorList" id="authorList" class="form-control"
+					placeholder="authorList">
+			</div> 
+			
+			<div class="form-group">
+				<input type="text" name="pages" id="pages" class="form-control"
+					placeholder="Pages">
 			</div>
 			
 			<div class="form-group">
-				<input type="text" name="publicationChannel" id="publicationChannel"
-					class="form-control" placeholder="Publication Channel">
+				<input type="text" name="date" id=""date"" class="form-control"
+					placeholder="Date(YYYY-MM-DD)">
+			</div>
+			
+			<div class="form-group">
+				<input type="text" name="conferenceName" id="conferenceName"
+					class="form-control" placeholder="Conference Name">
 			</div>
 			<div class="form-group">
                 <select id="year" name="year" class="form-control">
@@ -34,22 +45,31 @@
                      }
                 </select>
 			</div>
-    		<div class="form-group">
-    			<input class="btn btn-info" type="file" accept="application/pdf" name="uploadFile" id="uploadFile"/>
-    		</div>
     		
-    		
-
+ 
 			<div class="action row">
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<input type="submit" class="btn btn-primary btn-block"
-						value="Register" id="create">
+						value="Publish" id="create">
 				</div>
 			</div>
 			
 		</form>
 
+<!-- 		<script>
+		$('#authorList').selectize({
+		    maxItems: null,
+		    valueField: 'id',
+		    labelField: 'title',
+		    searchField: 'title',
+		    options: [
+		              @for(author <- authors) {
+		            	  {id: @author.getId(), title: "@author.getName()"},
+		              }
+		    ],
+		    create: true
+		});
+		</script> -->
 	</div>
 </div>
-}
 }

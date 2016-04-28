@@ -151,6 +151,57 @@ public class PublicationController extends Controller{
 		return ok(result);	
 	}
 
+	public Result publishPublication() {
+		System.out.println("Wrong Publication Data");
+		try{
+			JsonNode json = request().body().asJson();
+			if(json==null){
+				System.out.println("Wrong Publication Data");
+				return Common.badRequestWrapper("Wrong Publication Data");
+			}
+
+			String title = json.path("title").asText();
+			String authorList = json.path("authorList").asText();
+			String date = json.path("date").asText();
+			String pages = json.path("pages").asText();
+			String conferenceName = json.path("conferenceName").asText();
+			int year = json.path("year").asInt();
+			
+			ArrayList<Author> authors = new ArrayList<>();
+			String[] parts = authorList.split(",");
+			for (String part: parts) {
+				List<Author> authorListInDB = Author.find.where().ilike("name", part).findList();
+				if (authorListInDB.size() == 0) {
+					Author author = new Author();
+					author.setName(part);
+					authors.add(author);
+				} else {
+					Author author = authorListInDB.get(0);
+					authors.add(author);
+				}
+			}
+			
+			Publication publication = new Publication();
+			publication.setAuthors(authors);
+			publication.setCount(0);
+			publication.setDate(date);
+			publication.setTitle(title);
+			publication.setPages(pages);
+			publication.setConferenceName(conferenceName);
+			publication.setYear(year);
+			
+			System.out.println(publication.toString());
+
+			publication.save();
+
+			JsonNode jsonNode = Json.toJson(publication);
+			String result = jsonNode.toString();
+			return ok(result);
+		} catch (Exception e){
+			e.printStackTrace();
+			return Common.badRequestWrapper("Failed to add comment!");
+		}
+	}
 
 	
 
@@ -241,6 +292,7 @@ public class PublicationController extends Controller{
 		String result = responseJson.toString();
 		return ok(result);
 	}
+
 
 	public Result getComments(Long publicationId) {
 		try{
