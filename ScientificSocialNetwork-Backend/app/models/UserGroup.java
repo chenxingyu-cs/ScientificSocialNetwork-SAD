@@ -116,7 +116,6 @@ public class UserGroup extends Model{
     public void addUserToGroup(User user) {
 		this.groupMembers.add(user);
 		this.update();
-		user.update();
 	}
 	
 }

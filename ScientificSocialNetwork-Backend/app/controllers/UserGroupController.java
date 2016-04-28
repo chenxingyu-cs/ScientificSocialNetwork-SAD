@@ -50,10 +50,30 @@ public class UserGroupController extends Controller {
 
     //post
     public Result addMembersToGroup() {
-        
+         JsonNode json = request().body().asJson();
+        if (json == null) {
+            System.out.println("group not created, expecting Json data");
+            return Common.badRequestWrapper("group not created, expecting Json data");
+        }
 
-            return created();
-        
+        long userID = json.path("userID").asLong();
+        long groupID = json.path("groupID").asLong();
+
+
+		User user = User.find.byId(userID);
+		UserGroup group = UserGroup.find.byId(groupID);
+
+        if(group == null) {
+            return Common.badRequestWrapper("Failed to add member!");
+        }
+        else {
+            group.addUserToGroup(user);
+            user.addUserGroup(group);
+        }
+    
+		String result = new String();
+		result ="Added user to group";
+        return ok(result);
     }
 
     //get

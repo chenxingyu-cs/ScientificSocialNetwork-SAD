@@ -194,9 +194,9 @@ public class User extends Model{
 		return this.groups;
 	}
 	
+	
 	public void addUserGroup(UserGroup userGroup) {
 		this.groups.add(userGroup);
-		userGroup.update();
 		this.update();
 
 	}
