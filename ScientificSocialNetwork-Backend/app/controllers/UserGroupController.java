@@ -79,8 +79,17 @@ public class UserGroupController extends Controller {
     //get
     public Result getGroupList(Long userID) {
        
+        if (userID == null) {
+            System.out.println("user id is null or empty!");
+            return Common.badRequestWrapper("user id is null or empty!");
+        }
+
+		User user = User.find.byId(userID);
+        List<UserGroup> groups = user.getUserGroups();
+        
         String result = new String();
-       
+       	JsonNode jsonNode = Json.toJson(groups);
+       	result = jsonNode.toString();
 
         return ok(result);
     }
@@ -88,8 +97,22 @@ public class UserGroupController extends Controller {
     //get
     public Result getGroupMember(Long groupId) {
 
-        String result = new String();
+       if(groupId == null) {
+            System.out.println("Id not created, please enter valid user");
+            return Common.badRequestWrapper("Id not created, please enter valid user");
+        }
 
+        UserGroup group =  UserGroup.find.byId(groupId);
+        List<User> groupMembers = group.getGroupMembers();
+        
+        for(User groupMember: groupMembers) {
+            groupMember.setPassword("******");
+        }
+
+
+         String result = new String();
+       	JsonNode jsonNode = Json.toJson(groupMembers);
+       	result = jsonNode.toString();
 
         return ok(result);
     }
