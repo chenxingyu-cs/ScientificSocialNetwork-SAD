@@ -67,7 +67,7 @@ public class ForumController extends Controller {
 
   private ForumPost deserializeJsonToForumPost(JsonNode postJson) {
     ForumPost forumPost = new ForumPost();
-    forumPost.setId(postJson.path("postId").asInt());
+    forumPost.setPostId(postJson.path("postId").asLong());
     forumPost.setUserName(postJson.path("user").path("firstName").asText());
     forumPost.setTimestamp(changeTimestampToDate(postJson.path("timestamp").asLong()));
     forumPost.setTitle(postJson.path("postTitle").asText());
