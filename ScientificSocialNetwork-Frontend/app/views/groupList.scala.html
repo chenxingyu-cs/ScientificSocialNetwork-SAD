@@ -19,8 +19,12 @@
                     <td>@usergroup.getGroupName()</td>
 
                     <td>@usergroup.getGroupDescription()</td>
-                    
-                    <td>@usergroup.getAccess()</td>
+
+                    @if(usergroup.getAccess() == 1){
+                        <td>Private</td>
+                    } else {
+                        <td>Public</td>                    
+                    }
 
                     <td>@usergroup.getTopic()</td>
                 </tr>
