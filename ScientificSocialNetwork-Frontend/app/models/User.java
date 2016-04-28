@@ -31,8 +31,17 @@ public class User{
     private Set<User> friendRequestSender;
     private Set<User> friends;
     private Author author;
+    private String authorId;
 
 
+
+	public String getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(String authorId) {
+		this.authorId = authorId;
+	}
 
 	public User() {
 		super();

@@ -46,6 +46,16 @@ public class UserController extends Controller{
 		String mailingAddress = json.path("mailingAddress").asText(); 
 		String phoneNumber = json.path("phoneNumber").asText();   
 		String researchFields = json.path("researchFields").asText(); 
+		String authorIdStr = json.path("authorId").asText();
+		
+		Author author = new Author();
+		try {
+			long authorId = Long.parseLong(authorIdStr);
+			author = Author.find.byId(authorId);
+		} catch (Exception e) {
+			author.setName(authorIdStr);
+			author.save();
+		}
         
 		try {
 			if ((User.find.where().eq("email",email).findList()).size() != 0) {
@@ -54,6 +64,7 @@ public class UserController extends Controller{
 
 			}
 			User user = new User(email, MD5Hashing(password), firstName, lastName, mailingAddress,phoneNumber, researchFields);
+			user.setAuthor(author);
             user.save();
 			System.out.println("User saved: " + user.getId());
 			return created(Json.toJson(user.getId()));

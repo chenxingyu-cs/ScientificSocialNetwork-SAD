@@ -143,7 +143,23 @@ public class UserController extends Controller {
     }
     
     public Result signup() {
-        return ok(signup.render(userForm));
+    	List<Author> authors = new ArrayList<>();
+    	
+    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_ALL_AUTHORS;
+    	
+    	System.out.println(url);
+    	
+    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+    	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+    	JsonNode publicationNode = jsonFuture.join();
+    	
+		// parse the json string into object
+		for (int i = 0; i < publicationNode.size(); i++) {
+			JsonNode json = publicationNode.path(i);
+			Author author = deserializeJsonToAuthor(json);
+    		authors.add(author);
+		}
+        return ok(signup.render(userForm, authors));
     }
   
     
@@ -164,6 +180,10 @@ public class UserController extends Controller {
             jsonData.put("mailingAddress", nu.get().getMailingAddress());
             jsonData.put("phoneNumber", nu.get().getPhoneNumber());
             jsonData.put("researchFields", nu.get().getResearchFields());
+            jsonData.put("authorId", nu.field("authorId").value());
+            
+            
+            System.out.println("AuthorId :" + nu.field("authorId").value());
             
             String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_USER;
             CompletionStage<JsonNode> jsonPromise = ws.url(url).post(jsonData).thenApply(WSResponse::asJson);
@@ -179,7 +199,8 @@ public class UserController extends Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ok(signup.render(nu));  
+        List<Author> authors = new ArrayList<>();
+        return ok(signup.render(nu, authors));  
     }
 
     public Result getProfile() {
