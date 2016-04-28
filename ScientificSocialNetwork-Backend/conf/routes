@@ -66,4 +66,11 @@ GET           /users/getFriendRequests/userId/:userId                           
 GET           /users/acceptFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.acceptFriendRequest(userId: Long, senderId: Long)
 GET           /users/rejectFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.rejectFriendRequest(userId: Long, senderId: Long)
 GET           /users/getFriends/userId/:userId                                                          controllers.UserController.getFriends(userId: Long)
-GET           /users/deleteFriend/userId/:userId/friendId/:friendId                                     controllers.UserController.deleteFriend(userId: Long, friendId: Long)
+GET           /users/deleteFriend/userId/:userId/friendId/:friendId    controllers.UserController.deleteFriend(userId: Long, friendId: Long)
+
+
+#Group
+POST           /group/createGroup                                                                        controllers.UserGroupController.createGroup
+POST           /group/addMembersToGroup                                                                  controllers.UserGroupController.addMembersToGroup
+GET            /group/getGroupList/:userID                                                              controllers.UserGroupController.getGroupList(userID: Long)
+GET            /group/getGroupMember/:groupId                                                            controllers.UserGroupController.getGroupMember(groupId: Long)

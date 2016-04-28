@@ -28,15 +28,16 @@ import play.data.validation.Constraints;
 public class UserGroup extends Model{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
-	private String name;
+    private long id;
+    private long creatorUser;
+	private String groupName;
+	private String groupDescription;
 	private int access; //Private = 1 or Public = 0
 	private String topic;
 
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="groups")
 	@JsonManagedReference
-	List<User> users;
+	List<User> groupMembers;
 	
 	
 	public static Finder<Long, UserGroup> find = new Finder<Long, UserGroup>(UserGroup.class);
@@ -46,13 +47,15 @@ public class UserGroup extends Model{
 		super();
 	}
 
-	public UserGroup(String name, int access, String topic,
-			List<User> users) {
+	public UserGroup(long creatorUser,String groupName, String groupDescription, int access, String topic,
+			List<User> groupMembers) {
 		super();
-		this.name = name;
+		this.creatorUser = creatorUser;
+		this.groupName = groupName;
+		this.groupDescription = groupDescription;
 		this.access = access;
 		this.topic = topic;
-		this.users = users;
+		this.groupMembers = groupMembers;
 	
 	}
 
@@ -60,16 +63,38 @@ public class UserGroup extends Model{
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public long getCreatorUser() {
+        return creatorUser;
+    }
+
+    public void setCreatorUser(long creatorUser) {
+        this.creatorUser = creatorUser;
+    }
+
+    public String getGroupName() {
+		return groupName;
 	}
 
-	public String getName() {
-		return name;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getGroupDescription() {
+		return groupDescription;
+	}
+
+	public void setGroupDescription(String groupDescription) {
+		this.groupDescription = groupDescription;
+	}
+
+
+
+	public List<User> getGroupMembers() {
+		return groupMembers;
+	}
+
+	public void setGroupMembers(List<User> groupMembers) {
+		this.groupMembers = groupMembers;
 	}
 
 	public int getAccess() {
@@ -88,19 +113,9 @@ public class UserGroup extends Model{
 		this.topic = topic;
 	}
 
-
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
     public void addUserToGroup(User user) {
-		this.users.add(user);
+		this.groupMembers.add(user);
 		this.update();
-		user.update();
 	}
 	
 }
