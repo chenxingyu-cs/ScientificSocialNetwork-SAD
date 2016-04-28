@@ -102,6 +102,7 @@ public class PublicationController extends Controller {
 			jnode.put("date", form.field("date").value());
 			jnode.put("pages", form.field("pages").value());
 			jnode.put("conferenceName", form.field("conferenceName").value());
+			jnode.put("url", form.field("url").value());
 		}catch(Exception e) {
 			flash("error", "Form value invalid");
 		}
