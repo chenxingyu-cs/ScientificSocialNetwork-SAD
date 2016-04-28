@@ -108,14 +108,10 @@ public class ForumController extends Controller {
     ObjectNode commentJson = Json.newObject();
     try {
       System.out.println("addComment(): session user name - " + session("username"));
-      
-      // TODO: change to session username
-//      commentJson.put("userName", session("username"));
-      commentJson.put("userName", "nan");
-      
+      commentJson.put("userName", session("username"));
       commentJson.put("postId", postId);
 //      commentJson.put("replyTo", form.field("replyTo").value());
-      commentJson.put("replyTo", form.field("haoyuan").value());
+      commentJson.put("replyTo", "");
       commentJson.put("content", form.field("content").value());
     } catch (Exception e) {
       flash("error", "Form value invalid");
