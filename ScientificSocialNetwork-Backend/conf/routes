@@ -72,5 +72,5 @@ GET           /users/deleteFriend/userId/:userId/friendId/:friendId    controlle
 #Group
 POST           /group/createGroup                                                                        controllers.UserGroupController.createGroup
 POST           /group/addMembersToGroup                                                                  controllers.UserGroupController.addMembersToGroup
-GET            /group/getGroupList/:userID/json                                                          controllers.UserGroupController.getGroupList(userID: Long, format: String="json")
-GET            /group/getGroupMember/:groupId/json                                                       controllers.UserGroupController.getGroupMember(groupId: Long, format: String="json")
+GET            /group/getGroupList/:userID                                                              controllers.UserGroupController.getGroupList(userID: Long)
+GET            /group/getGroupMember/:groupId                                                            controllers.UserGroupController.getGroupMember(groupId: Long)
