@@ -21,8 +21,18 @@ public class Publication{
 	private String date;
 	private String url;
 	private String conferenceName;
+	public int count;
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	List<Author> authors;
 	List<Tag> tags;
+	
 
 
 	public Publication() {

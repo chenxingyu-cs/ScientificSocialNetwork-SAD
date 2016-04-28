@@ -32,7 +32,7 @@ public class Constants {
 
 	public static final String GET_PUBLICATION_COMMENTS = "/publication/getComments/";
 
-	public static final String GET_MOST_POPULAR_PUBLICATIONS = "/publication/getMostPopularPublications/json";
+	public static final String GET_MOST_POPULAR_PUBLICATIONS = "/publication/getMostPopularPublications/";
 	
 	public static final String ADD_NEW_TAG = "/publication/addTag";
 	public static final String GET_PUBLICATION_ON_ONE_TAG = "/publication/getPublicationsOnOneTag/";

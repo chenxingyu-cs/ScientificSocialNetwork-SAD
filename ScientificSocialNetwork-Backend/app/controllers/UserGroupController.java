@@ -78,8 +78,17 @@ public class UserGroupController extends Controller {
 
     //get
     public Result getGroupList(Long userID) {
+        List<UserGroup> groups = UserGroup.find.where().eq("creator_user", userID).findList();;
+        
+        if (groups == null) {
+            System.out.println("No user group found");
+        }
+
+        // Use the json in Play library this time
         String result = new String();
-        return ok(result);
+        JsonNode jsonNode = Json.toJson(groups);
+        result = jsonNode.toString();
+        return ok(result);  
     }
 
     //get

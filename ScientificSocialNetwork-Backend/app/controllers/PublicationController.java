@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -84,8 +86,30 @@ public class PublicationController extends Controller{
 		return ok(result);	
 	}
 	
-	public Result getMostPopularPublications(String format) {
-		List<Publication> publications = Publication.find.orderBy("count asc").setMaxRows(100).findList();
+	public Result getMostPopularPublications(int categoryId) {
+		List<Publication> publications = new ArrayList<>(); 
+		
+		switch (categoryId) {
+		case 1:
+			publications = Publication.find.orderBy("count DESC").setMaxRows(100).findList();
+			break;
+		case 2:
+			List<Publication> publicationList = Publication.find.all();
+			PriorityQueue<Publication> publicationQueue = new PriorityQueue<Publication>(100, new Comparator<Publication>() {
+		        public int compare(Publication publication1, Publication publication2) {
+		            return (publication1.getComments().size() > publication2.getComments().size()) ?  -1 : 1;
+		        }
+		    });
+			publicationQueue.addAll(publicationList);
+			publications.addAll(publicationQueue);
+			for (Publication publication : publications) {
+				publication.setCount(publication.getComments().size());
+			}
+			break;
+		default:
+			break;
+		}
+		
 		
 		if (publications == null) {
 			System.out.println("No publication found");
@@ -93,10 +117,8 @@ public class PublicationController extends Controller{
 		
 		// Use the json in Play library this time
 		String result = new String();
-		if (format.equals("json")) {
-			JsonNode jsonNode = Json.toJson(publications);
-			result = jsonNode.toString();
-		}
+		JsonNode jsonNode = Json.toJson(publications);
+		result = jsonNode.toString();
 		return ok(result);	
 	}
 	

@@ -259,10 +259,11 @@ public class PublicationController extends Controller {
 		return ok("{\"success\":\"success\"}");
 	}
 
-	public Result getMostPopularPublications() {
+	public Result getMostPopularPublications(int categoryId) {
 		List<Publication> publications = new ArrayList<>();
+		String category = "View";
 		
-		String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_MOST_POPULAR_PUBLICATIONS;
+		String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_MOST_POPULAR_PUBLICATIONS + categoryId;
 		
 		CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
 		CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
@@ -275,7 +276,17 @@ public class PublicationController extends Controller {
 			publications.add(onePublication);
 		}
 			
-		return ok(mostPopularPublications.render(publications));
+		switch (categoryId) {
+		case 1:
+			category = "View";
+			break;
+		case 2:
+			category = "Comment";
+		default:
+			break;
+		}
+		
+		return ok(mostPopularPublications.render(categoryId, publications));
 		
 	}
 	
@@ -317,6 +328,7 @@ public class PublicationController extends Controller {
 		onePublication.setYear(json.path("year").asInt());
 		onePublication.setDate(json.path("date").asText());
 		onePublication.setConferenceName(json.path("conferenceName").asText());
+		onePublication.setCount(json.path("count").asInt());
 		JsonNode authorNode = json.path("authors");
 		List<Author> authorList = new ArrayList<>();
 		for(int i = 0 ; i < authorNode.size() ; i ++) {

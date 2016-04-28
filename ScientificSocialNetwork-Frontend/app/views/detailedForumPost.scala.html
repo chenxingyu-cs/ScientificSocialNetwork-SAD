@@ -16,6 +16,12 @@
   <div class="row content">
     <div class="col-md-12">
       <h1 class="text-center">@detail.post.getTitle()</h2>
+      <div class="heart"></div>
+      <script type="text/javascript">
+        $(".heart").on('click', function(){
+          $(this).toggleClass('animating');
+        });
+      </script>
       <hr>
       <h5 class="pull-right"><span class="glyphicon glyphicon-time"></span> Post By @detail.post.getUserName() at @detail.post.getTimestamp()</h5>
       <br>
