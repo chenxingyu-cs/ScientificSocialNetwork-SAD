@@ -129,7 +129,7 @@ public class UserGroupController extends Controller {
         group.setGroupName(json.path("groupName").asText());
         group.setGroupDescription(json.path("groupDescription").asText());
         group.setAccess(json.path("access").asInt());
-        group.setTopic(json.path("mailingAddress").asText());
+        group.setTopic(json.path("topic").asText());
         return group;
     }
 
