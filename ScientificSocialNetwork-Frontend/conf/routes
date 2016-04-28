@@ -56,6 +56,7 @@ POST    /isEmailExisted             controllers.UserController.isEmailExisted
 GET     /users/profile              controllers.UserController.getProfile
 
 # UserGroup
+GET     /grouplist                  controllers.UserGroupController.getGroups
 POST    /createNewUserGroup         controllers.UserGroupController.createNewUserGroup
 POST    /joinGroup                  controllers.UserGroupController.joinGroup
 GET     /createGroupSuccess         controllers.UserGroupController.createGroupSuccess

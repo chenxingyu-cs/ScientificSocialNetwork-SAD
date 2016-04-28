@@ -27,32 +27,49 @@ public class UserGroupController extends Controller {
     
     static Form<UserGroup> userGroupForm;
 
+    public Result getGroups() {
+        String id = session().get("id");
+        List<UserGroup> groups = new ArrayList<>();
+        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_GROUPS + id;
+
+        CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode groupNode = jsonFuture.join();
+
+        for (int i = 0; i < groupNode.size(); i++) {
+            JsonNode json = groupNode.path(i);
+            UserGroup group = deserializeJsonToPublication(json);
+            groups.add(group);
+        }
+
+        return ok(groupList.render(groups));
+    }
+
     public Result createNewUserGroup() {
     	Form<UserGroup> nuserGroup = userGroupForm.bindFromRequest();
 
     	ObjectNode jsonData = Json.newObject();
- //   	String groupName = null;
 
-     try{
-     	jsonData.put("groupId", nuserGroup.get().getId());
-    	jsonData.put("groupName", nuserGroup.get().getGroupName());
-    	jsonData.put("groupDescription", nuserGroup.get().getGroupDescription());
-    	jsonData.put("groupUrl", nuserGroup.get().getGroupUrl());
+        try{
+        	jsonData.put("groupId", nuserGroup.get().getId());
+        	jsonData.put("groupName", nuserGroup.get().getGroupName());
+        	jsonData.put("groupDescription", nuserGroup.get().getGroupDescription());
+        	jsonData.put("groupUrl", nuserGroup.get().getGroupUrl());
 
-    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_USERGROUP;
-    	CompletionStage<JsonNode> jsonPromise = ws.url(url).post(jsonData).thenApply(WSResponse::asJson);
-        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
-        JsonNode response = jsonFuture.join();
+        	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_USERGROUP;
+        	CompletionStage<JsonNode> jsonPromise = ws.url(url).post(jsonData).thenApply(WSResponse::asJson);
+            CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+            JsonNode response = jsonFuture.join();
 
-        UserController.flashMsg(response);
-        return redirect(routes.UserGroupController.createGroupSuccess());
+            UserController.flashMsg(response);
+            return redirect(routes.UserGroupController.createGroupSuccess());
 
-    }catch (IllegalStateException e) {
-            e.printStackTrace();
-    } catch (Exception e) {
-            e.printStackTrace();
-    }
-    return ok(creategroup.render(nuserGroup));  
+        }catch (IllegalStateException e) {
+                e.printStackTrace();
+        }catch (Exception e) {
+                e.printStackTrace();
+        }
+        return ok(creategroup.render(nuserGroup));  
     }
 
     public Result joinGroup() {
@@ -100,5 +117,15 @@ public class UserGroupController extends Controller {
         return ok(createGroupSuccess.render());
     }
 
+    public static UserGroup deserializeJsonToUser(JsonNode json) {
+        UserGroup group = new UserGroup();
+        group.setId(json.path("id").asLong());
+        group.setCreatorUser(json.path("creatorUser").asLong());
+        group.setGroupName(json.path("groupName").asText());
+        group.setGroupDescription(json.path("groupDescription").asText());
+        group.setAccess(json.path("access").asInteger());
+        group.setTopic(json.path("mailingAddress").asText());
+        return group;
+    }
 
 }

@@ -87,8 +87,6 @@ public class UserGroup extends Model{
 		this.groupDescription = groupDescription;
 	}
 
-
-
 	public List<User> getGroupMembers() {
 		return groupMembers;
 	}

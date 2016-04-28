@@ -188,5 +188,4 @@ public class UserController extends Controller {
         // user.setAuthors(authorList);
         return user;
     }
-
 }

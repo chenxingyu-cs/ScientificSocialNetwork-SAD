@@ -12,13 +12,16 @@ public class UserGroup {
 		super();
 	}
 
-	public UserGroup(Long id, Long createUser, String groupName, String groupDescription, String groupUrl) {
+	public UserGroup(Long id, Long creatorUser,String groupName, String groupDescription, int access, String topic,
+			List<User> groupMembers) {
 		super();
 		this.id = id;
-		this.createUser = createUser;
+		this.creatorUser = creatorUser;
 		this.groupName = groupName;
 		this.groupDescription = groupDescription;
-		this.groupUrl = groupUrl;
+		this.access = access;
+		this.topic = topic;
+		this.groupMembers = groupMembers;
 	}
 
 	public Long getId() {
@@ -29,12 +32,20 @@ public class UserGroup {
 		this.id = id;
 	}
 
-	public Long getCreateUser() {
-		return createUser;
+	public Long getCreatorUser() {
+		return creatorUser;
 	}
 
-	public void setCreateUser(Long createUser) {
-		this.createUser = createUser;
+	public void setCreatorUser(Long creatorUser) {
+		this.creatorUser = creatorUser;
+	}
+
+	public List<User> getGroupMembers() {
+		return groupMembers;
+	}
+
+	public void setGroupMembers(List<User> groupMembers) {
+		this.groupMembers = groupMembers;
 	}
 
 	public String getGroupName() {
@@ -53,14 +64,19 @@ public class UserGroup {
 		this.groupDescription = groupDescription;
 	}
 
-	public String getGroupUrl() {
-		return groupUrl;
+	public int getAccess() {
+		return access;
 	}
 
-	public void setGroupUrl(String groupUrl) {
-		this.groupUrl = groupUrl;
+	public void setAccess(int access) {
+		this.access = access;
 	}
 
+	public String getTopic() {
+		return topic;
+	}
 
-
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
 }
