@@ -1,0 +1,44 @@
+@(publicationId: Long, suggestions: List[Suggestion], suggestionForm: Form[Suggestion])
+@import helper._
+
+@main("All Publications") {
+    <h1>@suggestions.size() suggestions</h1>
+	<table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
+	<thead>
+		<tr class="text-center">
+			<th style = "vertical-align: middle;" class="col-md-1">UserName</th>
+			<th style = "vertical-align: middle;" class="col-md-4">Suggestions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(suggestion <- suggestions) {
+				<tr>
+
+					<td><span data-name='username'>
+						@suggestion.getUserName()</span></td>
+
+					<td><span data-name='suggestionText'>
+							@suggestion.getSuggestionText() </span></td>
+				</tr>
+			}
+		</tbody>
+    </table>
+    
+    @helper.form(action = routes.PublicationController.createSuggestion(publicationId)) {
+        
+        <fieldset>
+            @textarea(
+                suggestionForm("suggestionText"), 
+                '_label -> "Suggestion",                 
+                '_error -> suggestionForm.globalError,
+                'class -> "form-control"                            
+            )
+        </fieldset>
+		<div class="actions">
+	         	<input type="submit" class="btn primary" value="Add a suggestion">
+	         	<a href="" class="btn">Cancel</a>
+	    </div> 
+
+	}
+
+}

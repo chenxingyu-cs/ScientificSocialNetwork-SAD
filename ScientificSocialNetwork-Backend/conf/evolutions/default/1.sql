@@ -88,6 +88,14 @@ create table publication_reply (
   constraint pk_publication_reply primary key (id)
 );
 
+create table suggestion (
+  id                            bigint auto_increment not null,
+  user_name                     varchar(255),
+  suggestion_text               varchar(255),
+  publication_id                bigint,
+  constraint pk_suggestion primary key (id)
+);
+
 create table tag (
   id                            bigint auto_increment not null,
   tag_name                      varchar(255),
@@ -262,6 +270,8 @@ drop table if exists publication;
 drop table if exists publication_comment;
 
 drop table if exists publication_reply;
+
+drop table if exists suggestion;
 
 drop table if exists tag;
 

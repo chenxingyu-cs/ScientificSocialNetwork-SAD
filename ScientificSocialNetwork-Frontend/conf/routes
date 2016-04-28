@@ -22,6 +22,9 @@ GET     /publication/getMostPopularPublications         controllers.PublicationC
 
 POST     /publication/createTag/:publicationId        controllers.PublicationController.createTag(publicationId: Long)
 GET    /publication/getPublicationsOnOneTag/:tag     controllers.PublicationController.getPublicationsOnOneTag(tag: String)
+POST     /publication/createSuggestion/:publicationId        controllers.PublicationController.createSuggestion(publicationId: Long)
+GET      /publication/getSuggestionsOnOnePublication/:publicationId     controllers.PublicationController.getSuggestionsOnOnePublication(publicationId: Long)
+
 
 POST    /publication/addComment/:id                           controllers.PublicationController.addComment(id: Long)
 GET     /publication/thumbUp/:commentId                   controllers.PublicationController.thumbUp(commentId: Long)

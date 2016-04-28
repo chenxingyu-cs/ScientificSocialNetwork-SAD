@@ -63,9 +63,19 @@
 		</tbody>
 	
 	</table>
+	
+	@helper.form(action = routes.PublicationController.getSuggestionsOnOnePublication(publication.getId())) {
+        
+		<div class="actions">
+	         	<input type="submit" class="btn primary" value="Suggestion on this publication">
+	    </div> 
+
+	}
+	
+	<br>
 
 	@helper.form(action = routes.PublicationController.createTag(publication.getId())) {
-       <div class="row"> 
+   
         <fieldset>
             @inputText(
                 tagForm("tagName"), 
@@ -78,12 +88,12 @@
 	         	<input type="submit" class="btn primary" value="Add a tag">
 	         	<a href="" class="btn">Cancel</a>
 	    </div> 
-	    </div>
+
 
 	}
 	
 
-	<div class="row">
+
 		<h3>Comments:</h3>
 		<ul class="list-group list-view">
 		@for( i <- 0 until comments.size) {
@@ -139,8 +149,8 @@
 			</div>
 		}
 		</ul>
-	</div>
-	<div class="row">
+
+
 		<form class="form" role="form" action="@routes.PublicationController.addComment(publication.getId)"
 		enctype="multipart/form-data" method="POST">
 			<div class="alert alert-danger fade" role="alert" id="alert">
@@ -152,7 +162,7 @@
 				<button type="submit" class="btn btn-primary mt-btn" id="comment">Comment</button>
 			</div>
 		</form>
-	</div>
+
 
 
 }

@@ -151,6 +151,62 @@ public class PublicationController extends Controller{
 		return ok(result);	
 	}
 
+	public Result publishPublication() {
+		System.out.println("Wrong Publication Data");
+		try{
+			JsonNode json = request().body().asJson();
+			if(json==null){
+				System.out.println("Wrong Publication Data");
+				return Common.badRequestWrapper("Wrong Publication Data");
+			}
+
+			String title = json.path("title").asText();
+			String authorList = json.path("authorList").asText();
+			String date = json.path("date").asText();
+			String pages = json.path("pages").asText();
+			String conferenceName = json.path("conferenceName").asText();
+			String url = json.path("url").asText();
+			int year = json.path("year").asInt();
+			
+			Set<Author> authors = new HashSet<>();
+			String[] parts = authorList.split(",");
+			for (String part: parts) {
+				List<Author> authorListInDB = Author.find.where().contains("name", part).findList();
+				if (authorListInDB.size() == 0) {
+					Author author = new Author();
+					author.setName(part);
+					author.save();
+					authors.add(author);
+				} else {
+					Author author = authorListInDB.get(0);
+					authors.add(author);
+				}
+			}
+			
+			List<Author> resultAuthorList = new ArrayList<>();
+			resultAuthorList.addAll(authors);
+			Publication publication = new Publication();
+			publication.setAuthors(resultAuthorList);
+			publication.setCount(0);
+			publication.setDate(date);
+			publication.setTitle(title);
+			publication.setPages(pages);
+			publication.setConferenceName(conferenceName);
+			publication.setYear(year);
+			publication.setUrl(url);
+			
+			System.out.println(publication.toString());
+
+			publication.save();
+
+			JsonNode jsonNode = Json.toJson(publication);
+			String result = jsonNode.toString();
+			return ok(result);
+		} catch (Exception e){
+			e.printStackTrace();
+			return Common.badRequestWrapper("Failed to add comment!");
+		}
+	}
 
 	
 
@@ -242,6 +298,7 @@ public class PublicationController extends Controller{
 		return ok(result);
 	}
 
+
 	public Result getComments(Long publicationId) {
 		try{
 			if(publicationId==null){
@@ -297,5 +354,45 @@ public class PublicationController extends Controller{
 			e.printStackTrace();
 			return Common.badRequestWrapper("Fail to fetch replies");
 		}
+	}
+	
+	public Result createSuggestion() {
+		System.out.println("create suggestion");
+		JsonNode json = request().body().asJson();
+		// System.out.println("=============");
+		System.out.println(json);
+
+//		long publicationId = json.get("publicationId").asLong();
+//		Publication publication = Publication.find.byId(publicationId);
+
+		Suggestion suggestion = new Suggestion();
+
+		suggestion.setUserName(json.get("userName").asText());
+		suggestion.setSuggestionText(json.get("suggestionText").asText());
+		suggestion.setPublicationId(json.get("publicationId").asLong());
+
+		suggestion.save();
+		// System.out.println("*******************" +
+		// json.get("publicationId").asLong() + "***************");
+		return created(suggestion.getId() + "");
+
+		// return created(new Gson().toJson(post.getPostId()));
+	}
+
+	public Result getSuggestionsOnOnePublication(Long publicationId) {
+
+		List<Suggestion> suggestions = Suggestion.find.where().eq("publicationId", publicationId).findList();
+		if (suggestions.size() == 0) {
+			System.out.println("No suggestion found");
+		}
+
+		// Use the json in Play library this time
+		String result = new String();
+		// if (format.equals("json")) {
+		JsonNode jsonNode = Json.toJson(suggestions);
+		result = jsonNode.toString();
+		// }
+		return ok(result);
+
 	}
 }
