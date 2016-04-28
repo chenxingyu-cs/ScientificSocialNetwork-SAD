@@ -16,8 +16,7 @@ import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.Constants;
-import views.html.allPosts;
-import views.html.detailedForumPost;
+import views.html.*;
 
 import javax.inject.Inject;
 
@@ -206,6 +205,23 @@ public class ForumController extends Controller {
         }
 
         return postTitles;
+    }
+
+    public Result editPost(Long id){
+        System.out.println("===="+id);
+        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+                + Constants.FORUM_POST_DETAIL;
+        CompletionStage<JsonNode> jsonPromise = this.ws.url(url)
+                .setQueryParameter("id", id.toString()).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode detailedForumPostNode = jsonFuture.join();
+        ForumPostDetail detailed = deserializeJsonToDetailedForumPost(detailedForumPostNode);
+        Form<ForumPost> postForm = formFactory.form(ForumPost.class);
+        System.out.println("Edit Forum: "+detailed.getPost().getContent());
+        ForumPost pForm = detailed.getPost();
+        postForm = postForm.fill(pForm);
+        System.out.println(postForm.toString());
+        return ok(editPostPage.render(postForm));
     }
 
     public static PostTitle deserializeJsonToPostTitle(JsonNode json) {

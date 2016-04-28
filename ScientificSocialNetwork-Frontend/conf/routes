@@ -46,7 +46,7 @@ GET		/forum/post/:id			                controllers.ForumController.getPostDetail
 POST    /forum/comment/:id                      controllers.ForumController.addComment(id: Long)
 GET     /forum/comment/thumbUp/:commentId       controllers.ForumController.commentThumbUp(commentId: Long)
 GET     /forum/comment/thumbDown/:commentId     controllers.ForumController.commentThumbDown(commentId: Long)
-
+POST     /forum/editPost/:id                     controllers.ForumController.editPost(id:Long)
 # Home page
 GET     /                           controllers.UserController.home
 GET     /login                      controllers.UserController.login

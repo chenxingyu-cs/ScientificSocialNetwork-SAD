@@ -39,18 +39,6 @@ public class TestController extends Controller{
     /**
      * use to get a post from backend and edit it
      * **/
-    public Result editPostPage(){
-        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
-                + Constants.FORUM_POST_DETAIL;
-
-        CompletionStage<JsonNode> jsonPromise = this.ws.url(url).setQueryParameter("id", "1")
-                .get().thenApply(WSResponse::asJson);
-        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
-        JsonNode detailedForumPostNode = jsonFuture.join();
-
-		return null;
-	}
-
 
 	public Result getPostPage(){
 		// init global form
@@ -64,10 +52,13 @@ public class TestController extends Controller{
 	
 	public Result createPost() {
 		//get form data
-		Form<ForumPost> filledForm = postForm.bindFromRequest();
+        postForm = formFactory.form(ForumPost.class);
+        Form<ForumPost> filledForm = postForm.bindFromRequest();
 		ObjectNode jsonData = Json.newObject();
 		JsonNode postId = null;
 		try {
+            jsonData.put("id",filledForm.get().getPostId());
+            System.out.println("Edit Post Id: "+filledForm.get().getPostId());
 			jsonData.put("title", filledForm.get().getTitle());
 			jsonData.put("content", filledForm.get().getContent());
 //			jsonData.put("timestamp", filledForm.get().getTimestamp());
