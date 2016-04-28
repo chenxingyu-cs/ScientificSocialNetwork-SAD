@@ -14,4 +14,20 @@ public class ForumPostDetail {
     this.post = post;
     this.comments = comments;
   }
+
+  public ForumPost getPost() {
+    return post;
+  }
+
+  public void setPost(ForumPost post) {
+    this.post = post;
+  }
+
+  public List<ForumComment> getComments() {
+    return comments;
+  }
+
+  public void setComments(List<ForumComment> comments) {
+    this.comments = comments;
+  }
 }

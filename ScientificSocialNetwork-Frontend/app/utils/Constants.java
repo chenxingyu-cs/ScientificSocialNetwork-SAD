@@ -15,6 +15,9 @@ public class Constants {
 	// forum
 	public static final String ADD_NEW_POST = "/forum/createPost";
 	public static final String GET_ALL_POSTS = "/forum/getPostsWithVoteCounts"; // TODO: Connect with backend
+	public static final String FORUM_POST_DETAIL = "/forum/getOnePost";
+	public static final String FORUM_COMMENT_THUMB_UP = "/forum/comment/thumbUp/";
+	public static final String FORUM_COMMENT_THUMB_DOWN = "/forum/comment/thumbDown/";
 
 
   // port
@@ -49,5 +52,4 @@ public class Constants {
     public static final String ADD_ALL_PARAMETERS = "/parameter/addParameter";
     public static final String GET_ALL_PUBLICATIONS = "/publication/getAllPublications/json";
     public static final String GET_PUBLICATION_PANEL = "/publication/getPublicationPanel/";
-    public static final String FORUM_POST_DETAIL = "/forum/getOnePost";
 }
