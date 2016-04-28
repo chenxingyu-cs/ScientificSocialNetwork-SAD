@@ -35,6 +35,11 @@ public class TestController extends Controller{
 	 * @param postType can give "question" as parameter
 	 * @return
      */
+
+    /**
+     * use to get a post from backend and edit it
+     * **/
+
 	public Result getPostPage(){
 		// init global form
 		postForm = formFactory.form(ForumPost.class);
@@ -47,16 +52,19 @@ public class TestController extends Controller{
 	
 	public Result createPost() {
 		//get form data
-		Form<ForumPost> filledForm = postForm.bindFromRequest();
+        postForm = formFactory.form(ForumPost.class);
+        Form<ForumPost> filledForm = postForm.bindFromRequest();
 		ObjectNode jsonData = Json.newObject();
 		JsonNode postId = null;
 		try {
+            jsonData.put("postId",filledForm.get().getPostId());
+            System.out.println("Edit Post Id: "+filledForm.get().getPostId());
 			jsonData.put("title", filledForm.get().getTitle());
 			jsonData.put("content", filledForm.get().getContent());
 //			jsonData.put("timestamp", filledForm.get().getTimestamp());
 			jsonData.put("link", filledForm.get().getLink());
 			jsonData.put("type",filledForm.get().getType());
-			jsonData.put("userId", "1");
+			jsonData.put("userId", session("id"));
 			System.out.println(jsonData);
 			// POST Climate Service JSON data
 			String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_NEW_POST;

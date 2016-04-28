@@ -49,6 +49,7 @@ GET		/forum/post/:id			                controllers.ForumController.getPostDetail
 POST    /forum/comment/:id                      controllers.ForumController.addComment(id: Long)
 GET     /forum/comment/thumbUp/:commentId       controllers.ForumController.commentThumbUp(commentId: Long)
 GET     /forum/comment/thumbDown/:commentId     controllers.ForumController.commentThumbDown(commentId: Long)
+POST     /forum/editPost/:id                     controllers.ForumController.editPost(id:Long)
 
 # Home page
 GET     /                           controllers.UserController.home
@@ -60,6 +61,15 @@ GET     /createNewUser              controllers.UserController.createNewUser
 GET     /createSuccess              controllers.UserController.createSuccess
 POST    /isEmailExisted             controllers.UserController.isEmailExisted
 GET     /users/profile              controllers.UserController.getProfile
+
+# UserGroup
+GET     /grouplist                  controllers.UserGroupController.getGroups
+GET     /createGroup                controllers.UserGroupController.createGroupPage
+POST    /createNewUserGroup         controllers.UserGroupController.createNewUserGroup
+POST    /joinGroup                  controllers.UserGroupController.joinGroup
+GET     /createGroupSuccess         controllers.UserGroupController.createGroupSuccess
+GET     /joinGroupSuccess           controllers.UserGroupController.joinGroupSuccess 
+GET     /join                       controllers.UserGroupController.join
 
 #Map static resources from the /public folder to the /assets URL path
 GET     	/assets/*file               						controllers.Assets.at(path="/public", file)

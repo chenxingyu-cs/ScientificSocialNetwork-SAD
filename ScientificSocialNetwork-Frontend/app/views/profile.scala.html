@@ -2,11 +2,14 @@
 @import helper._
 
 @main("User Profile"){
+    <div style="text-align: center">
     <h1> User Profile Information</h1>
-    <h3> @user.getFirstName() </h3>
-    <h3> @user.getLastName() </h4>
-    <h3> @user.getEmail() </h4>
-    <h3> @user.getMailingAddress() </h4>
-    <h3> @user.getPhoneNumber() </h4>
-    <h3> @user.getResearchFields() </h4>
+    <img src="/assets/img/user.png" style="width: 200px" />
+    <h4> First Name     : @user.getFirstName() </h4>
+    <h4> Last Name      : @user.getLastName() </h4>
+    <h4> Email          : @user.getEmail() </h4>
+    <h4> Mailing Address: @user.getMailingAddress() </h4>
+    <h4> Phone Number   : @user.getPhoneNumber() </h4>
+    <h4> Research Fields: @user.getResearchFields() </h4>
+    </div>
 }
