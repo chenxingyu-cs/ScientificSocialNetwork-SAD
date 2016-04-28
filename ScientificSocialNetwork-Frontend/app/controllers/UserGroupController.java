@@ -73,7 +73,7 @@ public class UserGroupController extends Controller {
         }catch (Exception e) {
                 e.printStackTrace();
         }
-        return ok(createGroup.render(nuserGroup));  
+        return ok(creategroup.render(nuserGroup));
     }
 
     public Result joinGroup() {
@@ -119,7 +119,7 @@ public class UserGroupController extends Controller {
 
     public Result createGroupPage() {
         userGroupForm = formFactory.form(UserGroup.class);
-        return ok(createGroup.render(userGroupForm));
+        return ok(creategroup.render(userGroupForm));
     }
 
     public static UserGroup deserializeJsonToGroup(JsonNode json) {
