@@ -13,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -46,6 +48,17 @@ public class User extends Model{
 	private String phoneNumber;
 	private String researchFields;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	private Author author;
+	
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
 	@ManyToOne
 	User self;
 	

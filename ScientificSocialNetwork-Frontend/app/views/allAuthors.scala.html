@@ -1,0 +1,21 @@
+@(authors: List[Author])
+@import helper._
+
+@main("All Authors") {
+    <h1>@authors.size() Authors</h1>
+	<table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
+	<thead>
+		<tr class="text-center">
+			<th style = "vertical-align: middle;" class="col-md-3">Author</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(author <- authors) {
+				<tr>
+					<td><span data-name='author'><a href="/users/setAuthor/@author.getId()" >@author.getName()</a></span></td>
+				</tr>
+			}
+	</tbody>
+    </table>
+
+}

@@ -66,3 +66,5 @@ GET           /users/acceptFriendRequest/userId/:userId/sender/:senderId        
 GET           /users/rejectFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.rejectFriendRequest(userId: Long, senderId: Long)
 GET           /users/getFriends/userId/:userId                                                          controllers.UserController.getFriends(userId: Long)
 GET           /users/deleteFriend/userId/:userId/friendId/:friendId                                     controllers.UserController.deleteFriend(userId: Long, friendId: Long)
+GET           /users/getAllAuthors/json                       controllers.UserController.getAllAuthors(format: String="json")
+POST           /users/setUserAuthor                            controllers.UserController.setUserAuthor

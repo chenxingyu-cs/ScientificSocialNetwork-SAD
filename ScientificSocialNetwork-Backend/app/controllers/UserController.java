@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,9 @@ import javax.persistence.PersistenceException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import models.Author;
 import models.Publication;
+import models.Tag;
 import models.User;
 
 import play.libs.Json;
@@ -412,6 +415,41 @@ public class UserController extends Controller{
 			return Common.badRequestWrapper("Could not delete friend");
 		}
 
+	}
+	
+	public Result getAllAuthors(String format) {
+		
+		
+		List<Author> authors = Author.find.all();
+		
+		if (authors == null) {
+			System.out.println("No Author found");
+		}
+		
+		String result = new String();
+		if (format.equals("json")) {
+			JsonNode jsonNode = Json.toJson(authors);
+			result = jsonNode.toString();
+
+		}
+		
+		return ok(result);
+	}
+	
+	public Result setUserAuthor() {
+	
+		System.out.println("setUserAuthor");
+		JsonNode json = request().body().asJson();
+		System.out.println(json);
+		
+		long authorId = json.get("authorId").asLong();
+		long userId = json.get("userId").asLong();
+		
+		Author author = Author.find.byId(authorId);
+		User user = User.find.byId(userId);
+		user.setAuthor(author);
+		user.save();
+		return ok();		
 	}
 
 }

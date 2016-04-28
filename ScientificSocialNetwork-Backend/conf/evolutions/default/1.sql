@@ -118,7 +118,9 @@ create table user (
   mailing_address               varchar(255),
   phone_number                  varchar(255),
   research_fields               varchar(255),
+  author_id                     bigint,
   self_id                       bigint,
+  constraint uq_user_author_id unique (author_id),
   constraint pk_user primary key (id)
 );
 
@@ -184,6 +186,8 @@ create index ix_tag_publication_tag on tag_publication (tag_id);
 alter table tag_publication add constraint fk_tag_publication_publication foreign key (publication_id) references publication (id) on delete restrict on update restrict;
 create index ix_tag_publication_publication on tag_publication (publication_id);
 
+alter table user add constraint fk_user_author_id foreign key (author_id) references author (id) on delete restrict on update restrict;
+
 alter table user add constraint fk_user_self_id foreign key (self_id) references user (id) on delete restrict on update restrict;
 create index ix_user_self_id on user (self_id);
 
@@ -243,6 +247,8 @@ drop index ix_tag_publication_tag on tag_publication;
 
 alter table tag_publication drop foreign key fk_tag_publication_publication;
 drop index ix_tag_publication_publication on tag_publication;
+
+alter table user drop foreign key fk_user_author_id;
 
 alter table user drop foreign key fk_user_self_id;
 drop index ix_user_self_id on user;

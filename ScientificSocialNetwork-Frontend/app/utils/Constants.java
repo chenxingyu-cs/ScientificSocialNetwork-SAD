@@ -50,9 +50,13 @@ public class Constants {
 	public static final String ADD_USER = "/users/add";
 	public static final String IS_EMAIL_EXISTED = "/users/isEmailExisted";
 	public static final String GET_PROFILE ="/users/getprofile/";
+	public static final String GET_ALL_AUTHORS = "/users/getAllAuthors/json";
+	public static final String SET_USER_AUTHOR = "/users/setUserAuthor";
 
   // add all parameter
     public static final String ADD_ALL_PARAMETERS = "/parameter/addParameter";
     public static final String GET_ALL_PUBLICATIONS = "/publication/getAllPublications/json";
     public static final String GET_PUBLICATION_PANEL = "/publication/getPublicationPanel/";
+    
+    
 }

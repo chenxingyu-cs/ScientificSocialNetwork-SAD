@@ -30,6 +30,9 @@ public class User{
     private Set<User> subcribers;
     private Set<User> friendRequestSender;
     private Set<User> friends;
+    private Author author;
+
+
 
 	public User() {
 		super();
@@ -139,5 +142,12 @@ public class User{
         return this.friends;
     }	
 	
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
 
 }

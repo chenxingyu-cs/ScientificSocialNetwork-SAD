@@ -2,10 +2,14 @@ package controllers;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
+import models.Author;
+import models.Tag;
 import models.User;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,6 +20,7 @@ import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 import play.libs.Json;
 import play.mvc.*;
+import sun.security.action.PutAllAction;
 import play.libs.ws.*;
 import play.data.*;
 import utils.Constants;
@@ -46,6 +51,55 @@ public class UserController extends Controller {
     
     public Result createSuccess(){
         return ok(createSuccess.render());
+    }
+    
+    public Result getAllAuthors() {
+    	List<Author> authors = new ArrayList<>();
+    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_ALL_AUTHORS;
+    	
+    	System.out.println(url);
+    	
+    	CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+    	CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+    	JsonNode publicationNode = jsonFuture.join();
+    	
+		// parse the json string into object
+		for (int i = 0; i < publicationNode.size(); i++) {
+			JsonNode json = publicationNode.path(i);
+			Author author = deserializeJsonToAuthor(json);
+    		authors.add(author);
+		}
+		
+    	return ok(allAuthors.render(authors));
+    }
+    
+    public static Author deserializeJsonToAuthor(JsonNode json) {
+    	Author author = new Author();
+    	author.setId(json.path("id").asLong());
+    	author.setName(json.path("name").asText());
+        return author;
+    }
+    
+    
+    public Result setUserAuthor(long authorId) {	
+    	long userId = Long.parseLong(session("id"));
+    	System.out.println("" + authorId + " &  " + userId);
+    	
+    	String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.SET_USER_AUTHOR;
+    	
+    	System.out.println(url);
+    	
+    	ObjectNode jsonData = Json.newObject();
+    	try {
+    		jsonData.put("userId", userId);
+        	jsonData.put("authorId", authorId);
+        	CompletionStage<WSResponse> jsonPromise = ws.url(url).post((JsonNode)jsonData);
+        	CompletableFuture<WSResponse> jsonFuture = jsonPromise.toCompletableFuture();
+        	return redirect("/author");
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return redirect("/author");
     }
     
     public Result authenticate() {
@@ -188,5 +242,7 @@ public class UserController extends Controller {
         // user.setAuthors(authorList);
         return user;
     }
+    
+
 
 }

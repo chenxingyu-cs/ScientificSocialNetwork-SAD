@@ -63,3 +63,8 @@ GET     /users/profile              controllers.UserController.getProfile
 
 #Map static resources from the /public folder to the /assets URL path
 GET     	/assets/*file               						controllers.Assets.at(path="/public", file)
+
+
+#User
+GET    /author        controllers.UserController.getAllAuthors
+GET    /users/setAuthor/:authorId      controllers.UserController.setUserAuthor(authorId: Long)  
