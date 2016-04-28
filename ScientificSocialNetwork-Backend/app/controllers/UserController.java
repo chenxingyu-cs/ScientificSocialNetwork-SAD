@@ -73,7 +73,6 @@ public class UserController extends Controller{
 		String password = json.path("password").asText();
 		
 	     
-		List<Publication> publications = Publication.find.all();
 		List<User> users= User.find.setMaxRows(1).where().eq("email",email).findList();
 		
 		if (users.size() == 0) {
