@@ -15,11 +15,12 @@
 <div class="container">
   <div class="row content">
     <div class="col-md-12">
-      <h2>@detail.post.getTitle()</h2>
-      <h5><span class="label label-success">tag</span></h5>
+      <h1 class="text-center">@detail.post.getTitle()</h2>
+      <hr>
+      <h5 class="pull-right"><span class="glyphicon glyphicon-time"></span> Post By @detail.post.getUserName() at @detail.post.getTimestamp()</h5>
       <br>
-      <h5><span class="glyphicon glyphicon-time"> @detail.post.getTimestamp()</span></h5>
-      <p>@detail.post.getContent()</p>
+      <br>
+      <h4 class="text-info">@detail.post.getContent()</h2>
     </div>
   </div>
   <hr>
@@ -30,16 +31,16 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4>@comment.getUserName()  <small class="right">@comment.getTimestamp()</small></h4>
+          <h4 class="text-muted">@comment.getUserName()    <span class="glyphicon glyphicon-time"></span> @comment.getTimestamp()</h4>
         </div>
         <div class="panel-body">
-          <p>@comment.getContent()</p>
-            <div class="comment-vote">
+          <h4>@comment.getContent()</h4>
+            <div class="comment-vote pull-right">
               <a href="javascript:void(0)" data-act="voteup" data-commentId="@comment.getCId()" data-id="@detail.getPost().getPostId()" class="vote-thumb vote-up"></a>
               <p class="vote-num">@comment.getThumb</p>
               <a href="javascript:void(0)" data-act="votedown" data-commentId="@comment.getCId()" data-id="@detail.getPost().getPostId()" class="vote-thumb vote-down"></a>
             </div>
-          <button class="btn btn-default pull-right" href="#replyTo">Reply</button>
+          <!-- button class="btn btn-default pull-right" href="#replyTo">Reply</button-->
         </div>
     </div>
   </div>

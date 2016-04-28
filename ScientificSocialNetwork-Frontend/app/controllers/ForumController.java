@@ -43,7 +43,7 @@ public class ForumController extends Controller {
         + Constants.FORUM_POST_DETAIL;
 
     CompletionStage<JsonNode> jsonPromise = this.ws.url(url)
-        .setQueryParameter("id", "1").get().thenApply(WSResponse::asJson);
+        .setQueryParameter("id", id.toString()).get().thenApply(WSResponse::asJson);
     CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
     JsonNode detailedForumPostNode = jsonFuture.join();
     ForumPostDetail detailed = deserializeJsonToDetailedForumPost(detailedForumPostNode);
