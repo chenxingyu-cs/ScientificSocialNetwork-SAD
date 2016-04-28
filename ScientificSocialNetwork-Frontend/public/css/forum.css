@@ -21,8 +21,9 @@
 .ninja {display:none}
 
 .mt-btn{margin-top:5px}
-.toggle{display:block;}
-.list-group-item p {padding:10px;border:1px silver solid;background-color: #EFEEEE;}
+.toggle{display:block;
+    padding:5px;}
+.list-group-item p {padding:10px;}
 .shy {color:#cccccc;}
 .shy:hover {color:#333333;}
 .tags{padding-left:0;}

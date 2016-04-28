@@ -1,0 +1,9 @@
+@(form: play.api.data.Form[_])
+
+@if(form.hasGlobalErrors){
+<div class="alert alert-danger">
+    @form.globalErrors.map {e =>
+    @e.message
+    }
+</div>
+}

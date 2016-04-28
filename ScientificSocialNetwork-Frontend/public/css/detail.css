@@ -11,6 +11,7 @@
 }
 
 .comment-vote .vote-up {
+    padding-top: 5px;
     background: url("/assets/img/vote.png") 1px -4px;
 }
 

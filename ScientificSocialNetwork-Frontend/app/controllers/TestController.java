@@ -40,6 +40,10 @@ public class TestController extends Controller{
      * use to get a post from backend and edit it
      * **/
 
+    public Result getChatPage() {
+        return redirect("/chat/chatPage");
+    }
+
 	public Result getPostPage(){
 		// init global form
 		postForm = formFactory.form(ForumPost.class);

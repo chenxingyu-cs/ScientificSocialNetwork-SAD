@@ -34,6 +34,13 @@
 						</ul>
 					</li>
 
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Chat Room<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="@routes.TestController.getChatPage()">Go to Chat Room</a></li>
+						</ul>
+					</li>
+
 					@if(!session.get("email")) {
 						<form class="navbar-form navbar-right" action="@routes.UserController.login()">
 							<button type="submit" class="btn btn-success">Log in</button>
@@ -46,6 +53,7 @@
 								<li><a href="#">My Groups</a></li>
 							</ul>
 						</li>
+
 
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">@session.get("email")<b class="caret"></b></a>
