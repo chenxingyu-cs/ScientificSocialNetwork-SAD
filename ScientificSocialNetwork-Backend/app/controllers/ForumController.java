@@ -26,6 +26,8 @@ public class ForumController extends Controller {
     if (postNode == null) {
       return badRequest("Post not saved, expecting json data.");
     }
+    Long postId = postNode.findPath("postId").asLong();
+    Long userId = postNode.findPath("userId").asLong();
     String postTitle = postNode.findPath("title").asText();
     String postContent = postNode.findPath("content").asText();
     String paperLink = postNode.findPath("link").asText();
@@ -38,7 +40,7 @@ public class ForumController extends Controller {
     if (typeNode == null) type = "discussion";
     else type = typeNode.asText();
 
-    User user = User.find.byId(1L);
+    User user = User.find.byId(userId);
 
     if (user != null) {
       System.out.println("User: " + user.getId());
@@ -46,11 +48,22 @@ public class ForumController extends Controller {
       System.out.println("User not found.");
     }
 
-    ForumPost forumPost = new ForumPost(user, postTitle, postContent,
-        paperLink, -1L, type);
+    ForumPost forumPost;
+    System.out.println("addNewPost(): postId=" + postId);
+    if (postId != 0) {
+      forumPost = ForumPost.find.byId(postId);
+      forumPost.setPostTitle(postTitle);
+      forumPost.setPostContent(postContent);
+      forumPost.setPaperLink(paperLink);
+      forumPost.setType(type);
+      forumPost.save();
+    } else {
+      forumPost = new ForumPost(user, postTitle, postContent,
+          paperLink, -1L, type);
+    }
+
     forumPost.save();
     return created(Json.toJson(forumPost.getPostId()).toString());
-
   }
 
   public Result addNewComment() {

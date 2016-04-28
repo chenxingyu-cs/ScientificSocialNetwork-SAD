@@ -38,7 +38,7 @@ public class ForumPost {
     return postId;
   }
 
-  public void setId(long postId) {
+  public void setPostId(long postId) {
     this.postId = postId;
   }
 

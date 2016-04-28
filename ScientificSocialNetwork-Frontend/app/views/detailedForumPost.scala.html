@@ -55,6 +55,15 @@
 			</div>
 		</form>
 	</div>
+
+      <div class="row">
+          <form class="form" role="form" action="@routes.ForumController.editPost(detail.getPost().getPostId())"
+          enctype="multipart/form-data" method="POST">
+              <div class="form-group">
+                  <button type="submit" class="btn btn-primary mt-btn" >Edit</button>
+              </div>
+          </form>
+      </div>
 	
 	<script>
 		function assignReplyTo(replyTo) {
