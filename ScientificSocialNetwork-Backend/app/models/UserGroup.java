@@ -48,7 +48,7 @@ public class UserGroup extends Model{
 	}
 
 	public UserGroup(long creatorUser,String groupName, String groupDescription, int access, String topic,
-			List<User> users) {
+			List<User> groupMembers) {
 		super();
 		this.creatorUser = creatorUser;
 		this.groupName = groupName;
