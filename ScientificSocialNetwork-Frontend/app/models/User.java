@@ -27,9 +27,9 @@ public class User{
 	private String mailingAddress;
     private String phoneNumber;
     private String researchFields;
-    private Set<User> subcribers;
-    private Set<User> friendRequestSender;
-    private Set<User> friends;
+    private List<User> subcribers;
+    private List<User> friendRequestSender;
+    private List<User> friends;
     private Author author;
     private String authorId;
 
@@ -127,27 +127,27 @@ public class User{
         this.researchFields = researchFields;
     }
     
-    public Set<User> getSubcribers(){
+    public List<User> getSubcribers(){
         return this.subcribers;
     }
     
-    public void setSubcribers(Set<User> subcribers) {
+    public void setSubcribers(List<User> subcribers) {
         this.subcribers = subcribers;
     }
     
-    public void setFriendRequestSender(Set<User> friendRequestSender) {
+    public void setFriendRequestSender(List<User> friendRequestSender) {
         this.friendRequestSender = friendRequestSender;
     }
     
-    public Set<User> getFriendRequestSender() {
+    public List<User> getFriendRequestSender() {
         return this.friendRequestSender;
     }
     
-    public void setFriends(Set<User> friends) {
+    public void setFriends(List<User> friends) {
         this.friends = friends;
     }
     
-    public Set<User> getFriends() {
+    public List<User> getFriends() {
         return this.friends;
     }	
 	

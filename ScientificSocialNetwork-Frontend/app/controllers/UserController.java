@@ -133,7 +133,57 @@ public class UserController extends Controller {
             return redirect(routes.UserController.home());
         }
     }
-    
+
+    public Result getUserList() {
+        List<User> userList = new ArrayList<>();
+        String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + "/users/getAllUsers/json";
+
+        CompletionStage<JsonNode> jsonPromise = ws.url(url).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode jsonNode = jsonFuture.join();
+
+        // parse the json string into object
+        for (int i = 0; i < jsonNode.size(); i++) {
+            JsonNode json = jsonNode.path(i);
+            User user = deserializeJsonToUser(json);
+            userList.add(user);
+        }
+
+        return ok(allUsers.render(userList));
+    }
+
+    public Result follow(Long id) {
+
+        String followQuery = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+                + "/users/subscribe/subscriberId/"
+                + session("id")
+                + "/UserId/"
+                + id.toString();
+        CompletionStage<JsonNode> jsonPromise = ws.url(followQuery).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode response = jsonFuture.join();
+        if (response == null || response.has("error")) {
+            return redirect(routes.UserController.login());
+        }
+        return redirect(routes.UserController.getProfile(id));
+    }
+
+    public Result unfollow(Long id) {
+
+        String followQuery = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+                + "/users/unsubscribe/subscriberId/"
+                + session("id")
+                + "/UserId/"
+                + id.toString();
+        CompletionStage<JsonNode> jsonPromise = ws.url(followQuery).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode response = jsonFuture.join();
+        if (response == null || response.has("error")) {
+            return redirect(routes.UserController.login());
+        }
+        return redirect(routes.UserController.getProfile(id));
+    }
+
     public static void flashMsg(JsonNode jsonNode){
         Iterator<Entry<String, JsonNode>> it = jsonNode.fields();
         while (it.hasNext()) {
@@ -203,8 +253,8 @@ public class UserController extends Controller {
         return ok(signup.render(nu, authors));  
     }
 
-    public Result getProfile() {
-        String id = session().get("id");
+    public Result getProfile(long id) {
+        Long self_id = Long.parseLong(session().get("id"));
 
         String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_PROFILE + id;
 
@@ -213,9 +263,24 @@ public class UserController extends Controller {
         JsonNode userNode = jsonFuture.join();
 
         JsonNode json = userNode;
+        JsonNode subscriberJson = json.path("subscribers");
+        List<User> subscriberList = new ArrayList<>();
+        for(int i = 0 ; i < subscriberJson.size(); i++) {
+            JsonNode jsonNode = subscriberJson.path(i);
+            User newUser = deserializeJsonToUser(jsonNode);
+            subscriberList.add(newUser);
+        }
         User user = deserializeJsonToUser(json);
+        user.setSubcribers(subscriberList);
 
-        return ok(profile.render(user));
+        boolean selfFlag = (id == self_id)? true : false;
+        boolean isSubscriber = false;
+        for(User subscriber : subscriberList) {
+            if(subscriber.getId() == self_id) {
+                isSubscriber = true;
+            }
+        }
+        return ok(profile.render(user, subscriberList, selfFlag, isSubscriber, self_id));
     }
     
     public Result isEmailExisted() {

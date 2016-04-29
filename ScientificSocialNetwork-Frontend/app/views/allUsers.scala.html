@@ -1,0 +1,21 @@
+@(users: List[User])
+@import helper._
+
+@main("All Users") {
+    <h1>@users.size() Users</h1>
+	<table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
+	<thead>
+		<tr class="text-center">
+			<th style = "vertical-align: middle;" class="col-md-3">User</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(user <- users) {
+				<tr>
+					<td><span data-name='author'><a href="/users/profile/@user.getId()" >@user.getName()</a></span></td>
+				</tr>
+			}
+	</tbody>
+    </table>
+
+}

@@ -254,9 +254,12 @@ public class UserController extends Controller{
 			for(User u : subscribers) {
 				if(u.getId()==subscriber.getId()) {
 					subscribers.remove(u);
+					break;
 				}
 			}
 			followee.setSubscribers(subscribers);
+			subscriber.setSelf(null);
+			subscriber.save();
 			followee.save();
 			return ok("{\"success\":\"Success!\"}");
 		} catch (Exception e){
@@ -449,6 +452,26 @@ public class UserController extends Controller{
 
 		}
 		
+		return ok(result);
+	}
+
+
+	public Result getAllUsers(String format) {
+
+
+		List<User> userList = User.find.all();
+
+		if (userList == null) {
+			System.out.println("No Author found");
+		}
+
+		String result = new String();
+		if (format.equals("json")) {
+			JsonNode jsonNode = Json.toJson(userList);
+			result = jsonNode.toString();
+
+		}
+
 		return ok(result);
 	}
 	

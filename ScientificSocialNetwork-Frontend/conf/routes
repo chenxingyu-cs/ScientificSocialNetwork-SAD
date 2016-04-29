@@ -60,7 +60,10 @@ GET     /signup                     controllers.UserController.signup
 GET     /createNewUser              controllers.UserController.createNewUser
 GET     /createSuccess              controllers.UserController.createSuccess
 POST    /isEmailExisted             controllers.UserController.isEmailExisted
-GET     /users/profile              controllers.UserController.getProfile
+GET     /users/profile/:id              controllers.UserController.getProfile(id: Long)
+GET     /users/follow/:id              controllers.UserController.follow(id: Long)
+GET     /users/unfollow/:id              controllers.UserController.unfollow(id: Long)
+GET     /users/getUserList              controllers.UserController.getUserList
 
 # UserGroup
 GET     /grouplist                  controllers.UserGroupController.getGroups

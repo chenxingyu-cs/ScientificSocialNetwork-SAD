@@ -1,4 +1,4 @@
-@(user: User)
+@(user: User, subscribers: List[User], selfFlag: Boolean, isSubscriber: Boolean, selfId: Long)
 @import helper._
 
 @main("User Profile"){
@@ -11,5 +11,28 @@
     <h4> Mailing Address: @user.getMailingAddress() </h4>
     <h4> Phone Number   : @user.getPhoneNumber() </h4>
     <h4> Research Fields: @user.getResearchFields() </h4>
+    </div>
+    <div class="container">
+        @if(!selfFlag) {
+            @if(!isSubscriber) {
+                <p><a href="/users/follow/@user.getId">Follow</a></p>
+            }
+            @if(isSubscriber) {
+                <p><a href="/users/unfollow/@user.getId">Unfollow</a></p>
+            }
+            <p><a href="/">BackHome</a></p>
+        }
+        <div class="row">
+            <div class="col-md-4">
+                <div class="well">
+                    <h3>Followers</h3>
+                    <table class="table">
+                    @for( subscriber <- subscribers) {
+                        <tr><td><a href="/users/profile/@subscriber.getId">@subscriber.getName</a></td><td>@subscriber.getEmail</td></tr>
+                    }
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 }
