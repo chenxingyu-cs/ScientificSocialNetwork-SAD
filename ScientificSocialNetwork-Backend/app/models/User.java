@@ -49,7 +49,16 @@ public class User extends Model{
 	private String mailingAddress;
 	private String phoneNumber;
 	private String researchFields;
-	
+
+	public String getFriendsID() {
+		return friendsID;
+	}
+
+	public void setFriendsID(String friendsID) {
+		this.friendsID = friendsID;
+	}
+
+	private String friendsID;
 	@OneToOne(cascade=CascadeType.ALL)
 	private Author author;
 	
@@ -63,17 +72,25 @@ public class User extends Model{
 
 	@ManyToOne
 	@JsonBackReference
-	User self;
+	User subscribeSelf;
+
+	@ManyToOne
+	@JsonBackReference
+	User friendSelf;
+
+	@ManyToOne
+	@JsonBackReference
+	User friendRequestSelf;
 	
-	@OneToMany(mappedBy="self")
+	@OneToMany(mappedBy="friendSelf")
 	@JsonManagedReference
 	List<User> friends = new ArrayList<>();
 	
-	@OneToMany(mappedBy="self")
+	@OneToMany(mappedBy="subscribeSelf")
 	@JsonManagedReference
 	List<User> subscribers = new ArrayList<>();
 	
-	@OneToMany(mappedBy="self")
+	@OneToMany(mappedBy="friendRequestSelf")
 	@JsonManagedReference
 	List<User> friendRequestSender = new ArrayList<>();
 
@@ -99,18 +116,35 @@ public class User extends Model{
 		this.phoneNumber = phoneNumber;
 		this.researchFields = researchFields;
 		this.accessLevel ="User";
+		this.friendsID = "";
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public User getSelf() {
-		return self;
+	public User getSubscribeSelf() {
+		return subscribeSelf;
 	}
 
-	public void setSelf(User self) {
-		this.self = self;
+	public void setSubscribeSelf(User subscribeSelf) {
+		this.subscribeSelf = subscribeSelf;
+	}
+
+	public User getFriendSelf() {
+		return friendSelf;
+	}
+
+	public void setFriendSelf(User friendSelf) {
+		this.friendSelf = friendSelf;
+	}
+
+	public User getFriendRequestSelf() {
+		return friendRequestSelf;
+	}
+
+	public void setFriendRequestSelf(User friendRequestSelf) {
+		this.friendRequestSelf = friendRequestSelf;
 	}
 
 	public void setId(Long id) {
@@ -235,7 +269,7 @@ public class User extends Model{
 				", mailingAddress='" + mailingAddress + '\'' +
 				", phoneNumber='" + phoneNumber + '\'' +
 				", researchFields='" + researchFields + '\'' +
-				", self=" + self +
+				", self=" + subscribeSelf +
 				", friends=" + friends.toString() +
 				", subscribers=" + subscribers.toString() +
 				", friendRequestSender=" + friendRequestSender.toString() +

@@ -63,6 +63,11 @@ POST    /isEmailExisted             controllers.UserController.isEmailExisted
 GET     /users/profile/:id              controllers.UserController.getProfile(id: Long)
 GET     /users/follow/:id              controllers.UserController.follow(id: Long)
 GET     /users/unfollow/:id              controllers.UserController.unfollow(id: Long)
+
+GET     /users/addFriend/:id              controllers.UserController.addFriend(id: Long)
+GET     /users/deleteFriend/:id              controllers.UserController.deleteFriend(id: Long)
+
+
 GET     /users/getUserList              controllers.UserController.getUserList
 
 # UserGroup

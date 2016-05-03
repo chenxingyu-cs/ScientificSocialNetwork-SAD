@@ -33,7 +33,15 @@ public class User{
     private Author author;
     private String authorId;
 
+	public String getFriendsID() {
+		return friendsID;
+	}
 
+	public void setFriendsID(String friendsID) {
+		this.friendsID = friendsID;
+	}
+
+	private String friendsID;
 
 	public String getAuthorId() {
 		return authorId;

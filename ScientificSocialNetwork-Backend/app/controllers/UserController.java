@@ -216,7 +216,7 @@ public class UserController extends Controller{
 			}
 
 			followee.addSubscriber(subscriber);
-			subscriber.setSelf(followee);
+			subscriber.setSubscribeSelf(followee);
 			System.out.println("save: "+followee.getSubscribers().size());
 
 			followee.save();
@@ -258,7 +258,7 @@ public class UserController extends Controller{
 				}
 			}
 			followee.setSubscribers(subscribers);
-			subscriber.setSelf(null);
+			subscriber.setSubscribeSelf(null);
 			subscriber.save();
 			followee.save();
 			return ok("{\"success\":\"Success!\"}");
@@ -309,6 +309,143 @@ public class UserController extends Controller{
 		}
 	}
 
+	public Result addFriend(Long requestId , Long UserId){
+		try{
+			if(requestId==null){
+				System.out.println("Follower id is null or empty!");
+				return Common.badRequestWrapper("Follower id is null or empty!");
+			}
+			User requester = User.find.byId(requestId);
+			if(requestId==null){
+				return Common.badRequestWrapper("Follower is not existed");
+			}
+
+			if(UserId==null){
+				System.out.println("Followee id is null or empty!");
+				return Common.badRequestWrapper("Followee id is null or empty!");
+			}
+			User followee = User.find.byId(UserId);
+			if(followee==null){
+				return Common.badRequestWrapper("Followee is not existed");
+			}
+
+			followee.addFriend(requester);
+			String friendID = requester.getFriendsID() + "," + followee.getId();
+			requester.setFriendsID(friendID);
+			//requester.addFriend(followee);
+			requester.setFriendSelf(followee);
+			System.out.println("save: "+followee.getFriends().size());
+
+			followee.save();
+			requester.save();
+			return ok("{\"success\":\"Success!\"}");
+
+		} catch (Exception e){
+			e.printStackTrace();
+			return Common.badRequestWrapper("Followship is not established: Follower:"+requestId+"\tFollowee:"+UserId);
+		}
+	}
+
+	public Result deleteFriend(Long requestId , Long UserId){
+		try{
+			if(requestId==null){
+				System.out.println("Follower id is null or empty!");
+				return Common.badRequestWrapper("Follower id is null or empty!");
+			}
+			User requester = User.find.byId(requestId);
+			if(requester==null){
+				return Common.badRequestWrapper("Follower is not existed");
+			}
+
+
+			if(UserId==null){
+				System.out.println("Followee id is null or empty!");
+				return Common.badRequestWrapper("Followee id is null or empty!");
+			}
+			User followee = User.find.byId(UserId);
+			if(followee==null){
+				return Common.badRequestWrapper("Followee is not existed");
+			}
+
+			List<User> requesterList = followee.getFriends();
+			for(User u : requesterList) {
+				if(u.getId()==requester.getId()) {
+					requesterList.remove(u);
+					break;
+				}
+			}
+
+//			List<User> requesterFriendsList = requester.getFriends();
+//			for(User u : requesterFriendsList) {
+//				if(u.getId()==followee.getId()) {
+//					requesterFriendsList.remove(u);
+//					break;
+//				}
+//			}
+			String friendIDs = requester.getFriendsID();
+			String[] friendList = friendIDs.split(",");
+			String result = new String();
+			for(int i = 1 ; i < friendList.length ; i++) {
+				if(Long.parseLong(friendList[i]) == followee.getId()) {
+					continue;
+				}
+				result += "," + friendList[i];
+			}
+
+			followee.setFriends(requesterList);
+			requester.setFriendsID(result);
+			requester.setFriendSelf(null);
+			requester.save();
+			followee.save();
+			return ok("{\"success\":\"Success!\"}");
+		} catch (Exception e){
+			e.printStackTrace();
+			return Common.badRequestWrapper("Followship is established: Follower:"+requestId+"\tFollowee:"+UserId);
+		}
+	}
+
+	public Result getFriends(Long id){
+		try{
+			if(id==null){
+				System.out.println("User id is null or empty!");
+				return Common.badRequestWrapper("User id is null or empty");
+			}
+			User user =  User.find.byId(id);
+			if(user==null){
+				System.out.println("Cannot find user");
+				return Common.badRequestWrapper("Cannot find user");
+			}
+			System.out.println(user.toString());
+
+			List<User> friends = user.getFriends();
+			System.out.println(friends.size());
+			StringBuilder sb = new StringBuilder();
+			sb.append("{\"friends\":");
+
+			String subsc = new String();
+
+
+			if(!friends.isEmpty()) {
+				sb.append("[");
+				for (User friend : friends) {
+					JsonNode jsonNode = Json.toJson(friend);
+					subsc = jsonNode.toString();
+					sb.append(subsc + ",");
+				}
+				if (sb.lastIndexOf(",") > 0) {
+					sb.deleteCharAt(sb.lastIndexOf(","));
+				}
+				sb.append("]}");
+			} else {
+				sb.append("{}}");
+			}
+			return ok(sb.toString());
+		} catch (Exception e){
+			e.printStackTrace();
+			return Common.badRequestWrapper("Cannot get Subscribers");
+		}
+	}
+
 	public Result getFollowees(Long id){
         String result = new String();
 		return ok(result);	
@@ -339,102 +476,7 @@ public class UserController extends Controller{
 	}
 
 
-	public Result getFriends(Long userId) {
-       try{
-         if(userId==null){
-				System.out.println("User id is null or empty!");
-				return Common.badRequestWrapper("User id is null or empty");
-			}
-			
-		 User user = User.find.byId(userId);
-		
-		    if(user==null){
-				System.out.println("Cannot find user");
-				return Common.badRequestWrapper("Cannot find user");
-			}
 
-		List<User> friends = user.getFriends();
-		StringBuilder sb = new StringBuilder();
-		sb.append("{\"friends\":");
-
-    	String subsc = new String();
-
-		if(!friends.isEmpty()) {
-			sb.append("[");
-			for (User friend : friends) {
-			     JsonNode jsonNode = Json.toJson(friend);
-		         subsc = jsonNode.toString();
-				 sb.append(subsc + ",");
-			}
-			if (sb.lastIndexOf(",") > 0) {
-				sb.deleteCharAt(sb.lastIndexOf(","));
-			}
-			sb.append("]}");
-		} else {
-			sb.append("{}}");
-		}
-		return ok(sb.toString());
-	}catch (Exception e){
-			e.printStackTrace();
-			return Common.badRequestWrapper("Could not get friends");
-		}
-
-
-	}
-
-	public Result deleteFriend(Long userId, Long friendId) {
-		try{
-	        if(userId==null){
-				System.out.println("User id is null or empty!");
-				return Common.badRequestWrapper("User id is null or empty");
-			}
-			if(friendId==null){
-				System.out.println("friend id is null or empty!");
-				return Common.badRequestWrapper("friend id is null or empty");
-			}
-
-			User user = User.find.byId(userId);
-
-			if(user==null){
-				System.out.println("Cannot find user");
-				return Common.badRequestWrapper("Cannot find user");
-			}
-			User friend = User.find.byId(friendId);
-			if(friend==null){
-				System.out.println("Cannot find friend");
-				return Common.badRequestWrapper("Cannot find friend");
-			}
-			
-			String result = new String();
-
-			List<User> friends = user.getFriends();
-			for(User f: friends) {
-				if(f.getId()==friend.getId()) {
-					friends.remove(f); 
-				}
-			}
-
-			user.setFriends(friends);
-			user.update();
-
-			//Removing from both the friends list
-			
-			friends = friend.getFriends();
-			for(User f: friends) {
-				if(f.getId()==user.getId()) {
-					friends.remove(f);
-				}
-			}
-			friend.setFriends(friends);
-			friend.update();
-
-			return ok("Friend deleted");	
-		}catch (Exception e){
-			e.printStackTrace();
-			return Common.badRequestWrapper("Could not delete friend");
-		}
-
-	}
 	
 	public Result getAllAuthors(String format) {
 		

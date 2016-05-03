@@ -56,15 +56,22 @@ POST         /users/isEmailExisted                     controllers.UserControlle
 POST         /users/getUserByEmail                     controllers.UserController.getUserByEmail
 GET          /users/getprofile/:id                controllers.UserController.getProfile(id: Long)
 
+# User subscribe and friend list by Haoyun Wen
 GET           /users/subscribe/subscriberId/:subscriberId/UserId/:UserId                               controllers.UserController.userSubscribe(subscriberId: Long, UserId: Long)
 GET           /users/unsubscribe/subscriberId/:subscriberId/UserId/:UserId                             controllers.UserController.userUnsubscribe(subscriberId: Long, UserId: Long)
 GET           /users/getSubscribers/:id                                                                controllers.UserController.getSubscribers(id: Long)
+GET           /users/addfriend/requestId/:requestId/UserId/:UserId                                     controllers.UserController.addFriend(requestId: Long, UserId: Long)
+GET           /users/deletefriend/requestId/:requestId/UserId/:UserId                                  controllers.UserController.deleteFriend(requestId: Long, UserId: Long)
+GET           /users/getFriends/:id                                                                    controllers.UserController.getFriends(id: Long)
+
+
+
 
 GET           /users/sendFriendRequest/sender/:senderId/receiver/:receiverId                            controllers.UserController.sendFriendRequest(senderId: Long, receiverId: Long)
 GET           /users/getFriendRequests/userId/:userId                                                   controllers.UserController.getFriendRequests(userId: Long)
 GET           /users/acceptFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.acceptFriendRequest(userId: Long, senderId: Long)
 GET           /users/rejectFriendRequest/userId/:userId/sender/:senderId                                controllers.UserController.rejectFriendRequest(userId: Long, senderId: Long)
-GET           /users/getFriends/userId/:userId                                                          controllers.UserController.getFriends(userId: Long)
+#GET           /users/getFriends/userId/:userId                                                          controllers.UserController.getFriends(userId: Long)
 
 GET           /users/getAllAuthors/json                       controllers.UserController.getAllAuthors(format: String="json")
 GET           /users/getAllUsers/json                       controllers.UserController.getAllUsers(format: String="json")

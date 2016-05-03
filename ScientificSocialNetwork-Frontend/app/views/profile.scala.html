@@ -1,4 +1,4 @@
-@(user: User, subscribers: List[User], selfFlag: Boolean, isSubscriber: Boolean, selfId: Long)
+@(user: User, subscribers: List[User], friends: List[User], selfFlag: Boolean, isSubscriber: Boolean, isFriend: Boolean, selfId: Long)
 @import helper._
 
 @main("User Profile"){
@@ -20,6 +20,12 @@
             @if(isSubscriber) {
                 <p><a href="/users/unfollow/@user.getId">Unfollow</a></p>
             }
+            @if(!isFriend) {
+                <p><a href="/users/addFriend/@user.getId">Add Friend</a></p>
+            }
+            @if(isFriend) {
+                <p><a href="/users/deleteFriend/@user.getId">Delete Friend</a></p>
+            }
             <p><a href="/">BackHome</a></p>
         }
         <div class="row">
@@ -29,6 +35,16 @@
                     <table class="table">
                     @for( subscriber <- subscribers) {
                         <tr><td><a href="/users/profile/@subscriber.getId">@subscriber.getName</a></td><td>@subscriber.getEmail</td></tr>
+                    }
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    <h3>Friends</h3>
+                    <table class="table">
+                    @for( friend <- friends) {
+                        <tr><td><a href="/users/profile/@friend.getId">@friend.getName</a></td><td>@friend.getEmail</td></tr>
                     }
                     </table>
                 </div>

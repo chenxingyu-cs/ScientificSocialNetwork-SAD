@@ -152,6 +152,13 @@ public class UserController extends Controller {
         return ok(allUsers.render(userList));
     }
 
+    /**
+     * User Profile: [Follow, Friend]
+     * By Haoyun Wen
+     * @param id
+     * @return
+     */
+
     public Result follow(Long id) {
 
         String followQuery = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
@@ -172,6 +179,38 @@ public class UserController extends Controller {
 
         String followQuery = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
                 + "/users/unsubscribe/subscriberId/"
+                + session("id")
+                + "/UserId/"
+                + id.toString();
+        CompletionStage<JsonNode> jsonPromise = ws.url(followQuery).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode response = jsonFuture.join();
+        if (response == null || response.has("error")) {
+            return redirect(routes.UserController.login());
+        }
+        return redirect(routes.UserController.getProfile(id));
+    }
+
+    public Result addFriend(Long id) {
+
+        String followQuery = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+                + "/users/addfriend/requestId/"
+                + session("id")
+                + "/UserId/"
+                + id.toString();
+        CompletionStage<JsonNode> jsonPromise = ws.url(followQuery).get().thenApply(WSResponse::asJson);
+        CompletableFuture<JsonNode> jsonFuture = jsonPromise.toCompletableFuture();
+        JsonNode response = jsonFuture.join();
+        if (response == null || response.has("error")) {
+            return redirect(routes.UserController.login());
+        }
+        return redirect(routes.UserController.getProfile(id));
+    }
+
+    public Result deleteFriend(Long id) {
+
+        String followQuery = Constants.URL_HOST + Constants.CMU_BACKEND_PORT
+                + "/users/deletefriend/requestId/"
                 + session("id")
                 + "/UserId/"
                 + id.toString();
@@ -253,6 +292,11 @@ public class UserController extends Controller {
         return ok(signup.render(nu, authors));  
     }
 
+    /**
+     * Modified by Haoyun Wen
+     * @param id
+     * @return
+     */
     public Result getProfile(long id) {
         Long self_id = Long.parseLong(session().get("id"));
 
@@ -273,14 +317,44 @@ public class UserController extends Controller {
         User user = deserializeJsonToUser(json);
         user.setSubcribers(subscriberList);
 
+        JsonNode friendsJson = json.path("friends");
+        List<User> friendsList = new ArrayList<>();
+        for(int i = 0 ; i < friendsJson.size(); i++) {
+            JsonNode jsonNode = friendsJson.path(i);
+            User newUser = deserializeJsonToUser(jsonNode);
+            friendsList.add(newUser);
+        }
+        user.setFriends(friendsList);
+
         boolean selfFlag = (id == self_id)? true : false;
+//        if(selfFlag) {
+            String friendsID = user.getFriendsID();
+            String[] friendsIDList = friendsID.split(",");
+            for(int i = 1 ; i < friendsIDList.length; i++) {
+                long uid = Long.parseLong(friendsIDList[i]);
+                System.out.println("user:"+uid);
+                String urluid = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.GET_PROFILE + uid;
+                jsonPromise = ws.url(urluid).get().thenApply(WSResponse::asJson);
+                jsonFuture = jsonPromise.toCompletableFuture();
+                userNode = jsonFuture.join();
+                User newUser = deserializeJsonToUser(userNode);
+                friendsList.add(newUser);
+            }
+//        }
         boolean isSubscriber = false;
         for(User subscriber : subscriberList) {
             if(subscriber.getId() == self_id) {
                 isSubscriber = true;
             }
         }
-        return ok(profile.render(user, subscriberList, selfFlag, isSubscriber, self_id));
+
+        boolean isFriend = false;
+        for(User friend : friendsList) {
+            if(friend.getId() == self_id) {
+                isFriend = true;
+            }
+        }
+        return ok(profile.render(user, subscriberList, friendsList, selfFlag, isSubscriber, isFriend, self_id));
     }
     
     public Result isEmailExisted() {
@@ -316,6 +390,7 @@ public class UserController extends Controller {
         user.setMailingAddress(json.path("mailingAddress").asText());
         user.setPhoneNumber(json.path("phoneNumber").asText());
         user.setResearchFields(json.path("researchFields").asText());
+        user.setFriendsID(json.path("friendsID").asText());
         // JsonNode authorNode = json.path("authors");
         // List<Author> authorList = new ArrayList<>();
         // for(int i = 0 ; i < authorNode.size() ; i ++) {
