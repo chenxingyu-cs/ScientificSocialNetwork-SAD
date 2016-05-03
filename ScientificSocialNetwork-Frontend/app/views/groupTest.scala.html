@@ -1,0 +1,40 @@
+@main("Group Demo") {
+    <h1>Group *Test* Member</h1>
+    <table class="table table-striped table-bordered table-condensed ex2 tablesorter" id = "csTable">
+    <thead>
+        <tr class="text-center">
+            <th style = "vertical-align: middle;" class="col-md-3">Group Member Name</th>
+            <th style = "vertical-align: middle;" class="col-md-3">Group Member Email</th>
+            <th style = "vertical-align: middle;" class="col-md-3">Group Member Accesss</th>
+            <th style = "vertical-align: middle;" class="col-md-1">Group Member Research Fields</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>JPL JPL</td>
+                    <td>jpl#jpl.com</td>
+                    <td>Admin</td>
+                    <td>SOC</td>
+                </tr>
+
+    </tbody>
+    </table>
+    <input id="name" placeholder="User Name" />
+    <input id="email" placeholder="User Email" />
+    <button id="add" class="btn btn-primary">Add Member</button>
+    <script type="text/javascript">
+        $("#add").click(function(){
+            var name = $("#name").val();
+            var email = $("#email").val().replace(/[^a-zA-Z1-9.]/, "#");
+            var newRow = "<tr><td>" + name + "</td><td>" + email + "</td><td>User</td><td>SOC</td></tr>";
+
+            $('tbody').append(newRow);
+        });
+        // $(".remove").click(function(){
+        //     console.log($(this));
+        //     var node = $(this).parentNode.parentNode;
+
+        //     node.remove();
+        // });
+    </script>
+}
