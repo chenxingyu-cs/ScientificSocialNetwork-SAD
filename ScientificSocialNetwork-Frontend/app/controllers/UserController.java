@@ -271,7 +271,6 @@ public class UserController extends Controller {
             jsonData.put("researchFields", nu.get().getResearchFields());
             jsonData.put("authorId", nu.field("authorId").value());
             
-            
             System.out.println("AuthorId :" + nu.field("authorId").value());
             
             String url = Constants.URL_HOST + Constants.CMU_BACKEND_PORT + Constants.ADD_USER;

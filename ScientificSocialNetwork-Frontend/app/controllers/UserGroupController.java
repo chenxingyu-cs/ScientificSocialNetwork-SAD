@@ -117,6 +117,10 @@ public class UserGroupController extends Controller {
         return ok(createGroupSuccess.render());
     }
 
+    public Result groupDemo(){
+        return ok(groupTest.render());
+    }
+
     public Result createGroupPage() {
         userGroupForm = formFactory.form(UserGroup.class);
         return ok(createGroup.render(userGroupForm));
